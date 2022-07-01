@@ -43,8 +43,24 @@ services:
     networks:
       - notify-microservice
 
+  rabbitmq:
+    image: rabbitmq
+    container_name: notify-rabbitmq
+    volumes:
+      - ./docker/rabbitmq/enabled_plugins:/etc/rabbitmq/enabled_plugins
+      - notify-rabbitmq:/var/lib/rabbitmq
+    environment:
+      - "RABBITMQ_DEFAULT_USER=rabbit"
+      - "RABBITMQ_DEFAULT_PASS=rabbit"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - notify-microservice
+
 volumes:
   notify-postgres:
+  notify-rabbitmq:
 
 networks:
   notify-microservice:
