@@ -1,20 +1,21 @@
 doctrine:
     dbal:
         url: '%env(resolve:DATABASE_URL)%'
-
-        # IMPORTANT: You MUST configure your server version,
-        # either here or in the DATABASE_URL env var (see .env file)
-        #server_version: '13'
+        types:
+            uuid: Ramsey\Uuid\Doctrine\UuidType
+            datetime_immutable: App\Infrastructure\Doctrine\Type\DatetimeImmutable
+            time_immutable: App\Infrastructure\Doctrine\Type\TimeImmutable
+            datetime_immutable_microseconds: App\Infrastructure\Doctrine\Type\DateTimeImmutableMicroType
+            datetime_microseconds: App\Infrastructure\Doctrine\Type\DateTimeMicroType
     orm:
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         auto_mapping: true
         mappings:
-            App:
-                is_bundle: false
-                dir: '%kernel.project_dir%/src/Entity'
-                prefix: 'App\Entity'
-                alias: App
+            NotifyMessage:
+                type: yml
+                prefix: 'App\Domain\Doctrine\NotifyMessage\Entity'
+                dir: '%kernel.project_dir%/config/mappings/NotifyMessage'
 
 when@test:
     doctrine:

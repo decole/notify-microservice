@@ -1,0 +1,10 @@
+imports:
+  - { resource: 'doctrine/repositories.yaml' }
+  - { resource: 'doctrine/transactions.yaml' }
+
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  App\Infrastructure\Doctrine\Service\NotifyMessageService: ~

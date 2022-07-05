@@ -58,6 +58,25 @@ services:
     networks:
       - notify-microservice
 
+#  worker-email-01:
+#    build: ./docker/php
+#    container_name: notify-worker-email-01
+#    command: "php bin/console cli:worker-email"
+#    environment:
+#      - "PSQL_PORT=5432"
+#      - "PSQL_HOST=postgres"
+#      - "CONSUMER=email"
+#      - "CONSUMER_QUEUE=email" ??
+#      - "EMAIL_SMTP=smtp.yandex.ru"
+#      - "EMAIL_LOGIN=EMAIL"
+#      - "EMAIL_PASSWORD=EMAIL"
+#      - "EMAIL_PORT=405"
+#    volumes:
+#      - ./:/var/www
+#      - ./docker/php/php-fpm.ini:/usr/local/etc/php/php.ini
+#    networks:
+#      - notify-microservice
+
 volumes:
   notify-postgres:
   notify-rabbitmq:
