@@ -1,6 +1,8 @@
 <?php
 
+
 namespace App\Domain\Doctrine\Common\Transactions;
+
 
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManager;
@@ -15,13 +17,11 @@ class DoctrineTransaction implements TransactionInterface
         $this->connection = $manager->getConnection();
     }
 
-    /** @inheritdoc */
     public function flush($entity = null): void
     {
         $this->manager->flush($entity);
     }
 
-    /** @inheritdoc */
     public function transactional(callable $scope, ?callable $failOver = null)
     {
         $this->connection->beginTransaction();

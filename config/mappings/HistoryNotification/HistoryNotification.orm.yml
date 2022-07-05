@@ -1,0 +1,24 @@
+App\Domain\Doctrine\HistoryNotification\Entity\HistoryNotification:
+  table: 'notification_history'
+  type: entity
+  fields:
+    id:
+      id: true
+      type: uuid
+    createdAt:
+      type: datetime_immutable
+      name: created_at
+    status:
+      type: smallint
+    info:
+      type: text
+      nullable: true
+  uniqueConstraints:
+    history_message_idx:
+      columns: [ message_id, created_at, id ]
+  manyToOne:
+    message:
+      targetEntity: App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage
+      joinColumn:
+        name: message_id
+        referencedColumnName: id

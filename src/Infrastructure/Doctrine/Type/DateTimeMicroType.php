@@ -1,6 +1,6 @@
 <?php
-
 declare(strict_types=1);
+
 
 namespace App\Infrastructure\Doctrine\Type;
 
@@ -46,7 +46,6 @@ class DateTimeMicroType extends Type
     {
         return 'Y-m-d H:i:s.u';
     }
-
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {

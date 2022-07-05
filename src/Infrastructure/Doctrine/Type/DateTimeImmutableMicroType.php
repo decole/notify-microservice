@@ -1,11 +1,10 @@
 <?php
-
 declare(strict_types=1);
+
 
 namespace App\Infrastructure\Doctrine\Type;
 
 
-use DateTime;
 use DateTimeImmutable;
 use DateTimeZone;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
@@ -48,7 +47,6 @@ class DateTimeImmutableMicroType extends Type
     {
         return 'Y-m-d H:i:s.u';
     }
-
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {

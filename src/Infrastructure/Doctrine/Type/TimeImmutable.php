@@ -68,6 +68,7 @@ class TimeImmutable extends TimeImmutableType
     {
         $convertDateTime = new \DateTime($dateTime->format(\DateTime::ATOM));
         $convertDateTime->setTimezone(new \DateTimeZone('UTC'));
+
         return \DateTimeImmutable::createFromMutable($convertDateTime);
     }
 }

@@ -8,3 +8,5 @@ services:
     autoconfigure: true
 
   App\Infrastructure\Doctrine\Service\NotifyMessageService: ~
+
+  App\Infrastructure\Doctrine\Service\HistoryNotificationService: ~

@@ -1,6 +1,8 @@
 <?php
 
+
 namespace App\Domain\Doctrine\Common\Transactions;
+
 
 interface TransactionInterface
 {

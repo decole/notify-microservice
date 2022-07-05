@@ -16,6 +16,10 @@ doctrine:
                 type: yml
                 prefix: 'App\Domain\Doctrine\NotifyMessage\Entity'
                 dir: '%kernel.project_dir%/config/mappings/NotifyMessage'
+            HistoryNotification:
+                type: yml
+                prefix: 'App\Domain\Doctrine\HistoryNotification\Entity'
+                dir: '%kernel.project_dir%/config/mappings/HistoryNotification'
 
 when@test:
     doctrine:

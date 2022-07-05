@@ -11,7 +11,7 @@ use App\Infrastructure\Doctrine\Service\NotifyMessageService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
-class SingleSendApiController
+final class SingleSendApiController
 {
     public function __construct(private readonly NotifyMessageService $service)
     {

@@ -8,7 +8,7 @@ use App\Application\Helper\StringHelper;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
-class TestApiController
+final class TestApiController
 {
     #[Route('/')]
     public function number(): JsonResponse
@@ -18,6 +18,7 @@ class TestApiController
         $result = StringHelper::sanitize($number);
 
         return new JsonResponse([
+            'hello' => 'world',
             'api' => $result,
         ]);
     }

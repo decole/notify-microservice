@@ -15,11 +15,13 @@ final class NotifyMessage implements EntityInterface
     public const STATUS_IN_QUEUE = 0;
     public const STATUS_ACTIVE = 1;
     public const STATUS_ERROR = 2;
+    public const STATUS_DONE = 3;
 
     public const STATUS_MAP = [
         self::STATUS_IN_QUEUE,
         self::STATUS_ACTIVE,
         self::STATUS_ERROR,
+        self::STATUS_DONE,
     ];
 
     public const EMAIL_TYPE = 'email';

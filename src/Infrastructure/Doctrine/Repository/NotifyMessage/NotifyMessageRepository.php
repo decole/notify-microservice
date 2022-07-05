@@ -9,7 +9,7 @@ use App\Infrastructure\Doctrine\Interfaces\NotifyMessageRepositoryInterface;
 use App\Infrastructure\Doctrine\Repository\BaseDoctrineRepository;
 use Doctrine\ORM\NonUniqueResultException;
 
-class NotifyMessageRepository extends BaseDoctrineRepository implements NotifyMessageRepositoryInterface
+final class NotifyMessageRepository extends BaseDoctrineRepository implements NotifyMessageRepositoryInterface
 {
     /**
      * @throws NonUniqueResultException
