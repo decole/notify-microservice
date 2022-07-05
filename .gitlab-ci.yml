@@ -1,0 +1,48 @@
+stages:
+  - preparation
+
+variables:
+  SSH_COMMAND: $SSH_COMMAND
+
+composer:
+  stage: preparation
+  tags:
+    - microservice
+  script:
+    - php -v
+    - ls -la
+    - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
+  artifacts:
+    paths:
+      - vendor/
+      - .env
+    expire_in: 1 week
+    when: always
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}-composer
+    paths:
+      - vendor/x
+
+staging:
+  stage: deploy
+  tags:
+    - microservice
+  script:
+#   ssh prod - command to ssh access to microservice prod
+    - docker system prune -a
+    - df -h /
+    - |
+      ssh -T "$SSH_COMMAND" /bin/bash -s << EOT
+      cd notify-microservice/
+      git checkout main
+      git fetch --all
+      git reset --hard HEAD
+      git status
+      git pull
+      df -h /
+      EOT
+
+  environment:
+    name: staging
+  only:
+    - main
