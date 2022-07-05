@@ -23,26 +23,26 @@ composer:
     paths:
       - vendor/x
 
-staging:
-  stage: deploy
-  tags:
-    - microservice
-  script:
-#   ssh prod - command to ssh access to microservice prod
-    - docker system prune -a
-    - df -h /
-    - |
-      ssh -T "$SSH_COMMAND" /bin/bash -s << EOT
-      cd notify-microservice/
-      git checkout main
-      git fetch --all
-      git reset --hard HEAD
-      git status
-      git pull
-      df -h /
-      EOT
+# staging:
+#   stage: deploy
+#   tags:
+#     - microservice
+#   script:
+# #   ssh prod - command to ssh access to microservice prod
+#     - docker system prune -a
+#     - df -h /
+#     - |
+#       ssh -T "$SSH_COMMAND" /bin/bash -s << EOT
+#       cd notify-microservice/
+#       git checkout main
+#       git fetch --all
+#       git reset --hard HEAD
+#       git status
+#       git pull
+#       df -h /
+#       EOT
 
-  environment:
-    name: staging
-  only:
-    - main
+#   environment:
+#     name: staging
+#   only:
+#     - main
