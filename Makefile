@@ -1,5 +1,3 @@
-#first-init: rm-docker-compose docker-create-network-cpa build up env composer-install genrsa migration
-
 up:
 	docker-compose up -d --remove-orphans
 
@@ -30,19 +28,6 @@ new-migration:
 
 #fixture:
 	#docker-compose exec php-fpm php bin/console d:f:l --no-interaction --purge-with-truncate
-
-#recreate:
-	#docker-compose exec php-fpm php bin/console d:d:d --force
-	#docker-compose exec php-fpm php bin/console d:d:c
-	#docker-compose exec postgres psql -d limonad -f /docker-entrypoint-initdb.d/create_extension.sql
-	#docker-compose exec php-fpm php bin/console d:m:m --no-interaction
-	#docker-compose exec php-fpm php bin/console d:f:l --no-interaction
-
-#rm-docker-compose:
-	#cp docker-compose.yaml.dist docker-compose.yaml
-
-#psalm:
-	#docker-compose exec php-fpm ./vendor/bin/psalm
 
 test-clean-output:
 	docker-compose exec php-fpm php bin/codecept clean
