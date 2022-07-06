@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20220629173520 extends AbstractMigration
+final class Version20220705181318 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,12 +20,15 @@ final class Version20220629173520 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-
+        $this->addSql('DROP INDEX history_message_idx');
+        $this->addSql('CREATE UNIQUE INDEX history_message_idx ON notification_history (message_id, created_at, id)');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-
+        $this->addSql('CREATE SCHEMA public');
+        $this->addSql('DROP INDEX history_message_idx');
+        $this->addSql('CREATE UNIQUE INDEX history_message_idx ON notification_history (message_id, created_at)');
     }
 }

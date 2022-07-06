@@ -1,0 +1,21 @@
+App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage:
+  table: 'notification_message'
+  type: entity
+  fields:
+    id:
+      id: true
+      type: uuid
+    type:
+      type: string
+      nullable: false
+    message:
+      type: json
+    status:
+      type: smallint
+    createdAt:
+      type: datetime_immutable
+      name: created_at
+    updatedAt:
+      type: datetime_immutable
+      name: updated_at
+      nullable: true

@@ -1,3 +1,9 @@
-controllers:
-    resource: ../src/Controller/
-    type: attribute
+#web:
+#    resource: '../src/Application/Http/Web'
+#    type: annotation
+#    prefix: /
+
+api:
+    resource: '../src/Application/Http/Api'
+    type: annotation
+    prefix: /api
