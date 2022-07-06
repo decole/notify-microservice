@@ -10,16 +10,17 @@ use App\Domain\Doctrine\HistoryNotification\Entity\HistoryNotification;
 use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
 use App\Infrastructure\Doctrine\Service\HistoryNotificationService;
 use App\Infrastructure\Doctrine\Service\NotifyMessageService;
-use Doctrine\ORM\Exception\ORMException;
-use Doctrine\ORM\OptimisticLockException;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * @todo Удадить после того, как реализуется хотя бы 2 воркера
+ */
+#[AsCommand(name: 'cli:test-repo', description: 'Тестовая консольная команда проверки работоспособности репозиториев')]
 class RepositoryTestCommand extends Command
 {
-    protected static $defaultName = 'cli:test-repo';
-
     public function __construct(
         private readonly NotifyMessageService $service,
         private readonly HistoryNotificationService $historyService,
@@ -27,13 +28,8 @@ class RepositoryTestCommand extends Command
         parent::__construct();
     }
 
-    public function configure(): void
-    {
-        $this->setDescription('Тестовая консольная команда проверки работоспособности репозиториев');
-    }
-
     /**
-     * @throws OptimisticLockException|NotFoundEntityException|ORMException
+     * @throws NotFoundEntityException
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {

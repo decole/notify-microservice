@@ -43,9 +43,9 @@ final class NotifyMessage implements EntityInterface
         $this->checkType($type);
     }
 
-    public function setUpdatedAt(): void
+    public function getType(): string
     {
-        $this->onUpdated();
+        return $this->type;
     }
 
     public function getStatus(): int
@@ -58,6 +58,11 @@ final class NotifyMessage implements EntityInterface
         $this->checkStatusType($status);
 
         $this->status = $status;
+    }
+
+    public function setUpdatedAt(): void
+    {
+        $this->onUpdated();
     }
 
     private function checkStatusType(int $status): void

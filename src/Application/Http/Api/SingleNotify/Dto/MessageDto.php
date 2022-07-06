@@ -8,7 +8,6 @@ final class MessageDto
 {
     public function __construct(
         private readonly string $type,
-        private readonly int $status,
         private readonly array $message,
     ) {
     }

@@ -1,6 +1,8 @@
 imports:
   - { resource: 'doctrine/repositories.yaml' }
   - { resource: 'doctrine/transactions.yaml' }
+  - { resource: 'rabbitMq/consumer.yaml' }
+  - { resource: 'sender/sender.yaml' }
 
 services:
   _defaults:

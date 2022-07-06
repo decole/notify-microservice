@@ -35,7 +35,7 @@ final class NotifyMessageService
 
     private function getNewEntityByDto(MessageDto $dto): NotifyMessage
     {
-        return new NotifyMessage($dto->getType(), $dto->getMessage(), $dto->getStatus());
+        return new NotifyMessage($dto->getType(), $dto->getMessage(), NotifyMessage::STATUS_IN_QUEUE);
     }
 
     public function find(string $id): ?NotifyMessage
