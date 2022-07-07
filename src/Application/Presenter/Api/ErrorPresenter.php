@@ -4,12 +4,20 @@
 namespace App\Application\Presenter\Api;
 
 
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Throwable;
 
-class ErrorPresenter implements PresenterInterface
+final class ErrorPresenter extends AbstractPresenter
 {
-    public function present(): JsonResponse
+    protected const SERVER_HTTP_CODE = 404;
+
+    public function __construct(private readonly Throwable $exception)
     {
-        // TODO: Implement present() method.
+    }
+
+    public function getResult(): array
+    {
+        return [
+            'error' => $this->exception->getMessage(),
+        ];
     }
 }
