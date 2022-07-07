@@ -1,0 +1,6 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  App\Infrastructure\RabbitMq\Producer\Email\EmailProducer: '@old_sound_rabbit_mq.send_email_producer'

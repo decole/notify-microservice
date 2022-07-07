@@ -26,6 +26,8 @@ final class EmailConsumer implements ConsumerInterface
         try {
             $decoded = json_decode($msg->getBody(), true, 512, JSON_THROW_ON_ERROR);
 
+            dump($decoded);
+
             // For SenderService
             // get MessageId
             $id = '';

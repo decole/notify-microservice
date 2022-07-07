@@ -2,6 +2,7 @@ imports:
   - { resource: 'doctrine/repositories.yaml' }
   - { resource: 'doctrine/transactions.yaml' }
   - { resource: 'rabbitMq/consumer.yaml' }
+  - { resource: 'rabbitMq/producer.yaml' }
   - { resource: 'sender/sender.yaml' }
 
 services:

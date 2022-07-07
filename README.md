@@ -35,3 +35,9 @@ php bin/console cli:test
 # тест работы сервиса нотификаций и репозитория нотификационных сообщений / исторических событий
 php bin/console cli:test-repo
 ```
+
+### Запуск воркеров на прослушивание очередей:
+```shell
+# работа в цикле. прослушивает очередь email
+php bin/console rabbitmq:consumer email -vv
+```

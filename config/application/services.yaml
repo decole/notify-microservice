@@ -9,6 +9,8 @@ services:
 
   App\Application\Factory\ProducerFactory\NotifyProducerFactory: ~
 
+  App\Application\Http\Api\SingleNotify\Service\SingleSendApiService: ~
+
   App\Application\Service\ValidationService: ~
 
   App\Application\Service\Factory\ValidationFactory: ~

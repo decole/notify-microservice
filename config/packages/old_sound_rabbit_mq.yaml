@@ -16,11 +16,12 @@ old_sound_rabbit_mq:
       #requires php_sockets.dll
       use_socket: true # default false
 
-#  producers:
-#    # use 'old_sound_rabbit_mq.task_producer' service to send data.
-#    task:
-#      connection:       default
-#      exchange_options: { name: 'task', type: direct }
+  producers:
+    email:
+      class: App\Infrastructure\RabbitMq\Producer\Email\EmailProducer
+      connection: default
+      exchange_options: { name: '%env(EMAIL_QUEUE)%', type: direct }
+      default_delivery_mode: 2 # optional. 1 means non-persistent, 2 means persistent. Defaults to "2".
 
   consumers:
     email:
