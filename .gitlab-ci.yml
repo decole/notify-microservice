@@ -17,7 +17,6 @@ composer:
   artifacts:
     paths:
       - vendor/
-      - .env
     expire_in: 1 week
     when: always
   cache:
