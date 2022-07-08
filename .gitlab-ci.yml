@@ -18,15 +18,15 @@ composer:
     - make test
     - make test-clean-output
     - make rm-cache
-  artifacts:
-    paths:
-      - vendor/
-    expire_in: 1 week
-    when: always
-  cache:
-    key: ${CI_COMMIT_REF_SLUG}-composer
-    paths:
-      - vendor/x
+#  artifacts:
+#    paths:
+#      - vendor/
+#    expire_in: 1 week
+#    when: always
+#  cache:
+#    key: ${CI_COMMIT_REF_SLUG}-composer
+#    paths:
+#      - vendor/x
 
 # staging:
 #   stage: deploy
