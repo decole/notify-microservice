@@ -65,6 +65,11 @@ final class NotifyMessage implements EntityInterface
         $this->onUpdated();
     }
 
+    public function getBody(): array
+    {
+        return $this->message;
+    }
+
     private function checkStatusType(int $status): void
     {
         Assert::inArray($status, self::STATUS_MAP);

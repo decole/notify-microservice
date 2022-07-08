@@ -4,9 +4,9 @@
 namespace App\Infrastructure\Sender\Interfaces;
 
 
-use App\Infrastructure\Doctrine\Interfaces\EntityInterface;
+use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
 
 interface SenderInterface
 {
-    public function send(EntityInterface $message): void;
+    public function send(NotifyMessage $message): void;
 }

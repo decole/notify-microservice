@@ -26,8 +26,6 @@ final class EmailConsumer implements ConsumerInterface
         try {
             $decoded = json_decode($msg->getBody(), true, 512, JSON_THROW_ON_ERROR);
 
-            dump($decoded);
-
             $id = $decoded['messageId'];
             $message = $this->service->find($id);
 
@@ -53,5 +51,7 @@ final class EmailConsumer implements ConsumerInterface
             // todo For SenderService
             // add to HistoryMessageQueue - message is error with exception text
         }
+
+        return ConsumerInterface::MSG_ACK;
     }
 }

@@ -40,4 +40,18 @@ php bin/console cli:test-repo
 ```shell
 # работа в цикле. прослушивает очередь email
 php bin/console rabbitmq:consumer email -vv
+# отправка email из асинхронной очереди symfony
+php bin/console messenger:consume async
 ```
+
+## Нстройка отправки email сообщений
+
+0. Скопировать **.env.local.example** в **.env.local**
+1. Сконфигурировать **.env.local** под свои параметры почты
+2. !!! в **.env.local** сконфигурировать все параметры под себя (особено **MAILER_DSN** и **EMAIL_FROM**)
+
+> Яндекс почта требует, чтобы отправитель(from) был тем же, 
+> что и почтовый акаунт с которого отправляете сообщения. 
+> Т.е. в **.env.local** EMAIL_FROM указать тот же имейл, например 
+> я сконфигурировал MAILER_DSN под почту **example@yandex.ru**, тогда 
+> у меня **EMAIL_FROM=example@yandex.ru**
