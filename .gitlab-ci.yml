@@ -11,8 +11,8 @@ composer:
   script:
     - php -v
     - ls -la
-    - make down
     - make env
+    - make down
     - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
     - make restart
     - make test
