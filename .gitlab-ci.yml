@@ -11,9 +11,13 @@ composer:
   script:
     - php -v
     - ls -la
+    - make down
+    - make env
     - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
     - make restart
     - make test
+    - make test-clean-output
+    - make rm-cache
   artifacts:
     paths:
       - vendor/

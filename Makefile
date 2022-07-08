@@ -16,8 +16,9 @@ console-in:
 	docker-compose exec php-fpm bash
 
 env:
-	docker-compose exec php-fpm cp -n .env.local.example .env.local
-	docker-compose exec php-fpm cp -n .env.local.example .env.test.local
+	cp -n docker-compose.yaml.dist docker-compose.yaml
+	cp -n .env.local.example .env.local
+	cp -n .env.local.example .env.test.local
 
 composer-install:
 	docker-compose exec php-fpm composer install
@@ -35,7 +36,10 @@ test:
 	docker-compose exec php-fpm php vendor/codeception/codeception/codecept run
 
 test-clean-output:
-	docker-compose exec php-fpm php bin/codecept clean
+	docker-compose exec php-fpm php vendor/codeception/codeception/codecept clean
+
+rm-cache:
+	docker-compose exec php-fpm rm -r var/cache/
 
 perm:
 	sudo chown -R ${USER}:${USER} var
