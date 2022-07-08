@@ -21,10 +21,10 @@ env:
 	cp -n .env.local.example .env.test.local
 
 composer-install:
-	docker-compose exec php-fpm composer install
+	docker-compose exec -T php-fpm composer install
 
 migration:
-	docker-compose exec php-fpm php bin/console d:m:m --no-interaction
+	docker-compose exec -T php-fpm php bin/console d:m:m --no-interaction
 
 new-migration:
 	docker-compose exec php-fpm php bin/console d:m:diff
@@ -33,13 +33,13 @@ new-migration:
 #	docker-compose exec php-fpm php bin/console d:f:l --no-interaction --purge-with-truncate
 
 test:
-	docker-compose exec php-fpm php vendor/codeception/codeception/codecept run
+	docker-compose exec -T php-fpm php vendor/codeception/codeception/codecept run
 
 test-clean-output:
-	docker-compose exec php-fpm php vendor/codeception/codeception/codecept clean
+	docker-compose exec -T php-fpm php vendor/codeception/codeception/codecept clean
 
 rm-cache:
-	docker-compose exec php-fpm rm -r var/log var/cache
+	docker-compose exec -T php-fpm rm -r var/log var/cache
 
 perm:
 	sudo chown -R ${USER}:${USER} var
