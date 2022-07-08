@@ -39,7 +39,7 @@ test-clean-output:
 	docker-compose exec php-fpm php vendor/codeception/codeception/codecept clean
 
 rm-cache:
-	docker-compose exec php-fpm rm -r var/
+	docker-compose exec php-fpm rm -r var/log var/cache
 
 perm:
 	sudo chown -R ${USER}:${USER} var

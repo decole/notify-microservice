@@ -12,10 +12,9 @@ composer:
     - php -v
     - ls -la
     - make env
-    - make rm-cache
-    - make down
-    - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
     - make restart
+    - make rm-cache
+    - make composer-install
     - make test
     - make test-clean-output
     - make rm-cache
