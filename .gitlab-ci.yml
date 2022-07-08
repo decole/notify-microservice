@@ -12,6 +12,8 @@ composer:
     - php -v
     - ls -la
     - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
+    - make restart
+    - make test
   artifacts:
     paths:
       - vendor/

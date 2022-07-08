@@ -29,7 +29,10 @@ new-migration:
 	docker-compose exec php-fpm php bin/console d:m:diff
 
 #fixture:
-	#docker-compose exec php-fpm php bin/console d:f:l --no-interaction --purge-with-truncate
+#	docker-compose exec php-fpm php bin/console d:f:l --no-interaction --purge-with-truncate
+
+test:
+	docker-compose exec php-fpm php vendor/codeception/codeception/codecept run
 
 test-clean-output:
 	docker-compose exec php-fpm php bin/codecept clean
