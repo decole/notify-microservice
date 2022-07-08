@@ -13,7 +13,6 @@ composer:
     - ls -la
     - make env
     - make restart
-    - make rm-cache
     - make composer-install
     - make test
     - make test-clean-output
