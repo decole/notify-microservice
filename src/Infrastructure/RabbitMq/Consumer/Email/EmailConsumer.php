@@ -21,31 +21,37 @@ final class EmailConsumer implements ConsumerInterface
     ) {
     }
 
-    public function execute(AMQPMessage $msg)
+    public function execute(AMQPMessage $msg): int|bool
     {
         try {
             $decoded = json_decode($msg->getBody(), true, 512, JSON_THROW_ON_ERROR);
 
             dump($decoded);
 
-            // For SenderService
-            // get MessageId
-            $id = '';
+            $id = $decoded['messageId'];
             $message = $this->service->find($id);
 
             if ($message === null) {
+                // todo For SenderService
+                // add to HistoryMessageQueue - message is error with exception text
+
                 throw new NotFoundEntityException('notify message not found');
             }
 
             $this->sender->send($message);
+
+            // todo For SenderService
+            // add to HistoryMessageQueue - message is done
+
+            return ConsumerInterface::MSG_ACK;
         } catch (Throwable $throwable) {
             $this->logger->error("Exception: {$throwable->getMessage()}", [
                 'decoded' => $decoded,
                 'exception' => $throwable
             ]);
 
-            // For SenderService
-            // add to HistoryMessageQueue
+            // todo For SenderService
+            // add to HistoryMessageQueue - message is error with exception text
         }
     }
 }

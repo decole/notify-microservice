@@ -51,8 +51,6 @@ final class SingleSendApiController extends AbstractController
             $this->producerFactory
                 ->createProducer(type: $message->getType())
                 ->publish($this->apiService->getPublishQueueMessage($message));
-
-            // add to history service ->>>>
         } catch (Throwable $exception) {
             return (new ErrorPresenter($exception))->present();
         }
