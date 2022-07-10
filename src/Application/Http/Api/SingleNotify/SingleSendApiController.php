@@ -4,6 +4,7 @@
 namespace App\Application\Http\Api\SingleNotify;
 
 
+use App\Application\Event\MessageStatusUpdatedEvent;
 use App\Application\Exception\UnSupportHttpParamsException;
 use App\Application\Factory\ProducerFactory\NotifyProducerFactory;
 use App\Application\Http\Api\SingleNotify\Service\SingleSendApiService;
@@ -12,6 +13,7 @@ use App\Application\Presenter\Api\ErrorValidationPresenter;
 use App\Application\Presenter\Api\SingleNotify\SingleSendNotifyApiPresenter;
 use App\Application\Service\ValidationService;
 use App\Infrastructure\Doctrine\Service\NotifyMessageService;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,6 +27,7 @@ final class SingleSendApiController extends AbstractController
         private readonly NotifyMessageService $service,
         private readonly ValidationService $validation,
         private readonly NotifyProducerFactory $producerFactory,
+        private readonly EventDispatcherInterface $eventDispatcher,
     ) {
     }
 
@@ -51,6 +54,12 @@ final class SingleSendApiController extends AbstractController
             $this->producerFactory
                 ->createProducer(type: $message->getType())
                 ->publish($this->apiService->getPublishQueueMessage($message));
+
+            $this->eventDispatcher->dispatch(
+                new MessageStatusUpdatedEvent($message),
+                MessageStatusUpdatedEvent::NAME
+            );
+
         } catch (Throwable $exception) {
             return (new ErrorPresenter($exception))->present();
         }

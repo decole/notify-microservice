@@ -7,3 +7,5 @@ services:
     class: App\Infrastructure\RabbitMq\Consumer\Email\EmailConsumer
     arguments:
       $logger: "@monolog.logger.receive_from_email"
+  consumers.history:
+    class: App\Infrastructure\RabbitMq\Consumer\History\HistoryMessageConsumer
