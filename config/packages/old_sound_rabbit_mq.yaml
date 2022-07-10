@@ -17,6 +17,11 @@ old_sound_rabbit_mq:
       use_socket: true # default false
 
   producers:
+    history:
+      class: App\Infrastructure\RabbitMq\Producer\History\HistoryMessageProducer
+      connection: default
+      exchange_options: { name: '%env(HISTORY_QUEUE)%', type: direct }
+      default_delivery_mode: 2
     email:
       class: App\Infrastructure\RabbitMq\Producer\Email\EmailProducer
       connection: default
@@ -24,6 +29,11 @@ old_sound_rabbit_mq:
       default_delivery_mode: 2 # optional. 1 means non-persistent, 2 means persistent. Defaults to "2".
 
   consumers:
+    history:
+      connection: default
+      exchange_options: { name: '%env(HISTORY_QUEUE)%', type: direct }
+      queue_options: { name: '%env(HISTORY_QUEUE)%' }
+      callback: consumers.history
     email:
       connection: default
       exchange_options: { name: '%env(EMAIL_QUEUE)%', type: direct }
