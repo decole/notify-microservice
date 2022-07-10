@@ -1,17 +1,19 @@
 <?php
 
+
 namespace App\Application\Event;
+
 
 use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
 use Symfony\Contracts\EventDispatcher\Event;
 
-class MessageStatusUpdatedEvent extends Event
+final class MessageStatusUpdatedEvent extends Event
 {
     public const NAME = 'message_status_updated_event';
 
     public function __construct(
-        private NotifyMessage $message,
-        private string $info = '',
+        private readonly NotifyMessage $message,
+        private readonly ?string $info = null,
     ) {
     }
 
@@ -20,7 +22,7 @@ class MessageStatusUpdatedEvent extends Event
         return $this->message;
     }
 
-    public function getInfo(): string
+    public function getInfo(): ?string
     {
         return $this->info;
     }

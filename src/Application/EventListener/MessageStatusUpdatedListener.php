@@ -1,15 +1,17 @@
 <?php
 
+
 namespace App\Application\EventListener;
+
 
 use App\Application\Event\MessageStatusUpdatedEvent;
 use App\Infrastructure\RabbitMq\Producer\History\HistoryMessageProducer;
 use JsonException;
 
-class MessageStatusUpdatedListener
+final class MessageStatusUpdatedListener
 {
     public function __construct(
-        private HistoryMessageProducer $producer,
+        private readonly HistoryMessageProducer $producer,
     ) {
     }
 
