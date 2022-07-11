@@ -22,7 +22,7 @@ final class MessageStatusUpdatedListener
     {
         $message = json_encode([
             'messageId' => $event->getMessage()->getId(),
-            'status' => $event->getMessage()->getStatus(),
+            'status' => $event->getNewStatus(),
             'info' => $event->getInfo(),
         ], JSON_THROW_ON_ERROR);
 

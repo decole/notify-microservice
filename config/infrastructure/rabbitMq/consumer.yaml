@@ -6,6 +6,9 @@ services:
   consumers.email:
     class: App\Infrastructure\RabbitMq\Consumer\Email\EmailConsumer
     arguments:
-      $logger: "@monolog.logger.receive_from_email"
+      $logger: "@monolog.logger.receive_notify"
+
   consumers.history:
     class: App\Infrastructure\RabbitMq\Consumer\History\HistoryMessageConsumer
+    arguments:
+      $logger: "@monolog.logger.history_notify"

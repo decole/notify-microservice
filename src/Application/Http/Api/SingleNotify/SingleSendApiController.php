@@ -56,7 +56,7 @@ final class SingleSendApiController extends AbstractController
                 ->publish($this->apiService->getPublishQueueMessage($message));
 
             $this->eventDispatcher->dispatch(
-                new MessageStatusUpdatedEvent($message),
+                new MessageStatusUpdatedEvent($message, $message->getStatus()),
                 MessageStatusUpdatedEvent::NAME
             );
 

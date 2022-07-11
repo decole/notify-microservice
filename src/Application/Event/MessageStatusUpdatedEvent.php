@@ -13,6 +13,7 @@ final class MessageStatusUpdatedEvent extends Event
 
     public function __construct(
         private readonly NotifyMessage $message,
+        private readonly int $newStatus,
         private readonly ?string $info = null,
     ) {
     }
@@ -20,6 +21,11 @@ final class MessageStatusUpdatedEvent extends Event
     public function getMessage(): NotifyMessage
     {
         return $this->message;
+    }
+
+    public function getNewStatus(): int
+    {
+        return $this->newStatus;
     }
 
     public function getInfo(): ?string

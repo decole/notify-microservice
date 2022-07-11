@@ -40,8 +40,6 @@ php bin/console cli:test-repo
 ```shell
 # работа в цикле. прослушивает очередь email
 php bin/console rabbitmq:consumer email -vv
-# отправка email из асинхронной очереди symfony
-php bin/console messenger:consume async
 ```
 
 ## Нстройка отправки email сообщений
