@@ -17,11 +17,6 @@ final class MessageDto
         return $this->type;
     }
 
-    public function getStatus(): int
-    {
-        return $this->status;
-    }
-
     public function getMessage(): array
     {
         return $this->message;

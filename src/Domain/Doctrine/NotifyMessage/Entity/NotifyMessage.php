@@ -24,6 +24,13 @@ final class NotifyMessage implements EntityInterface
         self::STATUS_DONE,
     ];
 
+    public const TEXT_STATUS_MAP = [
+        self::STATUS_IN_QUEUE => 'in queue',
+        self::STATUS_ACTIVE => 'sending',
+        self::STATUS_ERROR => 'error',
+        self::STATUS_DONE => 'sent',
+    ];
+
     public const EMAIL_TYPE = 'email';
 
     public const TYPE_MAP = [
@@ -51,6 +58,11 @@ final class NotifyMessage implements EntityInterface
     public function getStatus(): int
     {
         return $this->status;
+    }
+
+    public function getTextStatus(): string
+    {
+        return self::TEXT_STATUS_MAP[$this->status];
     }
 
     public function setStatus(int $status): void

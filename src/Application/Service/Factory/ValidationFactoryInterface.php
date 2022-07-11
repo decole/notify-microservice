@@ -4,9 +4,9 @@
 namespace App\Application\Service\Factory;
 
 
-use App\Application\Http\Api\SingleNotify\Input\MessageInput;
+use App\Application\Service\ExtendedInputInterface;
 
 interface ValidationFactoryInterface
 {
-    public function getCriteria(MessageInput $input): ValidationCriteriaInterface;
+    public function getCriteria(ExtendedInputInterface $input): ValidationCriteriaInterface;
 }

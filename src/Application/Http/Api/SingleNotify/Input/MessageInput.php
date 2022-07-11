@@ -4,9 +4,10 @@
 namespace App\Application\Http\Api\SingleNotify\Input;
 
 
+use App\Application\Service\ExtendedInputInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
-final class MessageInput
+final class MessageInput implements ExtendedInputInterface
 {
     #[Assert\NotBlank]
     #[Assert\NotNull]
@@ -36,5 +37,10 @@ final class MessageInput
         }
 
         return $result;
+    }
+
+    public function getType(): string
+    {
+        return $this->type;
     }
 }

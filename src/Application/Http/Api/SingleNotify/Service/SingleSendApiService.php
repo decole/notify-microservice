@@ -37,7 +37,7 @@ final class SingleSendApiService
 
     public function createMessageDto(MessageInput $input): MessageDto
     {
-        return new MessageDto($input->type, $input->toArray());
+        return new MessageDto($input->getType(), $input->toArray());
     }
 
     /**

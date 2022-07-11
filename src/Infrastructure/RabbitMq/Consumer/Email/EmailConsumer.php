@@ -21,6 +21,7 @@ final class EmailConsumer implements ConsumerInterface
     ) {
     }
 
+    // todo add abstrackconsumer exclude common methods
     public function execute(AMQPMessage $msg): int|bool
     {
         try {
@@ -33,7 +34,7 @@ final class EmailConsumer implements ConsumerInterface
                 // todo For SenderService
                 // add to HistoryMessageQueue - message is error with exception text
 
-                throw new NotFoundEntityException('notify message not found');
+                throw new NotFoundEntityException('Notify message not found');
             }
 
             $this->sender->send($message);
