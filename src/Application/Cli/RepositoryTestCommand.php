@@ -49,7 +49,7 @@ class RepositoryTestCommand extends Command
 
         dump((string)$findEntity->getId());
 
-        $updateStatus = $this->service->updateStatus((string)$findEntity->getId(), NotifyMessage::STATUS_ACTIVE);
+        $updateStatus = $this->service->updateStatus($findEntity, NotifyMessage::STATUS_ACTIVE);
 
         dump($updateStatus->getStatus());
 

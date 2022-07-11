@@ -47,7 +47,7 @@ class DateTimeMicroType extends Type
         return 'Y-m-d H:i:s.u';
     }
 
-    public function convertToDatabaseValue($value, AbstractPlatform $platform)
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
         if ($value === null) {
             return null;

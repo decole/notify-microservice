@@ -43,12 +43,21 @@ final class NotifyMessageService
         return $this->repository->findById($id);
     }
 
-    public function updateStatus(string $id, int $status): NotifyMessage
+    public function update(NotifyMessage $notify): NotifyMessage
     {
-        $message = $this->find($id);
+        assert($notify instanceof NotifyMessage);
 
-        assert($message instanceof NotifyMessage);
+        $notify->setUpdatedAt();
 
+        $this->transaction->transactional(function () use ($notify) {
+            $this->repository->save($notify);
+        });
+
+        return $notify;
+    }
+
+    public function updateStatus(NotifyMessage $message, int $status): NotifyMessage
+    {
         $message->setStatus($status);
 
         $message->setUpdatedAt();

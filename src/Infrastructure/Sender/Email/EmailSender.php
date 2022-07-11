@@ -24,12 +24,11 @@ final class EmailSender implements SenderInterface
      */
     public function send(NotifyMessage $message): void
     {
-        [$email, $notify] = $this->getEmailNotifyParams($message);
-
+        [$emailTo, $notify] = $this->getEmailNotifyParams($message);
 
         $email = (new Email())
             ->from($this->emailFrom)
-            ->to($email)
+            ->to($emailTo)
             ->subject($this->emailSubject)
             ->text($notify);
 

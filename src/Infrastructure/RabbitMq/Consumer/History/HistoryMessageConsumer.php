@@ -10,6 +10,7 @@ use App\Infrastructure\Doctrine\Service\NotifyMessageService;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
 use Psr\Log\LoggerInterface;
+use Throwable;
 
 final class HistoryMessageConsumer implements ConsumerInterface
 {
@@ -35,12 +36,16 @@ final class HistoryMessageConsumer implements ConsumerInterface
                 return ConsumerInterface::MSG_REJECT;
             }
 
+            $status = (int)$body['status'];
+
+            $this->notifyMessageService->updateStatus($message, $status);
+
             $this->historyNotificationService->create(new HistoryNotification(
                 message: $message,
-                status: (int)$body['status'],
-                info: (string)$body['info']
+                status: $status,
+                info: $body['info']
             ));
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
             $this->logger->error("History exception", [
                 'decoded' => $body,
                 'exception' => $exception->getMessage(),
