@@ -15,7 +15,8 @@ composer:
     - ls -la
     - make env
     - make restart
-    - make composer-install
+    - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
+    - make env
 
 tests:
   stage: testing
