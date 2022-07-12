@@ -17,6 +17,17 @@ composer:
     - make restart
     - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
     - make env
+  artifacts:
+    paths:
+      - vendor/
+      - docker-compose.yaml
+    expire_in: 1 month
+    when: always
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}-composer
+    paths:
+      - vendor/
+      - docker-compose.yaml
 
 tests:
   stage: testing
