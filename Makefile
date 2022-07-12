@@ -46,6 +46,7 @@ perm:
 	sudo chown -R ${USER}:${USER} var
 	sudo chown -R ${USER}:${USER} vendor
 	sudo chown -R ${USER}:${USER} tests
+	sudo chmod 777 var vendor tests
 
 ps:
 	docker-compose ps
