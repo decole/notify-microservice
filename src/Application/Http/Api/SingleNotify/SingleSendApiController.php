@@ -31,7 +31,7 @@ final class SingleSendApiController extends AbstractController
     ) {
     }
 
-    #[Route('/send', methods: ['POST'])]
+    #[Route('/v1/send', methods: ['POST'])]
     public function send(Request $request): JsonResponse
     {
         try {

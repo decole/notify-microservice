@@ -8,7 +8,7 @@ use Throwable;
 
 final class ErrorPresenter extends AbstractPresenter
 {
-    protected const SERVER_HTTP_CODE = 404;
+    protected const SERVER_HTTP_CODE = 400;
 
     public function __construct(private readonly Throwable $exception)
     {

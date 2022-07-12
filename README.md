@@ -53,3 +53,28 @@ php bin/console rabbitmq:consumer email -vv
 > Т.е. в **.env.local** EMAIL_FROM указать тот же имейл, например 
 > я сконфигурировал MAILER_DSN под почту **example@yandex.ru**, тогда 
 > у меня **EMAIL_FROM=example@yandex.ru**
+
+
+
+# Для CI/CD напоминания:
+Для тестов
+
+```shell
+# create the test database
+php bin/console --env=test doctrine:database:create
+
+# create the tables/columns in the test database
+php bin/console --env=test doctrine:schema:create
+
+
+
+php bin/console doctrine:migrations:migrate --env test
+```
+
+
+Для деплоя на прод и стейдж перед каждым стартом эксплуатации надо выполнять эту команду для 
+генерации тем очередей
+
+```shell
+php bin/console rabbitmq:setup-fabric
+```

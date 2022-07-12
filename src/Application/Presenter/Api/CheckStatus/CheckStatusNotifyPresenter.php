@@ -24,6 +24,10 @@ final class CheckStatusNotifyPresenter extends AbstractPresenter
 
     private function getDate(): string
     {
-        return ($this->message->getUpdatedAt() ?? $this->message->getCreatedAt())->format('Y-m-d H:i:s');
+        if ($this->message->getUpdatedAt() !== null) {
+            return $this->message->getUpdatedAt()->format('Y-m-d H:i:s');
+        }
+
+        return $this->message->getCreatedAt()->format('Y-m-d H:i:s');
     }
 }

@@ -25,7 +25,7 @@ final class CheckNotifyStatusApiController extends AbstractController
     ) {
     }
 
-    #[Route('/check-status/{id}', methods: ['GET'])]
+    #[Route('/v1/check-status/{id}', methods: ['GET'])]
     public function status(string $id): JsonResponse
     {
         try {

@@ -8,7 +8,7 @@ use DateTimeImmutable;
 
 trait UpdatedAt
 {
-    protected ?DateTimeImmutable $updatedAt;
+    protected ?DateTimeImmutable $updatedAt = null;
 
     final public function getUpdatedAt(): ?DateTimeImmutable
     {
