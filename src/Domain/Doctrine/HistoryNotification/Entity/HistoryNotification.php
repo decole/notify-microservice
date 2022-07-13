@@ -37,6 +37,7 @@ final class HistoryNotification implements EntityInterface
     public function setStatus(int $status): void
     {
         $this->status = $status;
+        $this->checkStatusType($status);
     }
 
     public function getInfo(): ?string
