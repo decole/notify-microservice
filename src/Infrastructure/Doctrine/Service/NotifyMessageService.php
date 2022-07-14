@@ -33,11 +33,6 @@ final class NotifyMessageService
         return $message;
     }
 
-    private function getNewEntityByDto(MessageDto $dto): NotifyMessage
-    {
-        return new NotifyMessage($dto->getType(), $dto->getMessage(), NotifyMessage::STATUS_IN_QUEUE);
-    }
-
     public function find(string $id): ?NotifyMessage
     {
         return $this->repository->findById($id);
@@ -69,17 +64,8 @@ final class NotifyMessageService
         return $message;
     }
 
-    /**
-     * @throws NotFoundEntityException
-     */
-    public function getNotifyLastStatus(string $id): int
+    private function getNewEntityByDto(MessageDto $dto): NotifyMessage
     {
-        $entity = $this->repository->findById($id);
-
-        if ($entity === null) {
-            throw new NotFoundEntityException("Notify by id {$id} not found");
-        }
-
-        return $entity->getStatus();
+        return new NotifyMessage($dto->getType(), $dto->getMessage(), NotifyMessage::STATUS_IN_QUEUE);
     }
 }
