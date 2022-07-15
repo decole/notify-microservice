@@ -7,8 +7,8 @@ namespace App\Tests\functional\Infrastructure\Doctrine\Repository\NotifyMessage;
 use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
 use App\Infrastructure\Doctrine\Repository\NotifyMessage\NotifyMessageRepository;
 use App\Tests\FunctionalTester;
+use Ramsey\Uuid\Uuid;
 
-// todo  create negative cases
 class NotifyMessageRepositoryCest
 {
     private NotifyMessageRepository $repository;
@@ -30,6 +30,14 @@ class NotifyMessageRepositoryCest
         $I->assertEquals(NotifyMessage::EMAIL_TYPE, $entity->getType());
         $I->assertEquals('in queue', $entity->getTextStatus());
         $I->assertEquals(['test' => 'execute'], $entity->getBody());
+    }
+
+    public function negativeFindById(FunctionalTester $I): void
+    {
+        $id = Uuid::uuid4()->toString();
+        $entity = $this->repository->findById($id);
+
+        $I->assertEquals(null, $entity);
     }
 
     private function createEntity(): NotifyMessage

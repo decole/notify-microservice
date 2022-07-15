@@ -9,8 +9,8 @@ use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
 use App\Infrastructure\Doctrine\Repository\HistoryNotification\HistoryNotificationRepository;
 use App\Infrastructure\Doctrine\Repository\NotifyMessage\NotifyMessageRepository;
 use App\Tests\FunctionalTester;
+use Ramsey\Uuid\Uuid;
 
-// todo  create negative cases
 class HistoryNotificationRepositoryCest
 {
     private HistoryNotificationRepository $historyRepository;
@@ -29,6 +29,14 @@ class HistoryNotificationRepositoryCest
 
         $I->assertEquals($id, $foundEntity->getId()->toString());
         $I->assertInstanceOf(HistoryNotification::class, $foundEntity);
+    }
+
+    public function negativeFindById(FunctionalTester $I): void
+    {
+        $id = Uuid::uuid4()->toString();
+        $foundEntity = $this->historyRepository->findById($id);
+
+        $I->assertEquals(null, $foundEntity);
     }
 
     public function findByNotifyMessage(FunctionalTester $I): void
@@ -53,6 +61,15 @@ class HistoryNotificationRepositoryCest
         $I->assertArrayHasKey($idOne, $indexedArray);
         $I->assertArrayHasKey($idTwo, $indexedArray);
         $I->assertArrayHasKey($idThree, $indexedArray);
+    }
+
+    public function negativeFindByNotifyMessage(FunctionalTester $I): void
+    {
+        $id = Uuid::uuid4()->toString();
+        $foundEntity = $this->historyRepository->findByNotifyMessage($id);
+
+        $I->assertIsArray($foundEntity);
+        $I->assertEquals(0, count($foundEntity));
     }
 
     private function createEntity(?NotifyMessage $notify = null): HistoryNotification

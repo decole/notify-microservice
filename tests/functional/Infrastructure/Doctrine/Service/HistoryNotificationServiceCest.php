@@ -10,7 +10,6 @@ use App\Infrastructure\Doctrine\Repository\NotifyMessage\NotifyMessageRepository
 use App\Infrastructure\Doctrine\Service\HistoryNotificationService;
 use App\Tests\FunctionalTester;
 
-// todo  create negative cases
 class HistoryNotificationServiceCest
 {
     private HistoryNotificationService $service;
@@ -36,6 +35,19 @@ class HistoryNotificationServiceCest
         $I->assertEquals('info message', $savedEntity->getInfo());
     }
 
+    public function negativeCreate(FunctionalTester $I): void
+    {
+        try {
+            $this->notifyRepository->save(null);
+        } catch (\Throwable $exception) {
+        }
+
+        $I->assertEquals(
+            'App\Infrastructure\Doctrine\Repository\BaseDoctrineRepository::save(): Argument #1 ($entity) must be of type App\Infrastructure\Doctrine\Interfaces\EntityInterface, null given, called in /var/www/tests/functional/Infrastructure/Doctrine/Service/HistoryNotificationServiceCest.php on line 41',
+            $exception->getMessage()
+        );
+    }
+
     public function findByNotifyMessage(FunctionalTester $I): void
     {
         $notify = new NotifyMessage(NotifyMessage::EMAIL_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);
@@ -53,5 +65,17 @@ class HistoryNotificationServiceCest
         $I->assertEquals($entity->getId()->toString(), $foundEntity[0]['id']->toString());
         $I->assertEquals(NotifyMessage::STATUS_ACTIVE, $foundEntity[0]['status']);
         $I->assertEquals($info, $foundEntity[0]['info']);
+    }
+
+    public function negativeFindByNotifyMessage(FunctionalTester $I): void
+    {
+        try {
+            $notify = new NotifyMessage(NotifyMessage::EMAIL_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);
+            $foundEntity = $this->service->findByNotifyMessage($notify);
+        } catch (\Throwable $exception) {
+            dd($exception->getMessage());
+        }
+
+        $I->assertEquals(0, count($foundEntity));
     }
 }
