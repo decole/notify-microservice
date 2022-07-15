@@ -16,7 +16,7 @@ class ErrorPresenterCest
         $notify = new Exception('test');
         $presenter = new ErrorPresenter($notify);
         $result = $presenter->present();
-        $json = '{"error":"test"}';
+        $json = '{"result":false,"error":"An error occurred while executing the request","errorText":"test"}';
 
         $I->assertInstanceOf(JsonResponse::class, $result);
         $I->assertEquals($json, $result->getContent());

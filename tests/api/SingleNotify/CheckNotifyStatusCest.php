@@ -101,7 +101,9 @@ class CheckNotifyStatusCest
         $I->seeResponseIsJson();
         $I->canSeeResponseCodeIs(400);
         $I->seeResponseContainsJson([
-            'error' => "Notify by id {$id} not found",
+            'error' => 'An error occurred while executing the request',
+            'result' => false,
+            'errorText' => "Notify by id {$id} not found",
         ]);
     }
 

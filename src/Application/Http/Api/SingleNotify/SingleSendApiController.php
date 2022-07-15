@@ -34,35 +34,30 @@ final class SingleSendApiController extends AbstractController
     #[Route('/v1/send', methods: ['POST'])]
     public function send(Request $request): JsonResponse
     {
-        try {
-            if (!$request->isMethod('post') || $request->getContentType() !== 'json') {
-                throw new UnSupportHttpParamsException('Expected json body');
-            }
-
-            $input = $this->apiService->createInputDto($request);
-
-            $errors = $this->validation->validate($input);
-
-            if (count($errors) !== 0) {
-                return (new ErrorValidationPresenter($errors))->present();
-            }
-
-            $dto = $this->apiService->createMessageDto($input);
-
-            $message = $this->service->create($dto);
-
-            $this->producerFactory
-                ->createProducer(type: $message->getType())
-                ->publish($this->apiService->getPublishQueueMessage($message));
-
-            $this->eventDispatcher->dispatch(
-                new MessageStatusUpdatedEvent($message, $message->getStatus()),
-                MessageStatusUpdatedEvent::NAME
-            );
-
-        } catch (Throwable $exception) {
-            return (new ErrorPresenter($exception))->present();
+        if (!$request->isMethod('post') || $request->getContentType() !== 'json') {
+            throw new UnSupportHttpParamsException('Expected json body');
         }
+
+        $input = $this->apiService->createInputDto($request);
+
+        $errors = $this->validation->validate($input);
+
+        if (count($errors) !== 0) {
+            return (new ErrorValidationPresenter($errors))->present();
+        }
+
+        $dto = $this->apiService->createMessageDto($input);
+
+        $message = $this->service->create($dto);
+
+        $this->producerFactory
+            ->createProducer(type: $message->getType())
+            ->publish($this->apiService->getPublishQueueMessage($message));
+
+        $this->eventDispatcher->dispatch(
+            new MessageStatusUpdatedEvent($message, $message->getStatus()),
+            MessageStatusUpdatedEvent::NAME
+        );
 
         return (new SingleSendNotifyApiPresenter($message))->present();
     }

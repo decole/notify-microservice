@@ -28,24 +28,20 @@ final class CheckNotifyStatusApiController extends AbstractController
     #[Route('/v1/check-status/{id}', methods: ['GET'])]
     public function status(string $id): JsonResponse
     {
-        try {
-            $input = $this->apiService->createInputDto($id);
+        $input = $this->apiService->createInputDto($id);
 
-            $errors = $this->validation->validate($input);
+        $errors = $this->validation->validate($input);
 
-            if (count($errors) !== 0) {
-                return (new ErrorValidationPresenter($errors))->present();
-            }
-
-            $notify = $this->service->find($input->id);
-
-            if ($notify === null) {
-                throw new NotFoundEntityException("Notify by id {$input->id} not found");
-            }
-
-            return (new CheckStatusNotifyPresenter($notify))->present();
-        } catch (Throwable $exception) {
-            return (new ErrorPresenter($exception))->present();
+        if (count($errors) !== 0) {
+            return (new ErrorValidationPresenter($errors))->present();
         }
+
+        $notify = $this->service->find($input->id);
+
+        if ($notify === null) {
+            throw new NotFoundEntityException("Notify by id {$input->id} not found");
+        }
+
+        return (new CheckStatusNotifyPresenter($notify))->present();
     }
 }

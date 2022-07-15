@@ -17,7 +17,9 @@ final class ErrorPresenter extends AbstractPresenter
     public function getResult(): array
     {
         return [
-            'error' => $this->exception->getMessage(),
+            'result' => false,
+            'error' => 'An error occurred while executing the request',
+            'errorText' => $this->exception->getMessage(),
         ];
     }
 }
