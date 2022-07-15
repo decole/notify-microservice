@@ -38,7 +38,9 @@ class SingleSendEmailCest
         $I->seeResponseIsJson();
         $I->canSeeResponseCodeIs(400);
         $I->seeResponseContainsJson([
-            'error' => 'Validation criteria by notify type not found.',
+            'error' => 'An error occurred while executing the request',
+            'result' => false,
+            'errorText' => 'Validation criteria by notify type not found.',
         ]);
     }
 
