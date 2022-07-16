@@ -10,7 +10,7 @@ use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 
-final class EmailSender implements SenderInterface
+class EmailSender implements SenderInterface
 {
     public function __construct(
         private readonly MailerInterface $mailer,

@@ -10,12 +10,13 @@ use App\Application\Http\Api\SingleNotify\Service\SingleSendApiService;
 use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
 use App\Tests\UnitTester;
 use Faker\Factory;
+use Faker\Generator;
 use Symfony\Component\HttpFoundation\Request;
 use Throwable;
 
 class SingleSendApiServiceCest
 {
-    private \Faker\Generator $faker;
+    private Generator $faker;
 
     public function setUp()
     {
@@ -89,7 +90,7 @@ class SingleSendApiServiceCest
         } catch (Throwable $exception) {}
 
         $I->assertEquals(
-            'App\Application\Http\Api\SingleNotify\Service\SingleSendApiService::getPublishQueueMessage(): Argument #1 ($message) must be of type App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage, null given, called in /var/www/tests/unit/Application/Http/Api/SingleNotify/Service/SingleSendApiServiceCest.php on line 88',
+            'App\Application\Http\Api\SingleNotify\Service\SingleSendApiService::getPublishQueueMessage(): Argument #1 ($message) must be of type App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage, null given, called in /var/www/tests/unit/Application/Http/Api/SingleNotify/Service/SingleSendApiServiceCest.php on line 89',
             $exception->getMessage()
         );
     }

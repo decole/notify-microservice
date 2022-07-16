@@ -43,7 +43,7 @@ final class HistoryMessageConsumer implements ConsumerInterface
             $this->historyNotificationService->create(new HistoryNotification(
                 message: $message,
                 status: $status,
-                info: $body['info']
+                info: $body['info'] ?? null
             ));
         } catch (Throwable $exception) {
             $this->logger->error("History exception", [

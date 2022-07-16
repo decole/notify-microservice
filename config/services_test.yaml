@@ -2,6 +2,4 @@ services:
   _defaults:
     public: true
 
-  Symfony\Component\DependencyInjection\ContainerInterface:
-    autowire: true
-    public: true
+  Psr\Log\NullLogger: ~

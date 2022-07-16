@@ -13,7 +13,7 @@ use Codeception\Stub;
 use Codeception\Stub\Expected;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
-class MessageStatusUpdatedListenerCest
+class MessageStatusUpdatedListenerCheckCest
 {
     private EventDispatcher $dispatcher;
 

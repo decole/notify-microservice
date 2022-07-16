@@ -14,7 +14,7 @@ class SingleSendEmailCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPost('/v1/send', [
             'type' => NotifyMessage::EMAIL_TYPE,
-            'email' => 'decole@rambler.ru',
+            'email' => 'test@test.ru',
             'message' => 'tester',
         ]);
         $I->seeResponseCodeIsSuccessful();
