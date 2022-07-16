@@ -33,22 +33,26 @@ final class NotifyMessageService
         return $message;
     }
 
-    private function getNewEntityByDto(MessageDto $dto): NotifyMessage
-    {
-        return new NotifyMessage($dto->getType(), $dto->getMessage(), $dto->getStatus());
-    }
-
     public function find(string $id): ?NotifyMessage
     {
         return $this->repository->findById($id);
     }
 
-    public function updateStatus(string $id, int $status): NotifyMessage
+    public function update(NotifyMessage $notify): NotifyMessage
     {
-        $message = $this->find($id);
+        assert($notify instanceof NotifyMessage);
 
-        assert($message instanceof NotifyMessage);
+        $notify->setUpdatedAt();
 
+        $this->transaction->transactional(function () use ($notify) {
+            $this->repository->save($notify);
+        });
+
+        return $notify;
+    }
+
+    public function updateStatus(NotifyMessage $message, int $status): NotifyMessage
+    {
         $message->setStatus($status);
 
         $message->setUpdatedAt();
@@ -60,17 +64,8 @@ final class NotifyMessageService
         return $message;
     }
 
-    /**
-     * @throws NotFoundEntityException
-     */
-    public function getNotifyLastStatus(string $id): int
+    private function getNewEntityByDto(MessageDto $dto): NotifyMessage
     {
-        $entity = $this->repository->findById($id);
-
-        if ($entity === null) {
-            throw new NotFoundEntityException("Notify by id {$id} not found");
-        }
-
-        return $entity->getStatus();
+        return new NotifyMessage($dto->getType(), $dto->getMessage(), NotifyMessage::STATUS_IN_QUEUE);
     }
 }

@@ -1,0 +1,41 @@
+old_sound_rabbit_mq:
+  connections:
+    default:
+      url: '%env(RABBITMQ_DSN)%'
+      vhost: '/'
+      lazy: true
+      connection_timeout: 3
+      read_write_timeout: 3
+
+      # requires php-amqplib v2.4.1+ and PHP5.4+
+      keepalive: false
+
+      # requires php-amqplib v2.4.1+
+      heartbeat: 0
+
+      #requires php_sockets.dll
+      use_socket: true # default false
+
+  producers:
+    history:
+      class: App\Infrastructure\RabbitMq\Producer\History\HistoryMessageProducer
+      connection: default
+      exchange_options: { name: '%env(HISTORY_QUEUE)%', type: direct }
+      default_delivery_mode: 2
+    email:
+      class: App\Infrastructure\RabbitMq\Producer\Email\EmailProducer
+      connection: default
+      exchange_options: { name: '%env(EMAIL_QUEUE)%', type: direct }
+      default_delivery_mode: 2 # optional. 1 means non-persistent, 2 means persistent. Defaults to "2".
+
+  consumers:
+    history:
+      connection: default
+      exchange_options: { name: '%env(HISTORY_QUEUE)%', type: direct }
+      queue_options: { name: '%env(HISTORY_QUEUE)%' }
+      callback: consumers.history
+    email:
+      connection: default
+      exchange_options: { name: '%env(EMAIL_QUEUE)%', type: direct }
+      queue_options: { name: '%env(EMAIL_QUEUE)%' }
+      callback: consumers.email

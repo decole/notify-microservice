@@ -1,8 +1,10 @@
 stages:
   - preparation
+  - testing
 
 variables:
   SSH_COMMAND: $SSH_COMMAND
+  SMTP_CREDENTIALS: $SMTP_CREDENTIALS
 
 composer:
   stage: preparation
@@ -11,38 +13,29 @@ composer:
   script:
     - php -v
     - ls -la
+    - make env
+    - make restart
     - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
+    - make env
   artifacts:
     paths:
       - vendor/
-      - .env
-    expire_in: 1 week
+      - docker-compose.yaml
+    expire_in: 1 month
     when: always
   cache:
     key: ${CI_COMMIT_REF_SLUG}-composer
     paths:
-      - vendor/x
+      - vendor/
+      - docker-compose.yaml
 
-# staging:
-#   stage: deploy
-#   tags:
-#     - microservice
-#   script:
-# #   ssh prod - command to ssh access to microservice prod
-#     - docker system prune -a
-#     - df -h /
-#     - |
-#       ssh -T "$SSH_COMMAND" /bin/bash -s << EOT
-#       cd notify-microservice/
-#       git checkout main
-#       git fetch --all
-#       git reset --hard HEAD
-#       git status
-#       git pull
-#       df -h /
-#       EOT
-
-#   environment:
-#     name: staging
-#   only:
-#     - main
+tests:
+  stage: testing
+  tags:
+    - microservice
+  dependencies:
+    - composer
+  script:
+    - make test
+    - make test-clean-output
+    - make rm-cache

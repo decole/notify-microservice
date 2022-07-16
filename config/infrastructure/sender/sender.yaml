@@ -1,0 +1,9 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  App\Infrastructure\Sender\Email\EmailSender:
+    arguments:
+      $emailSubject: '%env(EMAIL_SUBJECT)%'
+      $emailFrom: '%env(EMAIL_FROM)%'

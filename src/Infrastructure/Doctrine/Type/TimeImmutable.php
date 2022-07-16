@@ -16,7 +16,7 @@ class TimeImmutable extends TimeImmutableType
         return 'time_immutable';
     }
 
-    public function convertToDatabaseValue($value, AbstractPlatform $platform)
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
         if ($value === null) {
             return null;
@@ -34,7 +34,7 @@ class TimeImmutable extends TimeImmutableType
         );
     }
 
-    public function convertToPHPValue($value, AbstractPlatform $platform)
+    public function convertToPHPValue($value, AbstractPlatform $platform): mixed
     {
         if ($value === null || $value instanceof \DateTimeImmutable) {
             return $value;

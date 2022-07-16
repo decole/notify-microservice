@@ -4,39 +4,61 @@
 namespace App\Application\Http\Api\SingleNotify;
 
 
-use App\Application\Helper\StringHelper;
-use App\Application\Http\Api\SingleNotify\Dto\MessageDto;
-use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
+use App\Application\Event\MessageStatusUpdatedEvent;
+use App\Application\Exception\UnSupportHttpParamsException;
+use App\Application\Factory\ProducerFactory\NotifyProducerFactory;
+use App\Application\Http\Api\SingleNotify\Service\SingleSendApiService;
+use App\Application\Presenter\Api\ErrorPresenter;
+use App\Application\Presenter\Api\ErrorValidationPresenter;
+use App\Application\Presenter\Api\SingleNotify\SingleSendNotifyApiPresenter;
+use App\Application\Service\ValidationService;
 use App\Infrastructure\Doctrine\Service\NotifyMessageService;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Throwable;
 
-final class SingleSendApiController
+final class SingleSendApiController extends AbstractController
 {
-    public function __construct(private readonly NotifyMessageService $service)
-    {
+    public function __construct(
+        private readonly SingleSendApiService $apiService,
+        private readonly NotifyMessageService $service,
+        private readonly ValidationService $validation,
+        private readonly NotifyProducerFactory $producerFactory,
+        private readonly EventDispatcherInterface $eventDispatcher,
+    ) {
     }
 
-    #[Route('/send')]
-    public function number(): JsonResponse
+    #[Route('/v1/send', methods: ['POST'])]
+    public function send(Request $request): JsonResponse
     {
-        $number = random_int(0, 100);
+        if (!$request->isMethod('post') || $request->getContentType() !== 'json') {
+            throw new UnSupportHttpParamsException('Expected json body');
+        }
 
-        $result = StringHelper::sanitize($number);
+        $input = $this->apiService->createInputDto($request);
 
-        // validation
+        $errors = $this->validation->validate($input);
 
-        // create DTO
-        $type = 'email';
-        $message = ['example' => 'lol'];
-        $status = NotifyMessage::STATUS_IN_QUEUE;
-        $dto = new MessageDto($type, $status, $message);
+        if (count($errors) !== 0) {
+            return (new ErrorValidationPresenter($errors))->present();
+        }
 
-        // save from DB
+        $dto = $this->apiService->createMessageDto($input);
+
         $message = $this->service->create($dto);
 
-        return new JsonResponse([
-            'id' => $message->getId(),
-        ]);
+        $this->producerFactory
+            ->createProducer(type: $message->getType())
+            ->publish($this->apiService->getPublishQueueMessage($message));
+
+        $this->eventDispatcher->dispatch(
+            new MessageStatusUpdatedEvent($message, $message->getStatus()),
+            MessageStatusUpdatedEvent::NAME
+        );
+
+        return (new SingleSendNotifyApiPresenter($message))->present();
     }
 }

@@ -1,12 +1,14 @@
 actor: ApiTester
-suite_namespace: App\Tests\Api
+suite_namespace: App\Tests\api
 modules:
   enabled:
     - Symfony:
           app_path: 'src'
           environment: 'test'
+          part: services
     - REST:
           url: /api
+          port: '%env(WEB_PORT)%'
           depends: Symfony
           part: Json
     - Doctrine2:

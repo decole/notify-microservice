@@ -15,7 +15,7 @@ class DatetimeImmutable extends DateTimeImmutableType
         return 'datetime_immutable';
     }
 
-    public function convertToDatabaseValue($value, AbstractPlatform $platform)
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
         if ($value === null) {
             return null;
@@ -33,7 +33,7 @@ class DatetimeImmutable extends DateTimeImmutableType
         );
     }
 
-    public function convertToPHPValue($value, AbstractPlatform $platform)
+    public function convertToPHPValue($value, AbstractPlatform $platform): mixed
     {
         if ($value === null || $value instanceof \DateTimeImmutable) {
             return $value;

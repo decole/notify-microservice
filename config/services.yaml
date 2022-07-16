@@ -7,3 +7,10 @@ services:
     _defaults:
         autowire: true
         autoconfigure: true
+
+    App\Application\EventListener\MessageStatusUpdatedListener:
+        tags:
+            - { name: kernel.event_listener, event: message_status_updated_event }
+    App\Application\EventListener\ExceptionListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }

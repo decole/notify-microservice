@@ -8,7 +8,6 @@ final class MessageDto
 {
     public function __construct(
         private readonly string $type,
-        private readonly int $status,
         private readonly array $message,
     ) {
     }
@@ -16,11 +15,6 @@ final class MessageDto
     public function getType(): string
     {
         return $this->type;
-    }
-
-    public function getStatus(): int
-    {
-        return $this->status;
     }
 
     public function getMessage(): array
