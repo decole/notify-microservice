@@ -44,7 +44,7 @@ class HistoryNotificationServiceCest
         }
 
         $I->assertEquals(
-            'App\Infrastructure\Doctrine\Repository\BaseDoctrineRepository::save(): Argument #1 ($entity) must be of type App\Infrastructure\Doctrine\Interfaces\EntityInterface, null given, called in /var/www/tests/functional/Infrastructure/Doctrine/Service/HistoryNotificationServiceCest.php on line 41',
+            'App\Infrastructure\Doctrine\Repository\BaseDoctrineRepository::save(): Argument #1 ($entity) must be of type App\Infrastructure\Doctrine\Interfaces\EntityInterface, null given, called in /var/www/tests/functional/Infrastructure/Doctrine/Service/HistoryNotificationServiceCest.php on line 42',
             $exception->getMessage()
         );
     }
