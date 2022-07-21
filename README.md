@@ -9,6 +9,7 @@ make build
 make up
 make composer-install
 make env
+make migration
 ```
 
 
@@ -20,6 +21,12 @@ make env
 или по URL: http://localhost:85/
 
 В .env определен порт 85, менять по вкусу
+
+## Настройка систем очередей 
+
+[Настройка email очереди](docs/EMAIL.md)
+
+[Настройка telegram очереди](docs/TELEGRAM.md)
 
 
 ## Список энтрипоинтов: 
@@ -44,6 +51,12 @@ php bin/console cli:test-repo
 ```shell
 # работа в цикле. прослушивает очередь email
 php bin/console rabbitmq:consumer email -vv
+
+# работа в цикле. прослушивает очередь telegram
+php bin/console rabbitmq:consumer telegram -vv
+
+# очередь прослушивания исторических данных
+php bin/console rabbitmq:consumer history -vv
 ```
 
 ## Нстройка отправки email сообщений

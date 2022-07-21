@@ -8,7 +8,7 @@ use App\Tests\ApiTester;
 
 class HelloCest
 {
-    public function helloEntrypoint(ApiTester $I)
+    public function helloEntrypoint(ApiTester $I): void
     {
         $I->sendGet('/');
         $I->haveHttpHeader('Content-Type', 'application/json');

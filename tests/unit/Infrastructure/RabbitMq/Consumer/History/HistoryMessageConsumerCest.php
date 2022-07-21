@@ -24,7 +24,6 @@ class HistoryMessageConsumerCest
     public function setUp(UnitTester $I): void
     {
         $this->repository = $I->grabService(NotifyMessageRepository::class);
-
         $this->messageService = $I->grabService(NotifyMessageService::class);
         $this->historyService = $I->grabService(HistoryNotificationService::class);
         $logger = $I->grabService(NullLogger::class);

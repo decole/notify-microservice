@@ -5,5 +5,10 @@ services:
 
   App\Infrastructure\Sender\Email\EmailSender:
     arguments:
+      $logger: "@monolog.logger.receive_notify"
       $emailSubject: '%env(EMAIL_SUBJECT)%'
       $emailFrom: '%env(EMAIL_FROM)%'
+
+  App\Infrastructure\Sender\Telegram\TelegramSender:
+    arguments:
+      $logger: "@monolog.logger.receive_notify"

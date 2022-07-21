@@ -11,9 +11,27 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class SingleSendNotifyApiPresenterCest
 {
-    public function present(UnitTester $I): void
+    public function presentByEmail(UnitTester $I): void
     {
-        $notify = $this->getNotify();
+        $notify = $this->getNotify(NotifyMessage::EMAIL_TYPE);
+        $presenter = new SingleSendNotifyApiPresenter($notify);
+        $result = $presenter->present();
+
+        $json = json_encode(
+            [
+                'status' => 'in queue',
+                'notifyId' => $notify->getId()->toString(),
+            ],
+            JSON_THROW_ON_ERROR
+        );
+
+        $I->assertInstanceOf(JsonResponse::class, $result);
+        $I->assertEquals($json, $result->getContent());
+    }
+
+    public function presentByTelegram(UnitTester $I): void
+    {
+        $notify = $this->getNotify(NotifyMessage::TELEGRAM_TYPE);
         $presenter = new SingleSendNotifyApiPresenter($notify);
         $result = $presenter->present();
 
@@ -36,13 +54,13 @@ class SingleSendNotifyApiPresenterCest
         } catch (\Throwable $exception) {}
 
         $I->assertEquals(
-            'App\Application\Presenter\Api\SingleNotify\SingleSendNotifyApiPresenter::__construct(): Argument #1 ($message) must be of type App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage, null given, called in /var/www/tests/unit/Application/Presenter/Api/SingleNotify/SingleSendNotifyApiPresenterCest.php on line 35',
+            'App\Application\Presenter\Api\SingleNotify\SingleSendNotifyApiPresenter::__construct(): Argument #1 ($message) must be of type App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage, null given, called in /var/www/tests/unit/Application/Presenter/Api/SingleNotify/SingleSendNotifyApiPresenterCest.php on line 53',
             $exception->getMessage()
         );
     }
 
-    private function getNotify(): NotifyMessage
+    private function getNotify(string $type): NotifyMessage
     {
-        return new NotifyMessage(NotifyMessage::EMAIL_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);
+        return new NotifyMessage($type, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);
     }
 }

@@ -14,11 +14,11 @@ use Faker\Generator;
 use Symfony\Component\HttpFoundation\Request;
 use Throwable;
 
-class SingleSendApiServiceCest
+class SingleSendApiServiceByEmailCest
 {
     private Generator $faker;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->faker = Factory::create();
     }
@@ -90,7 +90,7 @@ class SingleSendApiServiceCest
         } catch (Throwable $exception) {}
 
         $I->assertEquals(
-            'App\Application\Http\Api\SingleNotify\Service\SingleSendApiService::getPublishQueueMessage(): Argument #1 ($message) must be of type App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage, null given, called in /var/www/tests/unit/Application/Http/Api/SingleNotify/Service/SingleSendApiServiceCest.php on line 89',
+            'App\Application\Http\Api\SingleNotify\Service\SingleSendApiService::getPublishQueueMessage(): Argument #1 ($message) must be of type App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage, null given, called in /var/www/tests/unit/Application/Http/Api/SingleNotify/Service/SingleSendApiServiceByEmailCest.php on line 89',
             $exception->getMessage()
         );
     }
@@ -100,10 +100,6 @@ class SingleSendApiServiceCest
         return '{"type":"email","email":"decole@rambler.ru","message":"tester2"}';
     }
 
-    /**
-     * @param UnitTester $I
-     * @return SingleSendApiService
-     */
     private function getService(UnitTester $I): SingleSendApiService
     {
         return $I->grabService(SingleSendApiService::class);

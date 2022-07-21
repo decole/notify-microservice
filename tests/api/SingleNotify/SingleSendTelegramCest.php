@@ -6,15 +6,24 @@ namespace App\Tests\api\SingleNotify;
 
 use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
 use App\Tests\ApiTester;
+use Faker\Factory;
+use Faker\Generator;
 
-class SingleSendEmailCest
+class SingleSendTelegramCest
 {
+    private Generator $faker;
+
+    public function setUp(): void
+    {
+        $this->faker = Factory::create();
+    }
+
     public function positiveSend(ApiTester $I): void
     {
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPost('/v1/send', [
-            'type' => NotifyMessage::EMAIL_TYPE,
-            'email' => 'test@test.ru',
+            'type' => NotifyMessage::TELEGRAM_TYPE,
+            'userId' => $this->faker->numberBetween(100000000, 99999999999),
             'message' => 'tester',
         ]);
         $I->seeResponseCodeIsSuccessful();
@@ -23,7 +32,7 @@ class SingleSendEmailCest
             'status' => 'in queue',
         ]);
         $I->seeInRepository(NotifyMessage::class, [
-            'type' => NotifyMessage::EMAIL_TYPE,
+            'type' => NotifyMessage::TELEGRAM_TYPE,
             'status' => NotifyMessage::STATUS_IN_QUEUE,
         ]);
     }
@@ -48,8 +57,8 @@ class SingleSendEmailCest
     {
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPost('/v1/send', [
-            'type' => NotifyMessage::EMAIL_TYPE,
-            'email' => 'decole@rambler.ru',
+            'type' => NotifyMessage::TELEGRAM_TYPE,
+            'userId' => $this->faker->numberBetween(100000000, 99999999999),
             'message' => '',
         ]);
         $I->seeResponseIsJson();
@@ -65,8 +74,8 @@ class SingleSendEmailCest
     {
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPost('/v1/send', [
-            'type' => NotifyMessage::EMAIL_TYPE,
-            'email' => 'decole@rambler.ru',
+            'type' => NotifyMessage::TELEGRAM_TYPE,
+            'userId' => $this->faker->numberBetween(100000000, 99999999999),
             'message' => null,
         ]);
         $I->seeResponseIsJson();
@@ -82,32 +91,32 @@ class SingleSendEmailCest
     {
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPost('/v1/send', [
-            'type' => NotifyMessage::EMAIL_TYPE,
-            'email' => null,
+            'type' => NotifyMessage::TELEGRAM_TYPE,
+            'userId' => null,
             'message' => 'test',
         ]);
         $I->seeResponseIsJson();
         $I->canSeeResponseCodeIs(400);
         $I->seeResponseContainsJson([
             'error' => [
-                'email' => 'field is required!',
+                'userId' => 'userId can be integer',
             ],
         ]);
     }
 
-    public function negativeEmptyEmail(ApiTester $I): void
+    public function negativeEmptyTelegramId(ApiTester $I): void
     {
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPost('/v1/send', [
-            'type' => NotifyMessage::EMAIL_TYPE,
-            'email' => '',
+            'type' => NotifyMessage::TELEGRAM_TYPE,
+            'userId' => '',
             'message' => 'test',
         ]);
         $I->seeResponseIsJson();
         $I->canSeeResponseCodeIs(400);
         $I->seeResponseContainsJson([
             'error' => [
-                'email' => 'field is required!',
+                'userId' => 'userId can be integer',
             ],
         ]);
     }
@@ -116,15 +125,15 @@ class SingleSendEmailCest
     {
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPost('/v1/send', [
-            'type' => NotifyMessage::EMAIL_TYPE,
-            'email' => 'test@mimimi',
+            'type' => NotifyMessage::TELEGRAM_TYPE,
+            'userId' => $this->faker->word,
             'message' => 'test',
         ]);
         $I->seeResponseIsJson();
         $I->canSeeResponseCodeIs(400);
         $I->seeResponseContainsJson([
             'error' => [
-                'email' => 'This value is not a valid email address.',
+                'userId' => 'userId can be integer',
             ],
         ]);
     }
