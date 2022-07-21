@@ -1,7 +1,6 @@
 stages:
   - preparation
   - testing
-  - manual-clean
 
 variables:
   SSH_COMMAND: $SSH_COMMAND
@@ -43,7 +42,6 @@ tests:
     - make rm-cache
 
 clean:
-  stage: manual-clean
   script:
     - docker-compose -f docker-compose.ci.yaml up -d
     - docker-compose -f docker-compose.ci.yaml exec -T php-fpm rm -r var/log var/cache vendor/
