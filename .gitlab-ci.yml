@@ -1,14 +1,15 @@
 stages:
   - preparation
   - testing
+  - manual-clean
 
 variables:
   SSH_COMMAND: $SSH_COMMAND
   SMTP_CREDENTIALS: $SMTP_CREDENTIALS
 
 before_script:
-    - docker-compose -f docker-compose.ci.yaml up -d
-    - docker-compose -f docker-compose.ci.yaml exec -T php-fpm rm -r var/log var/cache vendor/
+  - docker-compose -f docker-compose.ci.yaml up -d
+  - docker-compose -f docker-compose.ci.yaml exec -T php-fpm rm -r var/log var/cache vendor/
 
 composer:
   stage: preparation
