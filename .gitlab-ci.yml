@@ -1,6 +1,7 @@
 stages:
   - preparation
   - testing
+  - manual-clean
 
 variables:
   SSH_COMMAND: $SSH_COMMAND
@@ -14,7 +15,8 @@ composer:
     - php -v
     - ls -la
     - make env
-    - make restart
+    - docker-compose -f docker-compose.ci.yaml down
+    - docker-compose -f docker-compose.ci.yaml up -d
     - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
     - make env
   artifacts:
@@ -37,5 +39,12 @@ tests:
     - composer
   script:
     - make test
-    - make test-clean-output
+    - docker-compose -f docker-compose.ci.yaml exec -T php-fpm php vendor/codeception/codeception/codecept clean
     - make rm-cache
+
+clean:
+  stage: manual-clean
+  script:
+    - docker-compose -f docker-compose.ci.yaml up -d
+    - docker-compose -f docker-compose.ci.yaml exec -T php-fpm rm -r var/log var/cache vendor/
+  when: manual
