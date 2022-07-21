@@ -44,11 +44,11 @@ tests:
     - docker-compose -f docker-compose.ci.yaml exec -T php-fpm php bin/console doctrine:migrations:migrate --env test --no-interaction
     - docker-compose -f docker-compose.ci.yaml exec -T php-fpm php vendor/codeception/codeception/codecept run
     - docker-compose -f docker-compose.ci.yaml exec -T php-fpm php vendor/codeception/codeception/codecept clean
-    - docker-compose -f docker-compose.ci.yaml exec -T php-fpm rm -r var/log var/cache vendor/
+    - docker-compose -f docker-compose.ci.yaml exec -T php-fpm rm -r -f var/log var/cache vendor/
 
 clean:
   stage: manual-clean
   script:
     - docker-compose -f docker-compose.ci.yaml up -d
-    - docker-compose -f docker-compose.ci.yaml exec -T php-fpm rm -r var/log var/cache vendor/
+    - docker-compose -f docker-compose.ci.yaml exec -T php-fpm rm -r -f var/log var/cache vendor/
   when: manual
