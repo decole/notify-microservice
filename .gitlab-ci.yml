@@ -14,11 +14,15 @@ composer:
   script:
     - php -v
     - ls -la
-    - make env
+    - cp -n docker-compose.yaml.dist docker-compose.yaml
+    - cp -n .env.local.example .env.local
+    - cp -n .env.local.example .env.test.local
     - docker-compose -f docker-compose.ci.yaml down
     - docker-compose -f docker-compose.ci.yaml up -d
     - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
-    - make env
+    - cp -n docker-compose.yaml.dist docker-compose.yaml
+    - cp -n .env.local.example .env.local
+    - cp -n .env.local.example .env.test.local
   artifacts:
     paths:
       - vendor/
@@ -29,7 +33,6 @@ composer:
     key: ${CI_COMMIT_REF_SLUG}-composer
     paths:
       - vendor/
-      - docker-compose.yaml
 
 tests:
   stage: testing
@@ -38,9 +41,10 @@ tests:
   dependencies:
     - composer
   script:
-    - make test
+    - docker-compose -f docker-compose.ci.yaml exec -T php-fpm php bin/console doctrine:migrations:migrate --env test --no-interaction
+    - docker-compose -f docker-compose.ci.yaml exec -T php-fpm php vendor/codeception/codeception/codecept run
     - docker-compose -f docker-compose.ci.yaml exec -T php-fpm php vendor/codeception/codeception/codecept clean
-    - make rm-cache
+    - docker-compose -f docker-compose.ci.yaml exec -T php-fpm rm -r var/log var/cache vendor/
 
 clean:
   stage: manual-clean
