@@ -77,3 +77,7 @@ deploy_prod:
       make restart
       make ps
       EOT
+  environment:
+    name: deploy
+  only:
+    - main
