@@ -2,10 +2,10 @@ stages:
   - manual-clean
   - preparation
   - testing
+  - deploy
 
 variables:
   SSH_COMMAND: $SSH_COMMAND
-  SMTP_CREDENTIALS: $SMTP_CREDENTIALS
 
 composer:
   stage: preparation
@@ -48,7 +48,32 @@ tests:
 
 clean:
   stage: manual-clean
+  tags:
+    - microservice
   script:
     - docker-compose -f docker-compose.ci.yaml up -d
     - docker-compose -f docker-compose.ci.yaml exec -T php-fpm rm -r -f var/log var/cache vendor/
   when: manual
+
+deploy_prod:
+  stage: deploy
+  tags:
+    - microservice
+  script:
+    - df -h /
+    - |
+      ssh -T "$SSH_COMMAND" /bin/bash -s << EOT
+      cd notify-microservice/
+      git checkout main
+      git fetch --all
+      git reset --hard HEAD
+      git status
+      git pull
+      df -H /
+      make up
+      make composer-install
+      make migration
+      docker-compose exec -T php-fpm php bin/console rabbitmq:setup-fabric
+      make restart
+      make ps
+      EOT

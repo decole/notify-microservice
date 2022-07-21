@@ -24,7 +24,7 @@ services:
     depends_on:
       - php-fpm
     ports:
-      - "85:80"
+      - "${WEB_PORT}:80"
     networks:
       - notify-microservice
 
@@ -61,19 +61,67 @@ services:
 #  worker-email-01:
 #    build: ./docker/php
 #    container_name: notify-worker-email-01
-#    command: "php bin/console cli:worker-email"
+#    command:
+#      - /bin/sh
+#      - -c
+#      - |
+#        sleep 5
+#        php bin/console rabbitmq:consumer email -vv
 #    environment:
 #      - "PSQL_PORT=5432"
 #      - "PSQL_HOST=postgres"
-#      - "CONSUMER=email"
-#      - "CONSUMER_QUEUE=email" ??
-#      - "EMAIL_SMTP=smtp.yandex.ru"
-#      - "EMAIL_LOGIN=EMAIL"
-#      - "EMAIL_PASSWORD=EMAIL"
-#      - "EMAIL_PORT=405"
+##      - "MAILER_DSN=smtp://login:password@smtp.yandex.ru:465"
+##      - "EMAIL_FROM=login@yandex.ru"
+##      - "EMAIL_SUBJECT=\"Notification service notify\""
 #    volumes:
 #      - ./:/var/www
 #      - ./docker/php/php-fpm.ini:/usr/local/etc/php/php.ini
+#    depends_on:
+#      - postgres
+#      - rabbitmq
+#    networks:
+#      - notify-microservice
+#
+#  worker-telegram-01:
+#    build: ./docker/php
+#    container_name: notify-worker-telegram-01
+#    command:
+#      - /bin/sh
+#      - -c
+#      - |
+#        sleep 5
+#        php bin/console rabbitmq:consumer telegram -vv
+#    environment:
+#      - "PSQL_PORT=5432"
+#      - "PSQL_HOST=postgres"
+##      - "TELEGRAM_BOT_TOKEN=..."
+#    volumes:
+#      - ./:/var/www
+#      - ./docker/php/php-fpm.ini:/usr/local/etc/php/php.ini
+#    depends_on:
+#      - postgres
+#      - rabbitmq
+#    networks:
+#      - notify-microservice
+#
+#  worker-history:
+#    build: ./docker/php
+#    container_name: notify-worker-history
+#    command:
+#      - /bin/sh
+#      - -c
+#      - |
+#        sleep 5
+#        php bin/console rabbitmq:consumer history -vv
+#    environment:
+#      - "PSQL_PORT=5432"
+#      - "PSQL_HOST=postgres"
+#    volumes:
+#      - ./:/var/www
+#      - ./docker/php/php-fpm.ini:/usr/local/etc/php/php.ini
+#    depends_on:
+#      - postgres
+#      - rabbitmq
 #    networks:
 #      - notify-microservice
 
