@@ -13,3 +13,8 @@ services:
   App\Infrastructure\Doctrine\Service\NotifyMessageService: ~
 
   App\Infrastructure\Doctrine\Service\HistoryNotificationService: ~
+
+  App\Infrastructure\Sender\Telegram\Service\TelegramSenderService:
+    arguments:
+      $apiToken: '%env(TELEGRAM_BOT_TOKEN)%'
+      $logger: "@monolog.logger.telegram_service"

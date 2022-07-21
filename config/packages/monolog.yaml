@@ -3,6 +3,7 @@ monolog:
         - deprecation
         - receive_notify
         - history_notify
+        - telegram_service
 
 when@dev:
     monolog:
@@ -22,6 +23,11 @@ when@dev:
                 type: stream
                 path: '%kernel.logs_dir%/%kernel.environment%.history_notify.log'
                 channels: [ history_notify ]
+            telegram_service:
+                level: debug
+                type: stream
+                path: '%kernel.logs_dir%/%kernel.environment%.telegram_sender_service.log'
+                channels: [ telegram_service ]
             console:
                 type: console
                 process_psr_3_messages: false

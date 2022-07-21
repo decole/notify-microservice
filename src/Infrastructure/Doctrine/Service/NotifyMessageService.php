@@ -4,7 +4,6 @@
 namespace App\Infrastructure\Doctrine\Service;
 
 
-use App\Application\Exception\NotFoundEntityException;
 use App\Application\Http\Api\SingleNotify\Dto\MessageDto;
 use App\Domain\Doctrine\Common\Transactions\TransactionInterface;
 use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;

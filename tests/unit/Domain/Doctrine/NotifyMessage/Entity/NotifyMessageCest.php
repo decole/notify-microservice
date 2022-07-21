@@ -9,11 +9,18 @@ use App\Tests\UnitTester;
 
 class NotifyMessageCest
 {
-    public function getType(UnitTester $I): void
+    public function getEmailType(UnitTester $I): void
     {
         $message = new NotifyMessage(NotifyMessage::EMAIL_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);
 
         $I->assertEquals(NotifyMessage::EMAIL_TYPE, $message->getType());
+    }
+
+    public function getTelegramType(UnitTester $I): void
+    {
+        $message = new NotifyMessage(NotifyMessage::TELEGRAM_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);
+
+        $I->assertEquals(NotifyMessage::TELEGRAM_TYPE, $message->getType());
     }
 
     public function getStatus(UnitTester $I): void
@@ -42,15 +49,27 @@ class NotifyMessageCest
         } catch (\Throwable $exception) {}
 
         $I->assertEquals(
-            'App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage::setStatus(): Argument #1 ($status) must be of type int, string given, called in /var/www/tests/unit/Domain/Doctrine/NotifyMessage/Entity/NotifyMessageCest.php on line 41',
+            'App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage::setStatus(): Argument #1 ($status) must be of type int, string given, called in /var/www/tests/unit/Domain/Doctrine/NotifyMessage/Entity/NotifyMessageCest.php on line 48',
             $exception->getMessage()
         );
     }
 
-    public function notIsSetChangeStatus(UnitTester $I): void
+    public function notIsSetEmailChangeStatus(UnitTester $I): void
     {
         $newStatus = 9999;
         $message = new NotifyMessage(NotifyMessage::EMAIL_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);
+
+        try {
+            $message->setStatus($newStatus);
+        } catch (\Throwable $exception) {}
+
+        $I->assertNotEmpty($exception->getMessage());
+    }
+
+    public function notIsSetTelegramChangeStatus(UnitTester $I): void
+    {
+        $newStatus = 9999;
+        $message = new NotifyMessage(NotifyMessage::TELEGRAM_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);
 
         try {
             $message->setStatus($newStatus);
@@ -127,7 +146,7 @@ class NotifyMessageCest
         } catch (\Throwable $exception) {}
 
         $I->assertEquals(
-            'App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage::__construct(): Argument #2 ($message) must be of type array, null given, called in /var/www/tests/unit/Domain/Doctrine/NotifyMessage/Entity/NotifyMessageCest.php on line 126',
+            'App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage::__construct(): Argument #2 ($message) must be of type array, null given, called in /var/www/tests/unit/Domain/Doctrine/NotifyMessage/Entity/NotifyMessageCest.php on line 145',
             $exception->getMessage()
         );
     }

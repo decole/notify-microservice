@@ -13,6 +13,7 @@ use App\Tests\FunctionalTester;
 class HistoryNotificationServiceCest
 {
     private HistoryNotificationService $service;
+    private NotifyMessageRepository $notifyRepository;
 
     public function setUp(FunctionalTester $I): void
     {

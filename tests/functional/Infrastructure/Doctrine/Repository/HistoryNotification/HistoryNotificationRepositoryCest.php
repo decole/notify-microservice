@@ -14,6 +14,7 @@ use Ramsey\Uuid\Uuid;
 class HistoryNotificationRepositoryCest
 {
     private HistoryNotificationRepository $historyRepository;
+    private NotifyMessageRepository $notifyRepository;
 
     public function setUp(FunctionalTester $I): void
     {

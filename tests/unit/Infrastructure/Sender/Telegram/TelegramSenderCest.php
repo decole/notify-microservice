@@ -1,21 +1,21 @@
 <?php
 
 
-namespace App\Tests\unit\Infrastructure\Sender\Email;
+namespace App\Tests\unit\Infrastructure\Sender\Telegram;
 
 
 use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
-use App\Infrastructure\Sender\Email\EmailSender;
+use App\Infrastructure\Sender\Telegram\Service\TelegramSenderService;
+use App\Infrastructure\Sender\Telegram\TelegramSender;
 use App\Tests\UnitTester;
 use Codeception\Stub;
 use Codeception\Stub\Expected;
 use Faker\Factory;
 use Faker\Generator;
 use Psr\Log\NullLogger;
-use Symfony\Component\Mailer\MailerInterface;
 use Throwable;
 
-class EmailSenderCest
+class TelegramSenderCest
 {
     private Generator $faker;
 
@@ -23,14 +23,14 @@ class EmailSenderCest
     {
         $this->faker = Factory::create();
     }
-    
+
     public function positiveSend(UnitTester $I): void
     {
-        $mailer = Stub::makeEmpty(MailerInterface::class, [
-            'send' => Expected::once(),
+        $telegramSenderService = Stub::makeEmpty(TelegramSenderService::class, [
+            'sendMessage' => Expected::once(),
         ]);
         $logger = $I->grabService(NullLogger::class);
-        $sender = new EmailSender($mailer, $logger, $this->faker->text, $this->faker->email);
+        $sender = new TelegramSender($telegramSenderService, $logger);
 
         try {
             $sender->send($this->getNotify());
@@ -41,29 +41,29 @@ class EmailSenderCest
 
     public function negativeSend(UnitTester $I): void
     {
-        $mailer = Stub::makeEmpty(MailerInterface::class, [
-            'send' => Expected::once(),
+        $telegramSenderService = Stub::makeEmpty(TelegramSenderService::class, [
+            'sendMessage' => '',
         ]);
         $logger = $I->grabService(NullLogger::class);
-        $sender = new EmailSender($mailer, $logger, $this->faker->text, $this->faker->email);
+        $sender = new TelegramSender($telegramSenderService, $logger);
 
         try {
             $sender->send($this->getWrongNotify());
         } catch (Throwable $exception) {}
 
-        $I->assertEquals('Undefined array key "email"', $exception->getMessage());
+        $I->assertEquals('Undefined array key "userId"', $exception->getMessage());
     }
 
-    public function negativeSendWithEmail(UnitTester $I): void
+    public function negativeSendWithUserIdAndWithoutMessage(UnitTester $I): void
     {
-        $mailer = Stub::makeEmpty(MailerInterface::class, [
-            'send' => Expected::once(),
+        $telegramSenderService = Stub::makeEmpty(TelegramSenderService::class, [
+            'sendMessage' => '',
         ]);
         $logger = $I->grabService(NullLogger::class);
-        $sender = new EmailSender($mailer, $logger, $this->faker->text, $this->faker->email);
+        $sender = new TelegramSender($telegramSenderService, $logger);
 
         try {
-            $sender->send($this->getWrongNotifyWithEmail());
+            $sender->send($this->getWrongNotifyWithUserId());
         } catch (Throwable $exception) {}
 
         $I->assertEquals('Undefined array key "message"', $exception->getMessage());
@@ -72,9 +72,9 @@ class EmailSenderCest
     private function getNotify(): NotifyMessage
     {
         return new NotifyMessage(
-            NotifyMessage::EMAIL_TYPE,
+            NotifyMessage::TELEGRAM_TYPE,
             [
-                'email' => $this->faker->email,
+                'userId' => $this->faker->numberBetween(10000000, 99999999999),
                 'message' => $this->faker->text,
                 'test' => 'execute',
             ],
@@ -85,7 +85,7 @@ class EmailSenderCest
     private function getWrongNotify(): NotifyMessage
     {
         return new NotifyMessage(
-            NotifyMessage::EMAIL_TYPE,
+            NotifyMessage::TELEGRAM_TYPE,
             [
                 'test' => 'execute',
             ],
@@ -93,12 +93,12 @@ class EmailSenderCest
         );
     }
 
-    private function getWrongNotifyWithEmail(): NotifyMessage
+    private function getWrongNotifyWithUserId(): NotifyMessage
     {
         return new NotifyMessage(
-            NotifyMessage::EMAIL_TYPE,
+            NotifyMessage::TELEGRAM_TYPE,
             [
-                'email' => $this->faker->email,
+                'userId' => $this->faker->numberBetween(10000000, 99999999999),
                 $this->faker->word => $this->faker->word,
             ],
             NotifyMessage::STATUS_IN_QUEUE

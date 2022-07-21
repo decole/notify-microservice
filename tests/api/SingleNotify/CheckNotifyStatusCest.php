@@ -32,11 +32,8 @@ class CheckNotifyStatusCest
     public function checkStatusActive(ApiTester $I): void
     {
         $entity = $this->createEntity($I);
-
         $entity->setStatus(NotifyMessage::STATUS_ACTIVE);
-
         $this->updateEntity($entity, $I);
-
         $id = $entity->getId()->toString();
 
         $I->sendGet("/v1/check-status/{$id}");
@@ -53,11 +50,8 @@ class CheckNotifyStatusCest
     public function checkStatusDone(ApiTester $I): void
     {
         $entity = $this->createEntity($I);
-
         $entity->setStatus(NotifyMessage::STATUS_DONE);
-
         $this->updateEntity($entity, $I);
-
         $id = $entity->getId()->toString();
 
         $I->sendGet("/v1/check-status/{$id}");
@@ -74,11 +68,8 @@ class CheckNotifyStatusCest
     public function checkStatusError(ApiTester $I): void
     {
         $entity = $this->createEntity($I);
-
         $entity->setStatus(NotifyMessage::STATUS_ERROR);
-
         $this->updateEntity($entity, $I);
-
         $id = $entity->getId()->toString();
 
         $I->sendGet("/v1/check-status/{$id}");

@@ -8,7 +8,6 @@ use App\Application\Event\MessageStatusUpdatedEvent;
 use App\Application\Exception\UnSupportHttpParamsException;
 use App\Application\Factory\ProducerFactory\NotifyProducerFactory;
 use App\Application\Http\Api\SingleNotify\Service\SingleSendApiService;
-use App\Application\Presenter\Api\ErrorPresenter;
 use App\Application\Presenter\Api\ErrorValidationPresenter;
 use App\Application\Presenter\Api\SingleNotify\SingleSendNotifyApiPresenter;
 use App\Application\Service\ValidationService;
@@ -18,7 +17,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Throwable;
 
 final class SingleSendApiController extends AbstractController
 {

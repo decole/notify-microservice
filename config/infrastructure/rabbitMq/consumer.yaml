@@ -12,3 +12,8 @@ services:
     class: App\Infrastructure\RabbitMq\Consumer\History\HistoryMessageConsumer
     arguments:
       $logger: "@monolog.logger.history_notify"
+
+  consumers.telegram:
+    class: App\Infrastructure\RabbitMq\Consumer\Telegram\TelegramConsumer
+    arguments:
+      $logger: "@monolog.logger.receive_notify"
