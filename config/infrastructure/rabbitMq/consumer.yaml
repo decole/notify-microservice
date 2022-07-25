@@ -17,3 +17,8 @@ services:
     class: App\Infrastructure\RabbitMq\Consumer\Telegram\TelegramConsumer
     arguments:
       $logger: "@monolog.logger.receive_notify"
+
+  consumers.vkontakte:
+    class: App\Infrastructure\RabbitMq\Consumer\Vkontakte\VkontakteConsumer
+    arguments:
+      $logger: "@monolog.logger.receive_notify"

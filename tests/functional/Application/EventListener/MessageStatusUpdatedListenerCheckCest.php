@@ -15,7 +15,7 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class MessageStatusUpdatedListenerCheckCest
 {
-    public function withOnlyDateEnd(FunctionalTester $I): void
+    public function checkEventListener(FunctionalTester $I): void
     {
         $message = new NotifyMessage(
             type: NotifyMessage::EMAIL_TYPE,

@@ -23,6 +23,13 @@ class NotifyMessageCest
         $I->assertEquals(NotifyMessage::TELEGRAM_TYPE, $message->getType());
     }
 
+    public function getVkontakteType(UnitTester $I): void
+    {
+        $message = new NotifyMessage(NotifyMessage::VKONTAKTE_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);
+
+        $I->assertEquals(NotifyMessage::VKONTAKTE_TYPE, $message->getType());
+    }
+
     public function getStatus(UnitTester $I): void
     {
         $message = new NotifyMessage(NotifyMessage::EMAIL_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);
@@ -48,10 +55,10 @@ class NotifyMessageCest
             $message->setStatus($newStatus);
         } catch (\Throwable $exception) {}
 
-        $I->assertEquals(
-            'App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage::setStatus(): Argument #1 ($status) must be of type int, string given, called in /var/www/tests/unit/Domain/Doctrine/NotifyMessage/Entity/NotifyMessageCest.php on line 48',
-            $exception->getMessage()
-        );
+        $I->assertEquals(true, str_contains(
+            $exception->getMessage(),
+            'App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage::setStatus(): Argument #1 ($status) must be of type int, string given, called in /var/www/tests/unit/Domain/Doctrine/NotifyMessage/Entity/NotifyMessageCest.php'
+        ));
     }
 
     public function notIsSetEmailChangeStatus(UnitTester $I): void
@@ -145,9 +152,9 @@ class NotifyMessageCest
             new NotifyMessage(NotifyMessage::EMAIL_TYPE, $body, NotifyMessage::STATUS_DONE);
         } catch (\Throwable $exception) {}
 
-        $I->assertEquals(
-            'App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage::__construct(): Argument #2 ($message) must be of type array, null given, called in /var/www/tests/unit/Domain/Doctrine/NotifyMessage/Entity/NotifyMessageCest.php on line 145',
-            $exception->getMessage()
-        );
+        $I->assertEquals(true, str_contains(
+            $exception->getMessage(),
+            'App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage::__construct(): Argument #2 ($message) must be of type array, null given, called in /var/www/tests/unit/Domain/Doctrine/NotifyMessage/Entity/NotifyMessageCest.php'
+        ));
     }
 }

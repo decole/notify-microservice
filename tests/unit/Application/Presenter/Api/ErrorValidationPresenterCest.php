@@ -31,10 +31,10 @@ class ErrorValidationPresenterCest
             new ErrorValidationPresenter(null);
         } catch (\Throwable $exception) {}
 
-        $I->assertEquals(
-            'App\Application\Presenter\Api\ErrorValidationPresenter::__construct(): Argument #1 ($errors) must be of type Symfony\Component\Validator\ConstraintViolationListInterface, null given, called in /var/www/tests/unit/Application/Presenter/Api/ErrorValidationPresenterCest.php on line 31',
-            $exception->getMessage()
-        );
+        $I->assertEquals(true, str_contains(
+            $exception->getMessage(),
+            'App\Application\Presenter\Api\ErrorValidationPresenter::__construct(): Argument #1 ($errors) must be of type Symfony\Component\Validator\ConstraintViolationListInterface, null given, called in /var/www/tests/unit/Application/Presenter/Api/ErrorValidationPresenterCest.php'
+        ));
     }
 
     private function getValidationError(): ConstraintViolationList

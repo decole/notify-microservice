@@ -9,6 +9,7 @@ use App\Infrastructure\Sender\Interfaces\SenderInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
+use Throwable;
 
 class EmailSender implements SenderInterface
 {
@@ -32,7 +33,7 @@ class EmailSender implements SenderInterface
 
         try {
             $this->mailer->send($email);
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
             $this->logger->error(
                 'Error by sending email',
                 [

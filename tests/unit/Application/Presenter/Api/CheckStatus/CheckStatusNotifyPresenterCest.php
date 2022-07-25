@@ -36,10 +36,10 @@ class CheckStatusNotifyPresenterCest
             new CheckStatusNotifyPresenter(null);
         } catch (\Throwable $exception) {}
 
-        $I->assertEquals(
-            'App\Application\Presenter\Api\CheckStatus\CheckStatusNotifyPresenter::__construct(): Argument #1 ($message) must be of type App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage, null given, called in /var/www/tests/unit/Application/Presenter/Api/CheckStatus/CheckStatusNotifyPresenterCest.php on line 36',
-            $exception->getMessage()
-        );
+        $I->assertEquals(true, str_contains(
+            $exception->getMessage(),
+            'App\Application\Presenter\Api\CheckStatus\CheckStatusNotifyPresenter::__construct(): Argument #1 ($message) must be of type App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage, null given, called in /var/www/tests/unit/Application/Presenter/Api/CheckStatus/CheckStatusNotifyPresenterCest.php'
+        ));
     }
 
     private function getNotify(): NotifyMessage

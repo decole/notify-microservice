@@ -8,6 +8,7 @@ use App\Application\Presenter\Api\SingleNotify\SingleSendNotifyApiPresenter;
 use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
 use App\Tests\UnitTester;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Throwable;
 
 class SingleSendNotifyApiPresenterCest
 {
@@ -47,16 +48,34 @@ class SingleSendNotifyApiPresenterCest
         $I->assertEquals($json, $result->getContent());
     }
 
+    public function presentByVkontakte(UnitTester $I): void
+    {
+        $notify = $this->getNotify(NotifyMessage::VKONTAKTE_TYPE);
+        $presenter = new SingleSendNotifyApiPresenter($notify);
+        $result = $presenter->present();
+
+        $json = json_encode(
+            [
+                'status' => 'in queue',
+                'notifyId' => $notify->getId()->toString(),
+            ],
+            JSON_THROW_ON_ERROR
+        );
+
+        $I->assertInstanceOf(JsonResponse::class, $result);
+        $I->assertEquals($json, $result->getContent());
+    }
+
     public function negativePresent(UnitTester $I): void
     {
         try {
             new SingleSendNotifyApiPresenter(null);
-        } catch (\Throwable $exception) {}
+        } catch (Throwable $exception) {}
 
-        $I->assertEquals(
-            'App\Application\Presenter\Api\SingleNotify\SingleSendNotifyApiPresenter::__construct(): Argument #1 ($message) must be of type App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage, null given, called in /var/www/tests/unit/Application/Presenter/Api/SingleNotify/SingleSendNotifyApiPresenterCest.php on line 53',
-            $exception->getMessage()
-        );
+        $I->assertEquals(true, str_contains(
+            $exception->getMessage(),
+            'App\Application\Presenter\Api\SingleNotify\SingleSendNotifyApiPresenter::__construct(): Argument #1 ($message) must be of type App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage, null given, called in /var/www/tests/unit/Application/Presenter/Api/SingleNotify/SingleSendNotifyApiPresenterCest.php'
+        ));
     }
 
     private function getNotify(string $type): NotifyMessage

@@ -33,10 +33,12 @@ final class NotifyMessage implements EntityInterface
 
     public const EMAIL_TYPE = 'email';
     public const TELEGRAM_TYPE = 'telegram';
+    public const VKONTAKTE_TYPE = 'vk';
 
     public const TYPE_MAP = [
         self::EMAIL_TYPE,
         self::TELEGRAM_TYPE,
+        self::VKONTAKTE_TYPE,
     ];
 
     use Entity, CreatedAt, UpdatedAt;

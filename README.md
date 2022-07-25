@@ -4,6 +4,8 @@
 
 > docker-compose.yaml.dist скопировать в файл docker-compose.yaml
 
+Далее выполнить серию команд: 
+
 ```shell
 make build
 make up
@@ -22,11 +24,14 @@ make migration
 
 В .env определен порт 85, менять по вкусу
 
+
 ## Настройка систем очередей 
 
 [Настройка email очереди](docs/EMAIL.md)
 
 [Настройка telegram очереди](docs/TELEGRAM.md)
+
+[Настройка vkontakte очереди](docs/VK.md)
 
 
 ## Список энтрипоинтов: 
@@ -37,16 +42,6 @@ http://localhost:85/api/v1/send - POST запрос, создает задани
 http://localhost:85/api/v1/check-status/{id} - проверка статуса отправки нотификации сервисом. {id} - id переданный в методе /api/v1/send
 ```
 
-
-## Спискок консольных команд:
-```shell
-# тестовая консольная команда
-php bin/console cli:test
-
-# тест работы сервиса нотификаций и репозитория нотификационных сообщений / исторических событий
-php bin/console cli:test-repo
-```
-
 ## Запуск воркеров на прослушивание очередей:
 ```shell
 # работа в цикле. прослушивает очередь email
@@ -55,21 +50,12 @@ php bin/console rabbitmq:consumer email -vv
 # работа в цикле. прослушивает очередь telegram
 php bin/console rabbitmq:consumer telegram -vv
 
+# работа в цикле. прослушивает очередь telegram
+php bin/console rabbitmq:consumer vkontakte -vv
+
 # очередь прослушивания исторических данных
 php bin/console rabbitmq:consumer history -vv
 ```
-
-## Нстройка отправки email сообщений
-
-0. Скопировать **.env.local.example** в **.env.local**
-1. Сконфигурировать **.env.local** под свои параметры почты
-2. !!! в **.env.local** сконфигурировать все параметры под себя (особено **MAILER_DSN** и **EMAIL_FROM**)
-
-> Яндекс почта требует, чтобы отправитель(from) был тем же, 
-> что и почтовый акаунт с которого отправляете сообщения. 
-> Т.е. в **.env.local** EMAIL_FROM указать тот же имейл, например 
-> я сконфигурировал MAILER_DSN под почту **example@yandex.ru**, тогда 
-> у меня **EMAIL_FROM=example@yandex.ru**
 
 
 # По тестам

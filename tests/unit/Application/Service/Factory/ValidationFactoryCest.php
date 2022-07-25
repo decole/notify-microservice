@@ -9,6 +9,7 @@ use App\Application\Http\Api\SingleNotify\Input\MessageInput;
 use App\Application\Service\Factory\ValidationFactory;
 use App\Application\Service\ValidationCriteria\EmailValidationCriteria;
 use App\Application\Service\ValidationCriteria\TelegramValidationCriteria;
+use App\Application\Service\ValidationCriteria\VkontakteValidationCriteria;
 use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
 use App\Tests\UnitTester;
 
@@ -37,6 +38,14 @@ class ValidationFactoryCest
         $I->assertInstanceOf(TelegramValidationCriteria::class, $criteria);
     }
 
+    public function positiveVkontakte(UnitTester $I): void
+    {
+        $dto = $this->getDto(NotifyMessage::VKONTAKTE_TYPE);
+        $criteria = $this->factory->getCriteria($dto);
+
+        $I->assertInstanceOf(VkontakteValidationCriteria::class, $criteria);
+    }
+
     public function negativeFactoryCriteria(UnitTester $I): void
     {
         $I->expectThrowable(new NotFoundEntityException('Validation criteria by notify type not found.'), function () {
@@ -57,6 +66,10 @@ class ValidationFactoryCest
         if ($type === NotifyMessage::TELEGRAM_TYPE) {
             $dto->type = NotifyMessage::TELEGRAM_TYPE;
             $dto->userId = 1234567890;
+        }
+
+        if ($type === NotifyMessage::VKONTAKTE_TYPE) {
+            $dto->type = NotifyMessage::VKONTAKTE_TYPE;
         }
 
         $dto->message = 'test';

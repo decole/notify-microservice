@@ -14,7 +14,7 @@ use Faker\Generator;
 use Symfony\Component\HttpFoundation\Request;
 use Throwable;
 
-class SingleSendApiServiceByTelegramCest
+class SingleSendApiServiceByVkontakteCest
 {
     private Generator $faker;
 
@@ -23,19 +23,18 @@ class SingleSendApiServiceByTelegramCest
         $this->faker = Factory::create();
     }
 
-    public function positiveCreateTelegramInputDto(UnitTester $I): void
+    public function positiveCreateVkontakteInputDto(UnitTester $I): void
     {
         $service = $this->getService($I);
-        $request = new Request([], [], [], [], [], [], $this->getTelegramContent());
+        $request = new Request([], [], [], [], [], [], $this->getVkontakteContent());
         $dto = $service->createInputDto($request);
 
         $I->assertInstanceOf(MessageInput::class, $dto);
-        $I->assertEquals('telegram', $dto->type);
-        $I->assertEquals(1111111111, $dto->userId);
+        $I->assertEquals(NotifyMessage::VKONTAKTE_TYPE, $dto->type);
         $I->assertEquals('test notification message', $dto->message);
     }
 
-    public function negativeCreateTelegramInputDto(UnitTester $I): void
+    public function negativeCreateVkontakteInputDto(UnitTester $I): void
     {
         $service = $this->getService($I);
         $request = new Request([], [], [], [], [], [], '');
@@ -47,7 +46,7 @@ class SingleSendApiServiceByTelegramCest
         $I->assertEquals('Syntax error', $exception->getMessage());
     }
 
-    public function positiveCreateMessageDtoByTelegram(UnitTester $I): void
+    public function positiveCreateMessageDto(UnitTester $I): void
     {
         $dto = $this->getMessageInputDto();
 
@@ -55,7 +54,7 @@ class SingleSendApiServiceByTelegramCest
         $message = $service->createMessageDto($dto);
 
         $I->assertInstanceOf(MessageDto::class, $message);
-        $I->assertEquals(NotifyMessage::TELEGRAM_TYPE, $message->getType());
+        $I->assertEquals(NotifyMessage::VKONTAKTE_TYPE, $message->getType());
         $I->assertIsArray($message->getMessage());
     }
 
@@ -73,8 +72,7 @@ class SingleSendApiServiceByTelegramCest
 
     public function positiveGetPublishQueueMessage(UnitTester $I): void
     {
-        $notify = new NotifyMessage(NotifyMessage::TELEGRAM_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);
-
+        $notify = new NotifyMessage(NotifyMessage::VKONTAKTE_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);
         $service = $this->getService($I);
         $publication = $service->getPublishQueueMessage($notify);
 
@@ -90,13 +88,13 @@ class SingleSendApiServiceByTelegramCest
 
         $I->assertEquals(true, str_contains(
             $exception->getMessage(),
-            'App\Application\Http\Api\SingleNotify\Service\SingleSendApiService::getPublishQueueMessage(): Argument #1 ($message) must be of type App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage, null given, called in /var/www/tests/unit/Application/Http/Api/SingleNotify/Service/SingleSendApiServiceByTelegramCest.php'
+            'App\Application\Http\Api\SingleNotify\Service\SingleSendApiService::getPublishQueueMessage(): Argument #1 ($message) must be of type App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage, null given, called in /var/www/tests/unit/Application/Http/Api/SingleNotify/Service/SingleSendApiServiceByVkontakteCest.php'
         ));
     }
 
-    private function getTelegramContent(): string
+    private function getVkontakteContent(): string
     {
-        return '{"type":"telegram","userId":"1111111111","message":"test notification message"}';
+        return '{"type":"vk","message":"test notification message"}';
     }
 
     private function getService(UnitTester $I): SingleSendApiService
@@ -107,9 +105,8 @@ class SingleSendApiServiceByTelegramCest
     private function getMessageInputDto(): MessageInput
     {
         $dto = new MessageInput();
-        $dto->type = NotifyMessage::TELEGRAM_TYPE;
+        $dto->type = NotifyMessage::VKONTAKTE_TYPE;
         $dto->message = $this->faker->text;
-        $dto->userId = $this->faker->numberBetween(100000000, 99999999999);
 
         return $dto;
     }

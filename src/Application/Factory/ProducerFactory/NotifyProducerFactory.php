@@ -8,13 +8,15 @@ use App\Application\Exception\NotFoundEntityException;
 use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
 use App\Infrastructure\RabbitMq\Producer\Email\EmailProducer;
 use App\Infrastructure\RabbitMq\Producer\Telegram\TelegramProducer;
+use App\Infrastructure\RabbitMq\Producer\Vkontakte\VkontakteProducer;
 use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
 
 final class NotifyProducerFactory
 {
     public function __construct(
         private readonly EmailProducer $emailProducer,
-        private readonly TelegramProducer $telegramProducer
+        private readonly TelegramProducer $telegramProducer,
+        private readonly VkontakteProducer $vkontakteProducer
     ) {
     }
 
@@ -26,6 +28,7 @@ final class NotifyProducerFactory
         return match ($type) {
             NotifyMessage::EMAIL_TYPE => $this->emailProducer,
             NotifyMessage::TELEGRAM_TYPE => $this->telegramProducer,
+            NotifyMessage::VKONTAKTE_TYPE => $this->vkontakteProducer,
 
             default => throw new NotFoundEntityException('Cant create notify send producer'),
         };

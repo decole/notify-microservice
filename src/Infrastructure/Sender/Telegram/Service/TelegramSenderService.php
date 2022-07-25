@@ -4,7 +4,7 @@
 namespace App\Infrastructure\Sender\Telegram\Service;
 
 
-use App\Infrastructure\Sender\Telegram\Exception\TelegramSendServiceException;
+use App\Infrastructure\Sender\Telegram\Exception\TelegramServiceException;
 use Psr\Log\LoggerInterface;
 use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
@@ -14,7 +14,7 @@ class TelegramSenderService
     private Api $telegram;
 
     /**
-     * @throws TelegramSendServiceException
+     * @throws TelegramServiceException
      * @throws TelegramSDKException
      */
     public function __construct(private readonly LoggerInterface $logger, private readonly ?string $apiToken = null)
@@ -22,7 +22,7 @@ class TelegramSenderService
         if ($this->apiToken === null) {
             $this->logger->error('Telegram bot not configured, Api token is null');
 
-            throw TelegramSendServiceException::apiTokenEmpty();
+            throw TelegramServiceException::apiTokenEmpty();
         }
 
         $this->telegram = new Api($apiToken);

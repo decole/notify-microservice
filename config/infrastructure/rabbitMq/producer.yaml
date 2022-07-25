@@ -3,8 +3,10 @@ services:
     autowire: true
     autoconfigure: true
 
-  App\Infrastructure\RabbitMq\Producer\Email\EmailProducer: '@old_sound_rabbit_mq.send_email_producer'
+  App\Infrastructure\RabbitMq\Producer\Email\EmailProducer: '@old_sound_rabbit_mq.email_producer'
 
   App\Infrastructure\RabbitMq\Producer\History\HistoryMessageProducer: '@old_sound_rabbit_mq.history_producer'
 
   App\Infrastructure\RabbitMq\Producer\Telegram\TelegramProducer: '@old_sound_rabbit_mq.telegram_producer'
+
+  App\Infrastructure\RabbitMq\Producer\Vkontakte\VkontakteProducer: '@old_sound_rabbit_mq.vkontakte_producer'

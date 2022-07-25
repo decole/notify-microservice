@@ -1,34 +1,32 @@
 <?php
 
 
-namespace App\Infrastructure\Sender\Telegram;
+namespace App\Infrastructure\Sender\Vkontakte;
 
 
 use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
 use App\Infrastructure\Sender\Interfaces\SenderInterface;
-use App\Infrastructure\Sender\Telegram\Service\TelegramSenderService;
+use App\Infrastructure\Sender\Vkontakte\Service\VkontakteSenderService;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
-class TelegramSender implements SenderInterface
+class VkontakteSender implements SenderInterface
 {
     public function __construct(
-        private readonly TelegramSenderService $service,
+        private readonly VkontakteSenderService $service,
         private readonly LoggerInterface $logger
     ) {
     }
 
     public function send(NotifyMessage $message): void
     {
-        $body = $message->getBody();
-        $chatId = $body['userId'];
-        $notify = $body['message'];
+        $notify = $message->getBody()['message'];
 
         try {
-            $this->service->sendMessage($chatId, $notify);
+            $this->service->send($notify);
         } catch (Throwable $exception) {
             $this->logger->error(
-                'Error by sending telegram',
+                'Error by sending vkontakte',
                 [
                     'exception' => $exception->getMessage(),
                 ]

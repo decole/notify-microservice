@@ -18,3 +18,9 @@ services:
     arguments:
       $apiToken: '%env(TELEGRAM_BOT_TOKEN)%'
       $logger: "@monolog.logger.telegram_service"
+
+  App\Infrastructure\Sender\Vkontakte\Service\VkontakteSenderService:
+    arguments:
+      $accessToken: '%env(VK_ACCES_KEY)%'
+      $groupId: '%env(VK_GROUP_ID)%'
+      $peerId: '%env(VK_PEER_ID)%'
