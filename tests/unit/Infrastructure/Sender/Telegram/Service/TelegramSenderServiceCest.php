@@ -4,6 +4,7 @@
 namespace App\Tests\unit\Infrastructure\Sender\Telegram\Service;
 
 
+use App\Infrastructure\Sender\Telegram\Exception\TelegramServiceException;
 use App\Infrastructure\Sender\Telegram\Service\TelegramSenderService;
 use App\Tests\UnitTester;
 use Faker\Factory;
@@ -39,7 +40,7 @@ class TelegramSenderServiceCest
 
         try {
             $service = new TelegramSenderService($logger);
-        } catch (\Throwable $exception) {}
+        } catch (TelegramServiceException $exception) {}
 
         $I->assertEquals(false, isset($service));
         $I->assertEquals(true, isset($exception));

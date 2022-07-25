@@ -38,6 +38,13 @@ class ValidationServiceCest
         $I->assertInstanceOf(ConstraintViolationList::class, $list);
     }
 
+    public function positiveVkontakteValidation(UnitTester $I): void
+    {
+        $list = $this->service->validate($this->getVkontakteDto());
+
+        $I->assertInstanceOf(ConstraintViolationList::class, $list);
+    }
+
     public function negativeValidation(UnitTester $I): void
     {
         $I->expectThrowable(
@@ -52,7 +59,7 @@ class ValidationServiceCest
     {
         $dto = new MessageInput();
         $dto->type = NotifyMessage::EMAIL_TYPE;
-        $dto->message = 'test';
+        $dto->message = $this->faker->text;
         $dto->email = 'test@test.ru';
 
         return $dto;
@@ -63,7 +70,16 @@ class ValidationServiceCest
         $dto = new MessageInput();
         $dto->type = NotifyMessage::TELEGRAM_TYPE;
         $dto->userId = $this->faker->biasedNumberBetween(10000000, 99999999999);
-        $dto->message = 'test telegram';
+        $dto->message = $this->faker->text;
+
+        return $dto;
+    }
+
+    private function getVkontakteDto(): MessageInput
+    {
+        $dto = new MessageInput();
+        $dto->type = NotifyMessage::VKONTAKTE_TYPE;
+        $dto->message = $this->faker->text;
 
         return $dto;
     }
@@ -72,7 +88,7 @@ class ValidationServiceCest
     {
         $dto = new MessageInput();
         $dto->type = 'error';
-        $dto->message = 'test';
+        $dto->message = $this->faker->text;
 
         return $dto;
     }

@@ -28,9 +28,9 @@ class ErrorPresenterCest
             new ErrorPresenter(null);
         } catch (\Throwable $exception) {}
 
-        $I->assertEquals(
-            'App\Application\Presenter\Api\ErrorPresenter::__construct(): Argument #1 ($exception) must be of type Throwable, null given, called in /var/www/tests/unit/Application/Presenter/Api/ErrorPresenterCest.php on line 28',
-            $exception->getMessage()
-        );
+        $I->assertEquals(true, str_contains(
+            $exception->getMessage(),
+            'App\Application\Presenter\Api\ErrorPresenter::__construct(): Argument #1 ($exception) must be of type Throwable, null given, called in /var/www/tests/unit/Application/Presenter/Api/ErrorPresenterCest.php'
+        ));
     }
 }

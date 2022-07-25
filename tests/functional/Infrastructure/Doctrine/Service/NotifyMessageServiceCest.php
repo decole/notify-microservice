@@ -9,6 +9,7 @@ use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
 use App\Infrastructure\Doctrine\Service\NotifyMessageService;
 use App\Tests\FunctionalTester;
 use Ramsey\Uuid\Uuid;
+use Throwable;
 
 class NotifyMessageServiceCest
 {
@@ -45,16 +46,29 @@ class NotifyMessageServiceCest
         $I->assertEquals('in queue', $savedEntity->getTextStatus());
     }
 
+    public function createVkontakte(FunctionalTester $I): void
+    {
+        $text = ['rom' => 'test text'];
+        $dto = new MessageDto(NotifyMessage::VKONTAKTE_TYPE, $text);
+        $savedEntity = $this->service->create($dto);
+
+        $I->assertInstanceOf(NotifyMessage::class, $savedEntity);
+        $I->assertEquals($text, $savedEntity->getBody());
+        $I->assertEquals(NotifyMessage::VKONTAKTE_TYPE, $savedEntity->getType());
+        $I->assertEquals(NotifyMessage::STATUS_IN_QUEUE, $savedEntity->getStatus());
+        $I->assertEquals('in queue', $savedEntity->getTextStatus());
+    }
+
     public function negativeCreate(FunctionalTester $I): void
     {
         try {
             $this->service->create(null);
-        } catch (\Throwable $exception) {}
+        } catch (Throwable $exception) {}
 
-        $I->assertEquals(
-            'App\Infrastructure\Doctrine\Service\NotifyMessageService::create(): Argument #1 ($dto) must be of type App\Application\Http\Api\SingleNotify\Dto\MessageDto, null given, called in /var/www/tests/functional/Infrastructure/Doctrine/Service/NotifyMessageServiceCest.php on line 51',
-            $exception->getMessage()
-        );
+        $I->assertEquals(true, str_contains(
+            $exception->getMessage(),
+            'App\Infrastructure\Doctrine\Service\NotifyMessageService::create(): Argument #1 ($dto) must be of type App\Application\Http\Api\SingleNotify\Dto\MessageDto, null given, called in /var/www/tests/functional/Infrastructure/Doctrine/Service/NotifyMessageServiceCest.php'
+        ));
     }
 
     public function find(FunctionalTester $I): void
@@ -109,12 +123,12 @@ class NotifyMessageServiceCest
     {
         try {
             $this->service->update(null);
-        } catch (\Throwable $exception) {}
+        } catch (Throwable $exception) {}
 
-        $I->assertEquals(
-            'App\Infrastructure\Doctrine\Service\NotifyMessageService::update(): Argument #1 ($notify) must be of type App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage, null given, called in /var/www/tests/functional/Infrastructure/Doctrine/Service/NotifyMessageServiceCest.php on line 111',
-            $exception->getMessage()
-        );
+        $I->assertEquals(true, str_contains(
+            $exception->getMessage(),
+            'App\Infrastructure\Doctrine\Service\NotifyMessageService::update(): Argument #1 ($notify) must be of type App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage, null given, called in /var/www/tests/functional/Infrastructure/Doctrine/Service/NotifyMessageServiceCest.php'
+        ));
     }
 
     public function updateStatus(FunctionalTester $I): void
@@ -148,12 +162,12 @@ class NotifyMessageServiceCest
     {
         try {
             $this->service->updateStatus(null, NotifyMessage::STATUS_ERROR);
-        } catch (\Throwable $exception) {}
+        } catch (Throwable $exception) {}
 
-        $I->assertEquals(
-            'App\Infrastructure\Doctrine\Service\NotifyMessageService::updateStatus(): Argument #1 ($message) must be of type App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage, null given, called in /var/www/tests/functional/Infrastructure/Doctrine/Service/NotifyMessageServiceCest.php on line 150',
-            $exception->getMessage()
-        );
+        $I->assertEquals(true, str_contains(
+            $exception->getMessage(),
+            'App\Infrastructure\Doctrine\Service\NotifyMessageService::updateStatus(): Argument #1 ($message) must be of type App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage, null given, called in /var/www/tests/functional/Infrastructure/Doctrine/Service/NotifyMessageServiceCest.php'
+        ));
     }
 
     public function negativeUpdateStatusWrongStatus(FunctionalTester $I): void
@@ -165,7 +179,7 @@ class NotifyMessageServiceCest
 
             $this->service->updateStatus($savedEntity, 99999);
 
-        } catch (\Throwable $exception) {}
+        } catch (Throwable $exception) {}
 
         $I->assertEquals(
             'Expected one of: 0, 1, 2, 3. Got: 99999',

@@ -38,10 +38,10 @@ class HistoryNotificationCest
             $entity->setStatus($newStatus);
         } catch (\Throwable $exception) {}
 
-        $I->assertEquals(
-            'App\Domain\Doctrine\HistoryNotification\Entity\HistoryNotification::setStatus(): Argument #1 ($status) must be of type int, string given, called in /var/www/tests/unit/Domain/Doctrine/HistoryNotification/Entity/HistoryNotificationCest.php on line 38',
-            $exception->getMessage()
-        );
+        $I->assertEquals(true, str_contains(
+            $exception->getMessage(),
+            'App\Domain\Doctrine\HistoryNotification\Entity\HistoryNotification::setStatus(): Argument #1 ($status) must be of type int, string given, called in /var/www/tests/unit/Domain/Doctrine/HistoryNotification/Entity/HistoryNotificationCest.php'
+        ));
     }
 
     public function notIsSetChangeStatus(UnitTester $I): void

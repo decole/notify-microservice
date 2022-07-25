@@ -12,3 +12,7 @@ services:
   App\Infrastructure\Sender\Telegram\TelegramSender:
     arguments:
       $logger: "@monolog.logger.receive_notify"
+
+  App\Infrastructure\Sender\Vkontakte\VkontakteSender:
+    arguments:
+      $logger: "@monolog.logger.receive_notify"

@@ -31,7 +31,7 @@ class SingleSendApiServiceByEmailCest
 
         $I->assertInstanceOf(MessageInput::class, $dto);
         $I->assertEquals('email', $dto->type);
-        $I->assertEquals('decole@rambler.ru', $dto->email);
+        $I->assertEquals('test@yandex.ru', $dto->email);
         $I->assertEquals('tester2', $dto->message);
     }
 
@@ -89,15 +89,15 @@ class SingleSendApiServiceByEmailCest
             $publication = $service->getPublishQueueMessage(null);
         } catch (Throwable $exception) {}
 
-        $I->assertEquals(
-            'App\Application\Http\Api\SingleNotify\Service\SingleSendApiService::getPublishQueueMessage(): Argument #1 ($message) must be of type App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage, null given, called in /var/www/tests/unit/Application/Http/Api/SingleNotify/Service/SingleSendApiServiceByEmailCest.php on line 89',
-            $exception->getMessage()
-        );
+        $I->assertEquals(true, str_contains(
+            $exception->getMessage(),
+            'App\Application\Http\Api\SingleNotify\Service\SingleSendApiService::getPublishQueueMessage(): Argument #1 ($message) must be of type App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage, null given, called in /var/www/tests/unit/Application/Http/Api/SingleNotify/Service/SingleSendApiServiceByEmailCest.php'
+        ));
     }
 
     private function getEmailContent(): string
     {
-        return '{"type":"email","email":"decole@rambler.ru","message":"tester2"}';
+        return '{"type":"email","email":"test@yandex.ru","message":"tester2"}';
     }
 
     private function getService(UnitTester $I): SingleSendApiService

@@ -37,7 +37,7 @@ class TelegramConsumerCest
     {
         [$logger, $service, $sender, $dispatcher] = $this->makeServices($I);
 
-        $this->addEventListner($dispatcher);
+        $this->addEventListener($dispatcher);
 
         $consumer = new TelegramConsumer(
             sender: $sender,
@@ -90,7 +90,7 @@ class TelegramConsumerCest
         return new AMQPMessage(json_encode($message, JSON_THROW_ON_ERROR));
     }
 
-    public function addEventListner(EventDispatcher $dispatcher): void
+    public function addEventListener(EventDispatcher $dispatcher): void
     {
         $producer = Stub::make(HistoryMessageProducer::class, [
             'publish' => Expected::exactly(3),
