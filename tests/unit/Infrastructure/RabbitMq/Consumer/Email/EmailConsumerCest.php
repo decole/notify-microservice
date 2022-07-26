@@ -86,7 +86,7 @@ class EmailConsumerCest
         return new AMQPMessage(json_encode($message, JSON_THROW_ON_ERROR));
     }
 
-    public function addEventListener(EventDispatcher $dispatcher): void
+    private function addEventListener(EventDispatcher $dispatcher): void
     {
         $producer = Stub::make(HistoryMessageProducer::class, [
             'publish' => Expected::exactly(3),
@@ -95,7 +95,7 @@ class EmailConsumerCest
         $dispatcher->addListener(MessageStatusUpdatedEvent::NAME, [$listener, 'onMessageStatusUpdatedEvent']);
     }
 
-    public function makeServices(UnitTester $I): array
+    private function makeServices(UnitTester $I): array
     {
         $logger = $I->grabService(NullLogger::class);
         $service = $I->grabService(NotifyMessageService::class);

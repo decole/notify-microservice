@@ -59,6 +59,19 @@ class NotifyMessageServiceCest
         $I->assertEquals('in queue', $savedEntity->getTextStatus());
     }
 
+    public function createSms(FunctionalTester $I): void
+    {
+        $text = ['rom' => 'test text'];
+        $dto = new MessageDto(NotifyMessage::SMS_TYPE, $text);
+        $savedEntity = $this->service->create($dto);
+
+        $I->assertInstanceOf(NotifyMessage::class, $savedEntity);
+        $I->assertEquals($text, $savedEntity->getBody());
+        $I->assertEquals(NotifyMessage::SMS_TYPE, $savedEntity->getType());
+        $I->assertEquals(NotifyMessage::STATUS_IN_QUEUE, $savedEntity->getStatus());
+        $I->assertEquals('in queue', $savedEntity->getTextStatus());
+    }
+
     public function negativeCreate(FunctionalTester $I): void
     {
         try {

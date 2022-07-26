@@ -22,3 +22,8 @@ services:
     class: App\Infrastructure\RabbitMq\Consumer\Vkontakte\VkontakteConsumer
     arguments:
       $logger: "@monolog.logger.receive_notify"
+
+  consumers.sms:
+    class: App\Infrastructure\RabbitMq\Consumer\Sms\SmsConsumer
+    arguments:
+      $logger: "@monolog.logger.receive_notify"

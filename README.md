@@ -1,16 +1,29 @@
 # Notify-microservice
 
+
+### Проектная работа по курсу **[OTUS](https://otus.ru/) [PHP Developer. Professional](https://otus.ru/lessons/razrabotchik-php/)**
+
+![gif](docs/kek.gif)
+
+
 ## Как ставить:
 
-> docker-compose.yaml.dist скопировать в файл docker-compose.yaml
+> файл docker-compose.yaml.dist скопировать в файл docker-compose.yaml
 
 Далее выполнить серию команд: 
 
 ```shell
-make build
-make up
-make composer-install
+# На Linux установать make - sudo apt install - для последующе работы. 
+# Либо если другая у вас ОС, смотрите в Makefile - файле в корне репозитория. каждая фраза - цепочка вызовов linux команд
+# соберет необходимые docker образа
+make build 
+# скопирует необходимые файлы из шаблонов
 make env
+# поднимет проект
+make up
+# composer установит необходимые пакеты для работы приложения
+make composer-install
+#применятся миграции к БД
 make migration
 ```
 
@@ -33,6 +46,8 @@ make migration
 
 [Настройка vkontakte очереди](docs/VK.md)
 
+[Настройка SMS очереди](docs/SMS.md) - заглушка. Должна быть рабочей, ибо логика отправки бралась из окументации
+
 
 ## Список энтрипоинтов: 
 ```markdown
@@ -50,19 +65,15 @@ php bin/console rabbitmq:consumer email -vv
 # работа в цикле. прослушивает очередь telegram
 php bin/console rabbitmq:consumer telegram -vv
 
-# работа в цикле. прослушивает очередь telegram
+# работа в цикле. прослушивает очередь vkontakte
 php bin/console rabbitmq:consumer vkontakte -vv
+
+# работа в цикле. прослушивает очередь sms
+php bin/console rabbitmq:consumer sms -vv
 
 # очередь прослушивания исторических данных
 php bin/console rabbitmq:consumer history -vv
 ```
-
-
-# По тестам
-
-- модуль Doctrine2 для создание сущностей доктрины не пользуя БД https://github.com/Codeception/module-doctrine2/blob/master/tests/unit/Codeception/Module/Doctrine2Test.php
-- DataFactory позволяет легко генерировать и создавать тестовые данные с помощью FactoryMuffin. DataFactory использует ORM вашего приложения для определения, сохранения и очистки данных. Таким образом, следует использовать с модулями ORM или Framework.  https://codeception.com/docs/modules/DataFactory
-
 
 # Для CI/CD напоминания:
 Для тестов
@@ -74,14 +85,13 @@ php bin/console --env=test doctrine:database:create
 # create the tables/columns in the test database
 php bin/console --env=test doctrine:schema:create
 
-
+# apply migrates for test DB
 
 php bin/console doctrine:migrations:migrate --env test
 ```
 
-
 Для деплоя на прод и стейдж перед каждым стартом эксплуатации надо выполнять эту команду для 
-генерации тем очередей
+генерации тем очередей RabbitMQ
 
 ```shell
 php bin/console rabbitmq:setup-fabric

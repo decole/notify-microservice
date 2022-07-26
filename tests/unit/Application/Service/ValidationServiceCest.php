@@ -45,6 +45,13 @@ class ValidationServiceCest
         $I->assertInstanceOf(ConstraintViolationList::class, $list);
     }
 
+    public function positiveSmsValidation(UnitTester $I): void
+    {
+        $list = $this->service->validate($this->getSmsDto());
+
+        $I->assertInstanceOf(ConstraintViolationList::class, $list);
+    }
+
     public function negativeValidation(UnitTester $I): void
     {
         $I->expectThrowable(
@@ -79,6 +86,16 @@ class ValidationServiceCest
     {
         $dto = new MessageInput();
         $dto->type = NotifyMessage::VKONTAKTE_TYPE;
+        $dto->message = $this->faker->text;
+
+        return $dto;
+    }
+
+    private function getSmsDto(): MessageInput
+    {
+        $dto = new MessageInput();
+        $dto->type = NotifyMessage::SMS_TYPE;
+        $dto->phone = $this->faker->phoneNumber;
         $dto->message = $this->faker->text;
 
         return $dto;

@@ -5,14 +5,14 @@ namespace App\Tests\unit\Application\Service\ValidationCriteria;
 
 
 use App\Application\Http\Api\SingleNotify\Input\MessageInput;
-use App\Application\Service\ValidationCriteria\TelegramValidationCriteria;
+use App\Application\Service\ValidationCriteria\SmsValidationCriteria;
 use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
 use App\Tests\UnitTester;
 use Faker\Factory;
 use Faker\Generator;
 use Symfony\Component\Validator\ConstraintViolationList;
 
-class TelegramValidationCriteriaCest
+class SmsValidationCriteriaCest
 {
     private Generator $faker;
 
@@ -21,30 +21,30 @@ class TelegramValidationCriteriaCest
         $this->faker = Factory::create();
     }
 
-    public function positiveTelegramValidation(UnitTester $I): void
+    public function positiveValidation(UnitTester $I): void
     {
-        $criteria = new TelegramValidationCriteria($this->getDto());
+        $criteria = new SmsValidationCriteria($this->getDto());
         $list = new ConstraintViolationList();
         $criteria->validate($list);
 
         $I->assertEquals(0, $list->count());
     }
 
-    public function negativeTelegramValidation(UnitTester $I): void
+    public function negativeValidation(UnitTester $I): void
     {
-        $criteria = new TelegramValidationCriteria($this->getWrongDto());
+        $criteria = new SmsValidationCriteria($this->getWrongDto());
         $list = new ConstraintViolationList();
         $criteria->validate($list);
 
-        $I->assertEquals(3, $list->count());
+        $I->assertEquals(1, $list->count());
     }
 
     private function getDto(): MessageInput
     {
         $dto = new MessageInput();
-        $dto->type = NotifyMessage::TELEGRAM_TYPE;
-        $dto->userId = $this->faker->biasedNumberBetween(10000000, 99999999999);
+        $dto->type = NotifyMessage::SMS_TYPE;
         $dto->message = 'test';
+        $dto->phone = $this->faker->phoneNumber;
 
         return $dto;
     }
