@@ -10,6 +10,6 @@ class VkontakteServiceException extends Exception
 {
     public static function apiTokenEmpty(): self
     {
-        return new self("Please configure vkontakte access key");
+        return new self('Please configure vkontakte access key');
     }
 }

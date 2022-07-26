@@ -7,6 +7,7 @@ namespace App\Tests\unit\Application\Factory\ProducerFactory;
 use App\Application\Exception\NotFoundEntityException;
 use App\Application\Factory\ProducerFactory\NotifyProducerFactory;
 use App\Infrastructure\RabbitMq\Producer\Email\EmailProducer;
+use App\Infrastructure\RabbitMq\Producer\Sms\SmsProducer;
 use App\Infrastructure\RabbitMq\Producer\Telegram\TelegramProducer;
 use App\Infrastructure\RabbitMq\Producer\Vkontakte\VkontakteProducer;
 use App\Tests\UnitTester;
@@ -43,13 +44,23 @@ class NotifyProducerFactoryCest
         $I->assertInstanceOf(VkontakteProducer::class, $producer);
     }
 
+    public function createSmsProducer(UnitTester $I): void
+    {
+        /** @var NotifyProducerFactory $service */
+        $service = $I->grabService(NotifyProducerFactory::class);
+
+        $producer = $service->createProducer('sms');
+
+        $I->assertInstanceOf(SmsProducer::class, $producer);
+    }
+
     public function negativeCreateProducer(UnitTester $I): void
     {
         /** @var NotifyProducerFactory $service */
         $service = $I->grabService(NotifyProducerFactory::class);
 
         $I->expectThrowable(
-            new NotFoundEntityException('Cant create notify send producer'),
+            new NotFoundEntityException('Can`t create notify send producer'),
             function () use ($service) {
                 $service->createProducer('error');
             }

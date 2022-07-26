@@ -30,6 +30,13 @@ class NotifyMessageCest
         $I->assertEquals(NotifyMessage::VKONTAKTE_TYPE, $message->getType());
     }
 
+    public function getSmsType(UnitTester $I): void
+    {
+        $message = new NotifyMessage(NotifyMessage::SMS_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);
+
+        $I->assertEquals(NotifyMessage::SMS_TYPE, $message->getType());
+    }
+
     public function getStatus(UnitTester $I): void
     {
         $message = new NotifyMessage(NotifyMessage::EMAIL_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);

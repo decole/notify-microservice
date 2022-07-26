@@ -10,3 +10,5 @@ services:
   App\Infrastructure\RabbitMq\Producer\Telegram\TelegramProducer: '@old_sound_rabbit_mq.telegram_producer'
 
   App\Infrastructure\RabbitMq\Producer\Vkontakte\VkontakteProducer: '@old_sound_rabbit_mq.vkontakte_producer'
+
+  App\Infrastructure\RabbitMq\Producer\Sms\SmsProducer: '@old_sound_rabbit_mq.sms_producer'

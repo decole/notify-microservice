@@ -90,7 +90,7 @@ class VkontakteConsumerCest
         return new AMQPMessage(json_encode($message, JSON_THROW_ON_ERROR));
     }
 
-    public function addEventListener(EventDispatcher $dispatcher): void
+    private function addEventListener(EventDispatcher $dispatcher): void
     {
         $producer = Stub::make(HistoryMessageProducer::class, [
             'publish' => Expected::exactly(3),

@@ -66,6 +66,24 @@ class SingleSendNotifyApiPresenterCest
         $I->assertEquals($json, $result->getContent());
     }
 
+    public function presentBySms(UnitTester $I): void
+    {
+        $notify = $this->getNotify(NotifyMessage::SMS_TYPE);
+        $presenter = new SingleSendNotifyApiPresenter($notify);
+        $result = $presenter->present();
+
+        $json = json_encode(
+            [
+                'status' => 'in queue',
+                'notifyId' => $notify->getId()->toString(),
+            ],
+            JSON_THROW_ON_ERROR
+        );
+
+        $I->assertInstanceOf(JsonResponse::class, $result);
+        $I->assertEquals($json, $result->getContent());
+    }
+
     public function negativePresent(UnitTester $I): void
     {
         try {

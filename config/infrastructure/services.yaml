@@ -24,3 +24,10 @@ services:
       $accessToken: '%env(VK_ACCES_KEY)%'
       $groupId: '%env(VK_GROUP_ID)%'
       $peerId: '%env(VK_PEER_ID)%'
+
+  App\Infrastructure\Sender\Sms\Service\SmsProviderResolver:
+    arguments:
+      $provider: '%env(SMS_PROVIDER)%'
+
+  App\Infrastructure\Sender\Sms\Provider\:
+    resource: '%kernel.project_dir%/src/Infrastructure/Sender/Sms/Provider/*Provider.php'

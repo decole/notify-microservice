@@ -10,6 +10,6 @@ class TelegramServiceException extends Exception
 {
     public static function apiTokenEmpty(): self
     {
-        return new self("Please configure telegram bot Token");
+        return new self('Please configure telegram bot Token');
     }
 }

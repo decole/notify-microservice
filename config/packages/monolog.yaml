@@ -4,6 +4,7 @@ monolog:
         - receive_notify
         - history_notify
         - telegram_service
+        - sms_resolver
 
 when@dev:
     monolog:
@@ -28,6 +29,11 @@ when@dev:
                 type: stream
                 path: '%kernel.logs_dir%/%kernel.environment%.telegram_sender_service.log'
                 channels: [ telegram_service ]
+            sms_resolver:
+                level: debug
+                type: stream
+                path: '%kernel.logs_dir%/%kernel.environment%.sms_resolver.log'
+                channels: [ sms_resolver ]
             console:
                 type: console
                 process_psr_3_messages: false

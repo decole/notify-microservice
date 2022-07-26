@@ -3,3 +3,6 @@ services:
     public: true
 
   Psr\Log\NullLogger: ~
+
+  App\Infrastructure\Sender\Sms\Provider\SmspilotProvider:
+    public: true
