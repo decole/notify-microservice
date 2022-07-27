@@ -20,9 +20,6 @@ composer:
     - docker-compose -f docker-compose.ci.yaml down
     - docker-compose -f docker-compose.ci.yaml up -d
     - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
-    - cp -n docker-compose.yaml.dist docker-compose.yaml
-    - cp -n .env.local.example .env.local
-    - cp -n .env.local.example .env.test.local
     - docker-compose -f docker-compose.ci.yaml exec -T php-fpm chmod -R g+rw ./
   artifacts:
     paths:
