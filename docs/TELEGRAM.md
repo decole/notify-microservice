@@ -1,11 +1,9 @@
 ## Настройка очереди телеграм оповещений
 
 1. Создать своего телеграм бота через https://telegram.me/botfather (https://sendpulse.com/ru/knowledge-base/chatbot/create-telegram-chatbot)
-2. берем созданный api token из чата **botfather**
-3. вставить в `.env.local` токен созданного бота. Пример: `TELEGRAM_BOT_TOKEN=0000000000:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA`
-4. запустить очерель телеграм оповещений `php bin/console rabbitmq:consumer telegram -vv`
-5. запустить очередь сохранения исторический данных `php bin/console rabbitmq:consumer history -vv` (на микросервис достаточно иметь один ээкземпляр слушателя исторических данных)
-6. !!! Добавляем созданного бота себе и пользователю, которому нужно будет слать оповещения с данного бота. 
+2. Берем созданный api token из чата **botfather**
+3. Копируем в `.env.local` токен созданного бота. Пример: `TELEGRAM_BOT_TOKEN=0000000000:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA`
+4. !!! Добавляем созданного бота себе и пользователю, которому нужно будет слать оповещения с данного бота. 
 
 # Если оповещаемый пользователь не добавит бота к себе в контакты, то оповещения не будут доходить до него.
 
@@ -15,7 +13,7 @@
 
 Далее отправить запрос на микросервис
 
-`POST http://localhost:85/api/v1/send`
+POST `http://localhost:85/api/v1/send`
 
 ```json
 {

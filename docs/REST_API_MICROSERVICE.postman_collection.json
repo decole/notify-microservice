@@ -1,0 +1,436 @@
+{
+	"info": {
+		"_postman_id": "4a628c5f-765d-4d74-88cc-4082a620f8f5",
+		"name": "REST API NOTIFY MICROSERVICE",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4856283"
+	},
+	"item": [
+		{
+			"name": "NotifyUser",
+			"item": [
+				{
+					"name": "Send email notify",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"email\",\n    \"email\": \"decole@rambler.ru\",\n    \"message\": \"tester2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:85/api/v1/send",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "85",
+							"path": [
+								"api",
+								"v1",
+								"send"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send sms notify",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"sms\",\n    \"phone\": 79619619612,\n    \"message\": \"test\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:85/api/v1/send",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "85",
+							"path": [
+								"api",
+								"v1",
+								"send"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send telegram notify",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"telegram\",\n    \"userId\": \"1198443517\",\n    \"message\": \"test notification message\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:85/api/v1/send",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "85",
+							"path": [
+								"api",
+								"v1",
+								"send"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send vk notify",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"vk\",\n    \"message\": \"test notification message\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:85/api/v1/send",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "85",
+							"path": [
+								"api",
+								"v1",
+								"send"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send slack notify",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"slack\",\n    \"message\": \"test notification message\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:85/api/v1/send",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "85",
+							"path": [
+								"api",
+								"v1",
+								"send"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send discord notify",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"discord\",\n    \"message\": \"test notification message\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:85/api/v1/send",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "85",
+							"path": [
+								"api",
+								"v1",
+								"send"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Production",
+			"item": [
+				{
+					"name": "Send email notify",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"email\",\n    \"email\": \"decole@rambler.ru\",\n    \"message\": \"tester2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://microservice.otus.uberserver.ru/api/v1/send",
+							"protocol": "https",
+							"host": [
+								"microservice",
+								"otus",
+								"uberserver",
+								"ru"
+							],
+							"path": [
+								"api",
+								"v1",
+								"send"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send sms notify",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"sms\",\n    \"phone\": 79619619612,\n    \"message\": \"test\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://microservice.otus.uberserver.ru/api/v1/send",
+							"protocol": "https",
+							"host": [
+								"microservice",
+								"otus",
+								"uberserver",
+								"ru"
+							],
+							"path": [
+								"api",
+								"v1",
+								"send"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send telegram notify",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"telegram\",\n    \"userId\": \"1198443517\",\n    \"message\": \"test notification message\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://microservice.otus.uberserver.ru/api/v1/send",
+							"protocol": "https",
+							"host": [
+								"microservice",
+								"otus",
+								"uberserver",
+								"ru"
+							],
+							"path": [
+								"api",
+								"v1",
+								"send"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send vk notify",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"vk\",\n    \"message\": \"test notification message\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://microservice.otus.uberserver.ru/api/v1/send",
+							"protocol": "https",
+							"host": [
+								"microservice",
+								"otus",
+								"uberserver",
+								"ru"
+							],
+							"path": [
+								"api",
+								"v1",
+								"send"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send discord notify",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"discord\",\n    \"message\": \"поехали!\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://microservice.otus.uberserver.ru/api/v1/send",
+							"protocol": "https",
+							"host": [
+								"microservice",
+								"otus",
+								"uberserver",
+								"ru"
+							],
+							"path": [
+								"api",
+								"v1",
+								"send"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send slack notify",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"slack\",\n    \"message\": \"поехали!\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://microservice.otus.uberserver.ru/api/v1/send",
+							"protocol": "https",
+							"host": [
+								"microservice",
+								"otus",
+								"uberserver",
+								"ru"
+							],
+							"path": [
+								"api",
+								"v1",
+								"send"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Check status sended notify",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://microservice.otus.uberserver.ru/api/v1/check-status/0832c984-ffb8-4db0-99d5-a547c2db472b",
+					"protocol": "https",
+					"host": [
+						"microservice",
+						"otus",
+						"uberserver",
+						"ru"
+					],
+					"path": [
+						"api",
+						"v1",
+						"check-status",
+						"0832c984-ffb8-4db0-99d5-a547c2db472b"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Hello",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:85/api/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "85",
+					"path": [
+						"api",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
