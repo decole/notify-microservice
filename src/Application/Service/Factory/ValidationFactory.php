@@ -8,6 +8,7 @@ use App\Application\Exception\NotFoundEntityException;
 use App\Application\Service\ExtendedInputInterface;
 use App\Application\Service\ValidationCriteria\DiscordValidationCriteria;
 use App\Application\Service\ValidationCriteria\EmailValidationCriteria;
+use App\Application\Service\ValidationCriteria\SlackValidationCriteria;
 use App\Application\Service\ValidationCriteria\SmsValidationCriteria;
 use App\Application\Service\ValidationCriteria\TelegramValidationCriteria;
 use App\Application\Service\ValidationCriteria\VkontakteValidationCriteria;
@@ -24,6 +25,7 @@ final class ValidationFactory implements ValidationFactoryInterface
             NotifyMessage::EMAIL_TYPE => new EmailValidationCriteria($input),
             NotifyMessage::TELEGRAM_TYPE => new TelegramValidationCriteria($input),
             NotifyMessage::VKONTAKTE_TYPE => new VkontakteValidationCriteria($input),
+            NotifyMessage::SLACK_TYPE => new SlackValidationCriteria($input),
             NotifyMessage::SMS_TYPE => new SmsValidationCriteria($input),
             NotifyMessage::DISCORD_TYPE => new DiscordValidationCriteria($input),
 

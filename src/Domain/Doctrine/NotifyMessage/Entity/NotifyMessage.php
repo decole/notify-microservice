@@ -34,6 +34,7 @@ final class NotifyMessage implements EntityInterface
     public const EMAIL_TYPE = 'email';
     public const TELEGRAM_TYPE = 'telegram';
     public const VKONTAKTE_TYPE = 'vk';
+    public const SLACK_TYPE = 'slack';
     public const SMS_TYPE = 'sms';
     public const DISCORD_TYPE = 'discord';
 
@@ -41,6 +42,7 @@ final class NotifyMessage implements EntityInterface
         self::EMAIL_TYPE,
         self::TELEGRAM_TYPE,
         self::VKONTAKTE_TYPE,
+        self::SLACK_TYPE,
         self::SMS_TYPE,
         self::DISCORD_TYPE,
     ];
