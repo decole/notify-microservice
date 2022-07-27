@@ -1,6 +1,8 @@
 <?php
 
+
 namespace App\Application\Service\ValidationCriteria;
+
 
 use App\Application\Http\Api\SingleNotify\Input\MessageInput;
 use App\Application\Service\Factory\ValidationCriteriaInterface;

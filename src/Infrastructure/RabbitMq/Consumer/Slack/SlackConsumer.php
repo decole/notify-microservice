@@ -1,6 +1,8 @@
 <?php
 
+
 namespace App\Infrastructure\RabbitMq\Consumer\Slack;
+
 
 use App\Infrastructure\Doctrine\Service\NotifyMessageService;
 use App\Infrastructure\RabbitMq\Consumer\AbstractNotifyConsumer;
