@@ -42,3 +42,17 @@ SMS_PROVIDER=custom
 SMS_TOKEN=8888888888888888888888888
 SMS_PROVIDER=smspilot
 ```
+
+## Как отправить нотификацию
+
+Далее отправить запрос на микросервис
+
+POST `http://localhost:85/api/v1/send`
+
+```json
+{
+    "type": "sms",
+    "phone": 79619619612,
+    "message": "test"
+}
+```

@@ -18,7 +18,7 @@ DISCORD_WEBHOOK="адрес ссылки"
 
 ## Отправка нотификации
 
-POST http://localhost:85/api/v1/send
+POST `http://localhost:85/api/v1/send`
 
 ```json
 {

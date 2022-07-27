@@ -43,7 +43,7 @@ VK_PEER_ID=2000000001
 
 ## Отправка нотификации
 
-POST http://localhost:85/api/v1/send
+POST `http://localhost:85/api/v1/send`
 
 ```json
 {

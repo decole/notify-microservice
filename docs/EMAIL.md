@@ -27,7 +27,7 @@ EMAIL_SUBJECT="Notification service notify"
 
 Далее отправить запрос на микросервис
 
-`POST http://localhost:85/api/v1/send`
+POST `http://localhost:85/api/v1/send`
 
 ```json
 {
