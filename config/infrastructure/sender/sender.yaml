@@ -20,3 +20,7 @@ services:
   App\Infrastructure\Sender\Sms\SmsSender:
     arguments:
       $logger: "@monolog.logger.receive_notify"
+
+  App\Infrastructure\Sender\Discord\DiscordSender:
+    arguments:
+      $logger: "@monolog.logger.receive_notify"

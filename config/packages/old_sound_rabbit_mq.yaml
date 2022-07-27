@@ -42,6 +42,11 @@ old_sound_rabbit_mq:
       connection: default
       exchange_options: { name: '%env(SMS_QUEUE)%', type: direct }
       default_delivery_mode: 2
+    discord:
+      class: App\Infrastructure\RabbitMq\Producer\Discord\DiscordProducer
+      connection: default
+      exchange_options: { name: '%env(DISCORD_QUEUE)%', type: direct }
+      default_delivery_mode: 2
 
   consumers:
     history:
@@ -69,3 +74,8 @@ old_sound_rabbit_mq:
       exchange_options: { name: '%env(SMS_QUEUE)%', type: direct }
       queue_options: { name: '%env(SMS_QUEUE)%' }
       callback: consumers.sms
+    discord:
+      connection: default
+      exchange_options: { name: '%env(DISCORD_QUEUE)%', type: direct }
+      queue_options: { name: '%env(DISCORD_QUEUE)%' }
+      callback: consumers.discord

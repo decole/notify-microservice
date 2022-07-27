@@ -27,3 +27,8 @@ services:
     class: App\Infrastructure\RabbitMq\Consumer\Sms\SmsConsumer
     arguments:
       $logger: "@monolog.logger.receive_notify"
+
+  consumers.discord:
+    class: App\Infrastructure\RabbitMq\Consumer\Discord\DiscordConsumer
+    arguments:
+      $logger: "@monolog.logger.receive_notify"
