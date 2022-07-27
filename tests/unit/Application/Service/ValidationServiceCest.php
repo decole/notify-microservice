@@ -45,6 +45,13 @@ class ValidationServiceCest
         $I->assertInstanceOf(ConstraintViolationList::class, $list);
     }
 
+    public function positiveSlackValidation(UnitTester $I): void
+    {
+        $list = $this->service->validate($this->getSlackDto());
+
+        $I->assertInstanceOf(ConstraintViolationList::class, $list);
+    }
+
     public function positiveSmsValidation(UnitTester $I): void
     {
         $list = $this->service->validate($this->getSmsDto());
@@ -86,6 +93,15 @@ class ValidationServiceCest
     {
         $dto = new MessageInput();
         $dto->type = NotifyMessage::VKONTAKTE_TYPE;
+        $dto->message = $this->faker->text;
+
+        return $dto;
+    }
+
+    private function getSlackDto(): MessageInput
+    {
+        $dto = new MessageInput();
+        $dto->type = NotifyMessage::SLACK_TYPE;
         $dto->message = $this->faker->text;
 
         return $dto;

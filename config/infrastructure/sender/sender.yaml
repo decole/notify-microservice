@@ -17,6 +17,10 @@ services:
     arguments:
       $logger: "@monolog.logger.receive_notify"
 
+  App\Infrastructure\Sender\Slack\SlackSender:
+    arguments:
+      $logger: "@monolog.logger.receive_notify"
+
   App\Infrastructure\Sender\Sms\SmsSender:
     arguments:
       $logger: "@monolog.logger.receive_notify"

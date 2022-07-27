@@ -25,6 +25,10 @@ services:
       $groupId: '%env(VK_GROUP_ID)%'
       $peerId: '%env(VK_PEER_ID)%'
 
+  App\Infrastructure\Sender\Slack\Service\SlackSenderService:
+    arguments:
+      $webhook: '%env(SLACK_WEB_HOOK)%'
+
   App\Infrastructure\Sender\Sms\Service\SmsProviderResolver:
     arguments:
       $provider: '%env(SMS_PROVIDER)%'

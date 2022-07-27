@@ -8,6 +8,7 @@ use App\Application\Exception\NotFoundEntityException;
 use App\Application\Http\Api\SingleNotify\Input\MessageInput;
 use App\Application\Service\Factory\ValidationFactory;
 use App\Application\Service\ValidationCriteria\EmailValidationCriteria;
+use App\Application\Service\ValidationCriteria\SlackValidationCriteria;
 use App\Application\Service\ValidationCriteria\SmsValidationCriteria;
 use App\Application\Service\ValidationCriteria\TelegramValidationCriteria;
 use App\Application\Service\ValidationCriteria\VkontakteValidationCriteria;
@@ -47,6 +48,14 @@ class ValidationFactoryCest
         $I->assertInstanceOf(VkontakteValidationCriteria::class, $criteria);
     }
 
+    public function positiveSlack(UnitTester $I): void
+    {
+        $dto = $this->getDto(NotifyMessage::SLACK_TYPE);
+        $criteria = $this->factory->getCriteria($dto);
+
+        $I->assertInstanceOf(SlackValidationCriteria::class, $criteria);
+    }
+
     public function positiveSms(UnitTester $I): void
     {
         $dto = $this->getDto(NotifyMessage::SMS_TYPE);
@@ -79,6 +88,10 @@ class ValidationFactoryCest
 
         if ($type === NotifyMessage::VKONTAKTE_TYPE) {
             $dto->type = NotifyMessage::VKONTAKTE_TYPE;
+        }
+
+        if ($type === NotifyMessage::SLACK_TYPE) {
+            $dto->type = NotifyMessage::SLACK_TYPE;
         }
 
         if ($type === NotifyMessage::SMS_TYPE) {

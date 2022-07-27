@@ -11,6 +11,8 @@ services:
 
   App\Infrastructure\RabbitMq\Producer\Vkontakte\VkontakteProducer: '@old_sound_rabbit_mq.vkontakte_producer'
 
+  App\Infrastructure\RabbitMq\Producer\Slack\SlackProducer: '@old_sound_rabbit_mq.slack_producer'
+
   App\Infrastructure\RabbitMq\Producer\Sms\SmsProducer: '@old_sound_rabbit_mq.sms_producer'
 
   App\Infrastructure\RabbitMq\Producer\Discord\DiscordProducer: '@old_sound_rabbit_mq.discord_producer'

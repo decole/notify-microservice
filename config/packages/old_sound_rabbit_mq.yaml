@@ -37,6 +37,11 @@ old_sound_rabbit_mq:
       connection: default
       exchange_options: { name: '%env(VK_QUEUE)%', type: direct }
       default_delivery_mode: 2
+    slack:
+      class: App\Infrastructure\RabbitMq\Producer\Slack\SlackProducer
+      connection: default
+      exchange_options: { name: '%env(SLACK_QUEUE)%', type: direct }
+      default_delivery_mode: 2
     sms:
       class: App\Infrastructure\RabbitMq\Producer\Sms\SmsProducer
       connection: default
@@ -69,6 +74,11 @@ old_sound_rabbit_mq:
       exchange_options: { name: '%env(VK_QUEUE)%', type: direct }
       queue_options: { name: '%env(VK_QUEUE)%' }
       callback: consumers.vkontakte
+    slack:
+      connection: default
+      exchange_options: { name: '%env(SLACK_QUEUE)%', type: direct }
+      queue_options: { name: '%env(SLACK_QUEUE)%' }
+      callback: consumers.slack
     sms:
       connection: default
       exchange_options: { name: '%env(SMS_QUEUE)%', type: direct }
