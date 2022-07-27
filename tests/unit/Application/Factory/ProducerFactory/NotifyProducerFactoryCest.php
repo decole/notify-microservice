@@ -6,6 +6,7 @@ namespace App\Tests\unit\Application\Factory\ProducerFactory;
 
 use App\Application\Exception\NotFoundEntityException;
 use App\Application\Factory\ProducerFactory\NotifyProducerFactory;
+use App\Infrastructure\RabbitMq\Producer\Discord\DiscordProducer;
 use App\Infrastructure\RabbitMq\Producer\Email\EmailProducer;
 use App\Infrastructure\RabbitMq\Producer\Sms\SmsProducer;
 use App\Infrastructure\RabbitMq\Producer\Telegram\TelegramProducer;
@@ -52,6 +53,16 @@ class NotifyProducerFactoryCest
         $producer = $service->createProducer('sms');
 
         $I->assertInstanceOf(SmsProducer::class, $producer);
+    }
+
+    public function createDiscordProducer(UnitTester $I): void
+    {
+        /** @var NotifyProducerFactory $service */
+        $service = $I->grabService(NotifyProducerFactory::class);
+
+        $producer = $service->createProducer('discord');
+
+        $I->assertInstanceOf(DiscordProducer::class, $producer);
     }
 
     public function negativeCreateProducer(UnitTester $I): void

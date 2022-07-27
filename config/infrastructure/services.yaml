@@ -31,3 +31,7 @@ services:
 
   App\Infrastructure\Sender\Sms\Provider\:
     resource: '%kernel.project_dir%/src/Infrastructure/Sender/Sms/Provider/*Provider.php'
+
+  App\Infrastructure\Sender\Discord\Service\DiscordSenderService:
+    arguments:
+      $webhookUri: '%env(DISCORD_WEBHOOK)%'

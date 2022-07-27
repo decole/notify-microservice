@@ -48,6 +48,8 @@ make migration
 
 [Настройка SMS очереди](docs/SMS.md) - заглушка. Должна быть рабочей, ибо логика отправки бралась из окументации
 
+[Настройка discord очереди](docs/DISCORD.md)
+
 
 ## Список энтрипоинтов: 
 ```markdown
@@ -70,6 +72,9 @@ php bin/console rabbitmq:consumer vkontakte -vv
 
 # работа в цикле. прослушивает очередь sms
 php bin/console rabbitmq:consumer sms -vv
+
+# работа в цикле. прослушивает очередь discord
+php bin/console rabbitmq:consumer discord -vv
 
 # очередь прослушивания исторических данных
 php bin/console rabbitmq:consumer history -vv
