@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Application\Cli;
+namespace App\Infrastructure\Cli;
 
 
 use App\Infrastructure\Sender\Telegram\Service\TelegramSenderService;

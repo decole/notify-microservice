@@ -6,23 +6,25 @@ namespace App\Tests\unit\Domain\Doctrine\HistoryNotification\Entity;
 
 use App\Domain\Doctrine\HistoryNotification\Entity\HistoryNotification;
 use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyStatusEnum;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyTypeEnum;
 use App\Tests\UnitTester;
 
 class HistoryNotificationCest
 {
     public function getStatus(UnitTester $I): void
     {
-        $message = new NotifyMessage(NotifyMessage::EMAIL_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);
-        $entity = new HistoryNotification($message, NotifyMessage::STATUS_ACTIVE, 'info message');
+        $message = new NotifyMessage(NotifyTypeEnum::EMAIL->value, ['test' => 'execute'], NotifyStatusEnum::IN_QUEUE->value);
+        $entity = new HistoryNotification($message, NotifyStatusEnum::ACTIVE->value, 'info message');
 
-        $I->assertEquals(NotifyMessage::STATUS_ACTIVE, $entity->getStatus());
+        $I->assertEquals(NotifyStatusEnum::ACTIVE->value, $entity->getStatus());
     }
 
     public function positiveSetStatus(UnitTester $I): void
     {
-        $newStatus = NotifyMessage::STATUS_ERROR;
-        $message = new NotifyMessage(NotifyMessage::EMAIL_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);
-        $entity = new HistoryNotification($message, NotifyMessage::STATUS_ACTIVE, 'info message');
+        $newStatus = NotifyStatusEnum::ERROR->value;
+        $message = new NotifyMessage(NotifyTypeEnum::EMAIL->value, ['test' => 'execute'], NotifyStatusEnum::IN_QUEUE->value);
+        $entity = new HistoryNotification($message, NotifyStatusEnum::ACTIVE->value, 'info message');
         $entity->setStatus($newStatus);
 
         $I->assertEquals($newStatus, $entity->getStatus());
@@ -31,8 +33,8 @@ class HistoryNotificationCest
     public function negativeSetStatus(UnitTester $I): void
     {
         $newStatus = 'error status';
-        $message = new NotifyMessage(NotifyMessage::EMAIL_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);
-        $entity = new HistoryNotification($message, NotifyMessage::STATUS_ACTIVE, 'info message');
+        $message = new NotifyMessage(NotifyTypeEnum::EMAIL->value, ['test' => 'execute'], NotifyStatusEnum::IN_QUEUE->value);
+        $entity = new HistoryNotification($message, NotifyStatusEnum::ACTIVE->value, 'info message');
 
         try {
             $entity->setStatus($newStatus);
@@ -47,8 +49,8 @@ class HistoryNotificationCest
     public function notIsSetChangeStatus(UnitTester $I): void
     {
         $newStatus = 9999;
-        $message = new NotifyMessage(NotifyMessage::EMAIL_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);
-        $entity = new HistoryNotification($message, NotifyMessage::STATUS_ACTIVE, 'info message');
+        $message = new NotifyMessage(NotifyTypeEnum::EMAIL->value, ['test' => 'execute'], NotifyStatusEnum::IN_QUEUE->value);
+        $entity = new HistoryNotification($message, NotifyStatusEnum::ACTIVE->value, 'info message');
 
         try {
             $entity->setStatus($newStatus);
@@ -61,8 +63,8 @@ class HistoryNotificationCest
     public function positiveSetInfo(UnitTester $I): void
     {
         $info = 'info message';
-        $message = new NotifyMessage(NotifyMessage::EMAIL_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);
-        $entity = new HistoryNotification($message, NotifyMessage::STATUS_ACTIVE, $info);
+        $message = new NotifyMessage(NotifyTypeEnum::EMAIL->value, ['test' => 'execute'], NotifyStatusEnum::IN_QUEUE->value);
+        $entity = new HistoryNotification($message, NotifyStatusEnum::ACTIVE->value, $info);
 
         $I->assertEquals($info, $entity->getInfo());
     }
@@ -70,24 +72,24 @@ class HistoryNotificationCest
     public function checkIsNullInfo(UnitTester $I): void
     {
         $info = null;
-        $message = new NotifyMessage(NotifyMessage::EMAIL_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);
-        $entity = new HistoryNotification($message, NotifyMessage::STATUS_ACTIVE, $info);
+        $message = new NotifyMessage(NotifyTypeEnum::EMAIL->value, ['test' => 'execute'], NotifyStatusEnum::IN_QUEUE->value);
+        $entity = new HistoryNotification($message, NotifyStatusEnum::ACTIVE->value, $info);
 
         $I->assertEquals($info, $entity->getInfo());
     }
 
     public function checkId(UnitTester $I): void
     {
-        $message = new NotifyMessage(NotifyMessage::EMAIL_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);
-        $entity = new HistoryNotification($message, NotifyMessage::STATUS_ACTIVE, null);
+        $message = new NotifyMessage(NotifyTypeEnum::EMAIL->value, ['test' => 'execute'], NotifyStatusEnum::IN_QUEUE->value);
+        $entity = new HistoryNotification($message, NotifyStatusEnum::ACTIVE->value, null);
 
         $I->assertNotNull($entity->getId()->toString());
     }
 
     public function checkCreatedAt(UnitTester $I): void
     {
-        $message = new NotifyMessage(NotifyMessage::EMAIL_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);
-        $entity = new HistoryNotification($message, NotifyMessage::STATUS_ACTIVE, null);
+        $message = new NotifyMessage(NotifyTypeEnum::EMAIL->value, ['test' => 'execute'], NotifyStatusEnum::IN_QUEUE->value);
+        $entity = new HistoryNotification($message, NotifyStatusEnum::ACTIVE->value, null);
 
         $I->assertNotNull($entity->getCreatedAt());
     }

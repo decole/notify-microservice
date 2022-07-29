@@ -1,9 +1,9 @@
 web:
-    resource: '../src/Application/Http/Web'
+    resource: '../src/Infrastructure/Http/Web'
     type: annotation
     prefix: /
 
 api:
-    resource: '../src/Application/Http/Api'
+    resource: '../src/Infrastructure/Http/Api'
     type: annotation
     prefix: /api

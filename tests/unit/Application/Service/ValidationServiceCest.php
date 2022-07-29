@@ -7,7 +7,7 @@ namespace App\Tests\unit\Application\Service;
 use App\Application\Exception\NotFoundEntityException;
 use App\Application\Http\Api\SingleNotify\Input\MessageInput;
 use App\Application\Service\ValidationService;
-use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyTypeEnum;
 use App\Tests\UnitTester;
 use Faker\Factory;
 use Faker\Generator;
@@ -72,7 +72,7 @@ class ValidationServiceCest
     private function getEmailDto(): MessageInput
     {
         $dto = new MessageInput();
-        $dto->type = NotifyMessage::EMAIL_TYPE;
+        $dto->type = NotifyTypeEnum::EMAIL->value;
         $dto->message = $this->faker->text;
         $dto->email = 'test@test.ru';
 
@@ -82,7 +82,7 @@ class ValidationServiceCest
     private function getTelegramDto(): MessageInput
     {
         $dto = new MessageInput();
-        $dto->type = NotifyMessage::TELEGRAM_TYPE;
+        $dto->type = NotifyTypeEnum::TELEGRAM->value;
         $dto->userId = $this->faker->biasedNumberBetween(10000000, 99999999999);
         $dto->message = $this->faker->text;
 
@@ -92,7 +92,7 @@ class ValidationServiceCest
     private function getVkontakteDto(): MessageInput
     {
         $dto = new MessageInput();
-        $dto->type = NotifyMessage::VKONTAKTE_TYPE;
+        $dto->type = NotifyTypeEnum::VKONTAKTE->value;
         $dto->message = $this->faker->text;
 
         return $dto;
@@ -101,7 +101,7 @@ class ValidationServiceCest
     private function getSlackDto(): MessageInput
     {
         $dto = new MessageInput();
-        $dto->type = NotifyMessage::SLACK_TYPE;
+        $dto->type = NotifyTypeEnum::SLACK->value;
         $dto->message = $this->faker->text;
 
         return $dto;
@@ -110,7 +110,7 @@ class ValidationServiceCest
     private function getSmsDto(): MessageInput
     {
         $dto = new MessageInput();
-        $dto->type = NotifyMessage::SMS_TYPE;
+        $dto->type = NotifyTypeEnum::SMS->value;
         $dto->phone = $this->faker->phoneNumber;
         $dto->message = $this->faker->text;
 

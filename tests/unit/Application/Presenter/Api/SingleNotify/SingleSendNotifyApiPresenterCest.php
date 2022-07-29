@@ -6,6 +6,8 @@ namespace App\Tests\unit\Application\Presenter\Api\SingleNotify;
 
 use App\Application\Presenter\Api\SingleNotify\SingleSendNotifyApiPresenter;
 use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyStatusEnum;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyTypeEnum;
 use App\Tests\UnitTester;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Throwable;
@@ -14,7 +16,7 @@ class SingleSendNotifyApiPresenterCest
 {
     public function presentByEmail(UnitTester $I): void
     {
-        $notify = $this->getNotify(NotifyMessage::EMAIL_TYPE);
+        $notify = $this->getNotify(NotifyTypeEnum::EMAIL->value);
         $presenter = new SingleSendNotifyApiPresenter($notify);
         $result = $presenter->present();
 
@@ -32,7 +34,7 @@ class SingleSendNotifyApiPresenterCest
 
     public function presentByTelegram(UnitTester $I): void
     {
-        $notify = $this->getNotify(NotifyMessage::TELEGRAM_TYPE);
+        $notify = $this->getNotify(NotifyTypeEnum::TELEGRAM->value);
         $presenter = new SingleSendNotifyApiPresenter($notify);
         $result = $presenter->present();
 
@@ -50,7 +52,7 @@ class SingleSendNotifyApiPresenterCest
 
     public function presentByVkontakte(UnitTester $I): void
     {
-        $notify = $this->getNotify(NotifyMessage::VKONTAKTE_TYPE);
+        $notify = $this->getNotify(NotifyTypeEnum::VKONTAKTE->value);
         $presenter = new SingleSendNotifyApiPresenter($notify);
         $result = $presenter->present();
 
@@ -68,7 +70,7 @@ class SingleSendNotifyApiPresenterCest
 
     public function presentBySlack(UnitTester $I): void
     {
-        $notify = $this->getNotify(NotifyMessage::SLACK_TYPE);
+        $notify = $this->getNotify(NotifyTypeEnum::SLACK->value);
         $presenter = new SingleSendNotifyApiPresenter($notify);
         $result = $presenter->present();
 
@@ -86,7 +88,7 @@ class SingleSendNotifyApiPresenterCest
 
     public function presentBySms(UnitTester $I): void
     {
-        $notify = $this->getNotify(NotifyMessage::SMS_TYPE);
+        $notify = $this->getNotify(NotifyTypeEnum::SMS->value);
         $presenter = new SingleSendNotifyApiPresenter($notify);
         $result = $presenter->present();
 
@@ -116,6 +118,6 @@ class SingleSendNotifyApiPresenterCest
 
     private function getNotify(string $type): NotifyMessage
     {
-        return new NotifyMessage($type, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);
+        return new NotifyMessage($type, ['test' => 'execute'], NotifyStatusEnum::IN_QUEUE->value);
     }
 }

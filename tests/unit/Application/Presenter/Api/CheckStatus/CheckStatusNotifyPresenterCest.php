@@ -6,6 +6,8 @@ namespace App\Tests\unit\Application\Presenter\Api\CheckStatus;
 
 use App\Application\Presenter\Api\CheckStatus\CheckStatusNotifyPresenter;
 use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyStatusEnum;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyTypeEnum;
 use App\Tests\UnitTester;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -44,6 +46,6 @@ class CheckStatusNotifyPresenterCest
 
     private function getNotify(): NotifyMessage
     {
-        return new NotifyMessage(NotifyMessage::EMAIL_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);
+        return new NotifyMessage(NotifyTypeEnum::EMAIL->value, ['test' => 'execute'], NotifyStatusEnum::IN_QUEUE->value);
     }
 }

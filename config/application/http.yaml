@@ -3,6 +3,6 @@ services:
     autowire: true
     autoconfigure: true
 
-  App\Application\Http\:
-    resource: '%kernel.project_dir%/src/Application/Http/**/*Controller.php'
+  App\Infrastructure\Http\:
+    resource: '%kernel.project_dir%/src/Infrastructure/Http/**/*Controller.php'
     tags: [ 'controller.service_arguments' ]

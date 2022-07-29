@@ -1,6 +1,8 @@
 <?php
 
+
 namespace App\Application\EventListener;
+
 
 use App\Application\Presenter\Api\ErrorPresenter;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;

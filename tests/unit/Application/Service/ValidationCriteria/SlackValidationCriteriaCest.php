@@ -1,10 +1,12 @@
 <?php
 
+
 namespace App\Tests\unit\Application\Service\ValidationCriteria;
+
 
 use App\Application\Http\Api\SingleNotify\Input\MessageInput;
 use App\Application\Service\ValidationCriteria\SlackValidationCriteria;
-use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyTypeEnum;
 use App\Tests\UnitTester;
 use Faker\Factory;
 use Faker\Generator;
@@ -40,7 +42,7 @@ class SlackValidationCriteriaCest
     private function getDto(): MessageInput
     {
         $dto = new MessageInput();
-        $dto->type = NotifyMessage::SLACK_TYPE;
+        $dto->type = NotifyTypeEnum::SLACK->value;
         $dto->message = 'test';
 
         return $dto;

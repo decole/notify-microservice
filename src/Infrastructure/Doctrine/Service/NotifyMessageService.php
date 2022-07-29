@@ -7,6 +7,7 @@ namespace App\Infrastructure\Doctrine\Service;
 use App\Application\Http\Api\SingleNotify\Dto\MessageDto;
 use App\Domain\Doctrine\Common\Transactions\TransactionInterface;
 use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyStatusEnum;
 use App\Infrastructure\Doctrine\Interfaces\NotifyMessageRepositoryInterface;
 
 final class NotifyMessageService
@@ -65,6 +66,6 @@ final class NotifyMessageService
 
     private function getNewEntityByDto(MessageDto $dto): NotifyMessage
     {
-        return new NotifyMessage($dto->getType(), $dto->getMessage(), NotifyMessage::STATUS_IN_QUEUE);
+        return new NotifyMessage($dto->getType(), $dto->getMessage(), NotifyStatusEnum::IN_QUEUE->value);
     }
 }

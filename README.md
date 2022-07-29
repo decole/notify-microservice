@@ -8,7 +8,7 @@
 
 ## Postman collection (документация по API):
 
-Импортируйте себе [Postman коллекцию](docs/REST_API_MICROSERVICE.postman_collection.json), чтобы видеть у себя все энтрипоинты с примерами данных.
+Импортируйте себе [Postman коллекцию](docs/REST_API_MICROSERVICE.postman_collection.json), чтобы видеть все энтрипоинты с примерами данных.
 
 
 ## Как ставить:
@@ -16,10 +16,11 @@
 2. Далее выполнить серию команд: 
 
 ```shell
-# На Linux установать make - sudo apt install - для последующе работы. 
-# Либо если другая у вас ОС, смотрите в Makefile - файле в корне репозитория. 
+# На Linux установить make - sudo apt install make - для последующе работы. 
+# Либо если у вас другая ОС, смотрите в Makefile - файле в корне репозитория. 
 # Каждая фраза - цепочка вызовов linux команд
-# соберет необходимые docker образа
+
+# соберет необходимые docker образы
 make build 
 # скопирует необходимые файлы из шаблонов
 make env
@@ -27,12 +28,14 @@ make env
 make up
 # composer установит необходимые пакеты для работы приложения
 make composer-install
-#применятся миграции к БД
+# применит миграции к БД
 make migration
+# регистрация топиков очередей RabbitMQ
+make rabbitMq-setup
 ```
 
 
-Добавить в `/etc/hosts` следующую строчку: (чтобы приложение было доступно из http://notify.local:85/api/)
+Далее добавить в `/etc/hosts` следующую строчку: (чтобы приложение было доступно из http://notify.local:85/api/)
 ```shell
 127.0.0.1      notify.local
 ```
@@ -43,8 +46,9 @@ make migration
 
 
 ## Пример настроек docker контейнеров для каждой очереди:
-В **docker-compose.yaml.dist** есть закоментированные примеры docker контейнеров запускающих конкретные очереди.
-Для правильной работы, нужны контейнеры с очередями нотификаций и обязательно минимум 1 контейнер **worker-history** для 
+
+В **docker-compose.yaml.dist** есть закомментированные примеры docker контейнеров, запускающих конкретные очереди.
+Для правильной работы, нужны контейнеры с очередями нотификаций и обязательно контейнер **worker-history** для 
 сохранения текущего состояния каждой нотификации.
 
 Вы всегда можете переделать запуск фоновых процессов в supervisor, если не хотите замарачиваться с docker контейнерами.
@@ -58,11 +62,13 @@ make migration
 
  - [Настройка vkontakte очереди](docs/VK.md)
 
- - [Настройка SMS очереди](docs/SMS.md) - заглушка. Должна быть рабочей, ибо логика отправки бралась из окументации
+ - [Настройка SMS очереди](docs/SMS.md) - заглушка. Должна быть рабочей, ибо логика отправки бралась из документации
 
  - [Настройка discord очереди](docs/DISCORD.md)
 
  - [Настройка slack очереди](docs/SLACK.md)
+
+ - [Интеграция с Zabbix](docs/Zabbix.md)
 
 
 ## Список энтрипоинтов: 
@@ -108,7 +114,7 @@ php bin/console rabbitmq:consumer history -vv
 Выполните команду:
 
 ```shell
-# применяет миграции в базу данных для тестов
+# применит миграции в базу данных для тестов
 php bin/console doctrine:migrations:migrate --env test
 ```
 
@@ -120,7 +126,7 @@ php bin/console --env=test doctrine:schema:create
 ```
 
 
-# Напоминания для CI/CD:
+## Напоминания для CI/CD:
 
 Для деплоя на продуктив и тестовый стенд перед каждым стартом эксплуатации надо выполнять эту команду для 
 генерации тем очередей RabbitMQ
@@ -129,8 +135,17 @@ php bin/console --env=test doctrine:schema:create
 php bin/console rabbitmq:setup-fabric
 ```
 
+
 ## Команда разработки проекта:
 
-|                            | Тимлид проекта - Евгений ()        |                             |
-|----------------------------|------------------------------------|-----------------------------|
-| Виктор Лаптев (@fiCeVitka) | Павел Гапоненко (@pavel_gaponenko) | Сергей Галочкин (@decole12) |
+| Имя и телеграм ник                                                                                  | Фото                                                                                   |
+|-----------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|
+| Тимлид проекта - Евгений <br> (выпускник курса Тимлид Otus) <br> ([@auregal](https://t.me/auregal)) | <div align="center" width="100%"><img width="100%" src="docs/photo/_Eugene.jpg"></div> |
+| Виктор Лаптев ([@fiCeVitka](https://t.me/fiCeVitka))                                                | <div align="center" width="100%"><img width="100%" src="docs/photo/_Viktor.jpg"></div> |
+| Павел Гапоненко ([@pavel_gaponenko](https://t.me/pavel_gaponenko))                                  | <div align="center" width="100%"><img width="100%" src="docs/photo/_Pavel.jpg"></div>  |
+| Сергей Галочкин ([@decole12](https://t.me/decole12))                                                | <div align="center" width="100%"><img width="100%" src="docs/photo/_Sergey.png"></div> |
+
+
+## Техническое задание:
+
+https://docs.google.com/document/d/17oU4hbykR7cwYygCpHYgSpB82sjHKmbP_W3VSPYcHRc/edit?usp=sharing

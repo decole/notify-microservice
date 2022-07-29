@@ -6,6 +6,7 @@ namespace App\Infrastructure\RabbitMq\Consumer;
 
 use App\Application\Event\MessageStatusUpdatedEvent;
 use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyStatusEnum;
 use App\Infrastructure\Doctrine\Service\NotifyMessageService;
 use App\Infrastructure\Exception\NotFoundEntityException;
 use App\Infrastructure\Sender\Interfaces\SenderInterface;
@@ -42,14 +43,14 @@ abstract class AbstractNotifyConsumer
             }
 
             $this->eventDispatcher->dispatch(
-                new MessageStatusUpdatedEvent($message, NotifyMessage::STATUS_ACTIVE),
+                new MessageStatusUpdatedEvent($message, NotifyStatusEnum::ACTIVE->value),
                 MessageStatusUpdatedEvent::NAME
             );
 
             $this->getSender()->send($message);
 
             $this->eventDispatcher->dispatch(
-                new MessageStatusUpdatedEvent($message, NotifyMessage::STATUS_DONE),
+                new MessageStatusUpdatedEvent($message, NotifyStatusEnum::DONE->value),
                 MessageStatusUpdatedEvent::NAME
             );
         } catch (Throwable $exception) {
@@ -60,7 +61,7 @@ abstract class AbstractNotifyConsumer
 
             if ($message !== null) {
                 $this->eventDispatcher->dispatch(
-                    new MessageStatusUpdatedEvent($message, NotifyMessage::STATUS_ERROR, $exception->getMessage()),
+                    new MessageStatusUpdatedEvent($message, NotifyStatusEnum::ERROR->value, $exception->getMessage()),
                     MessageStatusUpdatedEvent::NAME,
                 );
             }

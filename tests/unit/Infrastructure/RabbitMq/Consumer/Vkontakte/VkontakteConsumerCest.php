@@ -7,6 +7,8 @@ namespace App\Tests\unit\Infrastructure\RabbitMq\Consumer\Vkontakte;
 use App\Application\Event\MessageStatusUpdatedEvent;
 use App\Application\EventListener\MessageStatusUpdatedListener;
 use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyStatusEnum;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyTypeEnum;
 use App\Infrastructure\Doctrine\Repository\NotifyMessage\NotifyMessageRepository;
 use App\Infrastructure\Doctrine\Service\NotifyMessageService;
 use App\Infrastructure\RabbitMq\Consumer\Vkontakte\VkontakteConsumer;
@@ -77,7 +79,7 @@ class VkontakteConsumerCest
 
     private function getAmqpMessage(bool $save = true): AMQPMessage
     {
-        $notify = new NotifyMessage(NotifyMessage::VKONTAKTE_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);
+        $notify = new NotifyMessage(NotifyTypeEnum::VKONTAKTE->value, ['test' => 'execute'], NotifyStatusEnum::IN_QUEUE->value);
 
         if ($save) {
             $this->repository->save($notify);

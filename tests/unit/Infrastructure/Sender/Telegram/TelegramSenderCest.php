@@ -5,6 +5,8 @@ namespace App\Tests\unit\Infrastructure\Sender\Telegram;
 
 
 use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyStatusEnum;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyTypeEnum;
 use App\Infrastructure\Sender\Telegram\Service\TelegramSenderService;
 use App\Infrastructure\Sender\Telegram\TelegramSender;
 use App\Tests\UnitTester;
@@ -72,36 +74,36 @@ class TelegramSenderCest
     private function getNotify(): NotifyMessage
     {
         return new NotifyMessage(
-            NotifyMessage::TELEGRAM_TYPE,
+            NotifyTypeEnum::TELEGRAM->value,
             [
                 'userId' => $this->faker->numberBetween(10000000, 99999999999),
                 'message' => $this->faker->text,
                 'test' => 'execute',
             ],
-            NotifyMessage::STATUS_IN_QUEUE
+            NotifyStatusEnum::IN_QUEUE->value
         );
     }
 
     private function getWrongNotify(): NotifyMessage
     {
         return new NotifyMessage(
-            NotifyMessage::TELEGRAM_TYPE,
+            NotifyTypeEnum::TELEGRAM->value,
             [
                 'test' => 'execute',
             ],
-            NotifyMessage::STATUS_IN_QUEUE
+            NotifyStatusEnum::IN_QUEUE->value
         );
     }
 
     private function getWrongNotifyWithUserId(): NotifyMessage
     {
         return new NotifyMessage(
-            NotifyMessage::TELEGRAM_TYPE,
+            NotifyTypeEnum::TELEGRAM->value,
             [
                 'userId' => $this->faker->numberBetween(10000000, 99999999999),
                 $this->faker->word => $this->faker->word,
             ],
-            NotifyMessage::STATUS_IN_QUEUE
+            NotifyStatusEnum::IN_QUEUE->value
         );
     }
 }

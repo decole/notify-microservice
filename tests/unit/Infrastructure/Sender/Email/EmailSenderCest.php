@@ -5,6 +5,8 @@ namespace App\Tests\unit\Infrastructure\Sender\Email;
 
 
 use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyStatusEnum;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyTypeEnum;
 use App\Infrastructure\Sender\Email\EmailSender;
 use App\Tests\UnitTester;
 use Codeception\Stub;
@@ -72,36 +74,36 @@ class EmailSenderCest
     private function getNotify(): NotifyMessage
     {
         return new NotifyMessage(
-            NotifyMessage::EMAIL_TYPE,
+            NotifyTypeEnum::EMAIL->value,
             [
                 'email' => $this->faker->email,
                 'message' => $this->faker->text,
                 'test' => 'execute',
             ],
-            NotifyMessage::STATUS_IN_QUEUE
+            NotifyStatusEnum::IN_QUEUE->value
         );
     }
 
     private function getWrongNotify(): NotifyMessage
     {
         return new NotifyMessage(
-            NotifyMessage::EMAIL_TYPE,
+            NotifyTypeEnum::EMAIL->value,
             [
                 'test' => 'execute',
             ],
-            NotifyMessage::STATUS_IN_QUEUE
+            NotifyStatusEnum::IN_QUEUE->value
         );
     }
 
     private function getWrongNotifyWithEmail(): NotifyMessage
     {
         return new NotifyMessage(
-            NotifyMessage::EMAIL_TYPE,
+            NotifyTypeEnum::EMAIL->value,
             [
                 'email' => $this->faker->email,
                 $this->faker->word => $this->faker->word,
             ],
-            NotifyMessage::STATUS_IN_QUEUE
+            NotifyStatusEnum::IN_QUEUE->value
         );
     }
 }

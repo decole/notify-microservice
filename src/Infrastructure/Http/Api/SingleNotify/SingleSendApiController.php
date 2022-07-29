@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Application\Http\Api\SingleNotify;
+namespace App\Infrastructure\Http\Api\SingleNotify;
 
 
 use App\Application\Event\MessageStatusUpdatedEvent;

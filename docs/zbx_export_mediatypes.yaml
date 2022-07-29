@@ -1,0 +1,139 @@
+zabbix_export:
+  version: '6.0'
+  date: '2022-07-28T17:49:53Z'
+  media_types:
+    -
+      name: Microservice
+      type: WEBHOOK
+      parameters:
+        -
+          name: Message
+          value: '{ALERT.MESSAGE}'
+        -
+          name: Subject
+          value: '{ALERT.SUBJECT}'
+        -
+          name: To
+          value: '{ALERT.SENDTO}'
+      script: |
+        var Microservice = {
+            to: null,
+            message: null,
+            type: "telegram",
+        
+            sendMessage: function () {
+                var params = {
+                    userId: Microservice.to,
+                    message: Microservice.message,
+                    type: Microservice.type
+                },
+                data,
+                response,
+                request = new HttpRequest(),
+                url = 'https://microservice.otus.uberserver.ru/api/v1/send';
+        
+                request.addHeader('Content-Type: application/json');
+                data = JSON.stringify(params);
+        
+                // Remove replace() function if you want to see the exposed token in the log file.
+                Zabbix.log(4, '[Microservice Webhook] URL: ' + url);
+                Zabbix.log(4, '[Microservice Webhook] params: ' + data);
+                response = request.post(url, data);
+                Zabbix.log(4, '[Microservice Webhook] HTTP code: ' + request.getStatus());
+        
+                try {
+                    response = JSON.parse(response);
+                }
+                catch (error) {
+                    response = null;
+                }
+        
+                if (request.getStatus() !== 201 || typeof response.status !== 'string') {
+                    if (typeof response.errorText === 'string') {
+                        throw response.errorText;
+                    }
+                    else {
+                        throw 'Unknown error. Check debug log for more information.';
+                    }
+                }
+            }
+        };
+        
+        try {
+            var params = JSON.parse(value);
+        
+            if (typeof params.To === 'undefined') {
+                throw 'Incorrect value is given for parameter "To": parameter is missing';
+            }
+        
+            Microservice.to = params.To;
+            Microservice.message = params.Subject + '\n' + params.Message;
+        
+        
+            Microservice.sendMessage();
+        
+            return 'OK';
+        }
+        catch (error) {
+            Zabbix.log(4, '[Microservice Webhook] notification failed: ' + error);
+            throw 'Sending failed: ' + error + '.';
+        }
+      timeout: 10s
+      description: 'Нотификация микросервиса https://gitlab.com/decole/notify-microservice по каналу телеграм'
+      message_templates:
+        -
+          event_source: TRIGGERS
+          operation_mode: PROBLEM
+          subject: 'Problem: {EVENT.NAME}'
+          message: |
+            Problem started at {EVENT.TIME} on {EVENT.DATE}
+            Problem name: {EVENT.NAME}
+            Host: {HOST.NAME}
+            Severity: {EVENT.SEVERITY}
+            Operational data: {EVENT.OPDATA}
+            Original problem ID: {EVENT.ID}
+            {TRIGGER.URL}
+        -
+          event_source: TRIGGERS
+          operation_mode: RECOVERY
+          subject: 'Resolved in {EVENT.DURATION}: {EVENT.NAME}'
+          message: |
+            Problem has been resolved in {EVENT.DURATION} at {EVENT.RECOVERY.TIME} on {EVENT.RECOVERY.DATE}
+            Problem name: {EVENT.NAME}
+            Host: {HOST.NAME}
+            Severity: {EVENT.SEVERITY}
+            Original problem ID: {EVENT.ID}
+            {TRIGGER.URL}
+        -
+          event_source: TRIGGERS
+          operation_mode: UPDATE
+          subject: 'Updated problem: {EVENT.NAME}'
+          message: |
+            {USER.FULLNAME} {EVENT.UPDATE.ACTION} problem at {EVENT.UPDATE.DATE} {EVENT.UPDATE.TIME}.
+            {EVENT.UPDATE.MESSAGE}
+            
+            Current problem status is {EVENT.STATUS}, acknowledged: {EVENT.ACK.STATUS}.
+        -
+          event_source: DISCOVERY
+          operation_mode: PROBLEM
+          subject: 'Discovery: {DISCOVERY.DEVICE.STATUS} {DISCOVERY.DEVICE.IPADDRESS}'
+          message: |
+            Discovery rule: {DISCOVERY.RULE.NAME}
+            
+            Device IP: {DISCOVERY.DEVICE.IPADDRESS}
+            Device DNS: {DISCOVERY.DEVICE.DNS}
+            Device status: {DISCOVERY.DEVICE.STATUS}
+            Device uptime: {DISCOVERY.DEVICE.UPTIME}
+            
+            Device service name: {DISCOVERY.SERVICE.NAME}
+            Device service port: {DISCOVERY.SERVICE.PORT}
+            Device service status: {DISCOVERY.SERVICE.STATUS}
+            Device service uptime: {DISCOVERY.SERVICE.UPTIME}
+        -
+          event_source: AUTOREGISTRATION
+          operation_mode: PROBLEM
+          subject: 'Autoregistration: {HOST.HOST}'
+          message: |
+            Host name: {HOST.HOST}
+            Host IP: {HOST.IP}
+            Agent port: {HOST.PORT}

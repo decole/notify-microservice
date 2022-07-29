@@ -7,6 +7,8 @@ namespace App\Tests\unit\Infrastructure\RabbitMq\Consumer\Sms;
 use App\Application\Event\MessageStatusUpdatedEvent;
 use App\Application\EventListener\MessageStatusUpdatedListener;
 use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyStatusEnum;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyTypeEnum;
 use App\Infrastructure\Doctrine\Repository\NotifyMessage\NotifyMessageRepository;
 use App\Infrastructure\Doctrine\Service\NotifyMessageService;
 use App\Infrastructure\RabbitMq\Consumer\Sms\SmsConsumer;
@@ -74,7 +76,7 @@ class SmsConsumerCest
 
     private function getAmqpMessage(bool $save = true): AMQPMessage
     {
-        $notify = new NotifyMessage(NotifyMessage::SMS_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);
+        $notify = new NotifyMessage(NotifyTypeEnum::SMS->value, ['test' => 'execute'], NotifyStatusEnum::IN_QUEUE->value);
 
         if ($save) {
             $this->repository->save($notify);

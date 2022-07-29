@@ -1,20 +1,18 @@
 <?php
 
 
-namespace App\Application\Http\Api\CheckNotifyStatus;
+namespace App\Infrastructure\Http\Api\CheckNotifyStatus;
 
 
 use App\Application\Exception\NotFoundEntityException;
 use App\Application\Http\Api\CheckNotifyStatus\Service\CheckNotifyStatusService;
 use App\Application\Presenter\Api\CheckStatus\CheckStatusNotifyPresenter;
-use App\Application\Presenter\Api\ErrorPresenter;
 use App\Application\Presenter\Api\ErrorValidationPresenter;
 use App\Application\Service\ValidationService;
 use App\Infrastructure\Doctrine\Service\NotifyMessageService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
-use Throwable;
 
 final class CheckNotifyStatusApiController extends AbstractController
 {

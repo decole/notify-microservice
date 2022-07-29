@@ -6,6 +6,7 @@ namespace App\Application\Factory\ProducerFactory;
 
 use App\Application\Exception\NotFoundEntityException;
 use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyTypeEnum;
 use App\Infrastructure\RabbitMq\Producer\Discord\DiscordProducer;
 use App\Infrastructure\RabbitMq\Producer\Email\EmailProducer;
 use App\Infrastructure\RabbitMq\Producer\Slack\SlackProducer;
@@ -32,12 +33,12 @@ final class NotifyProducerFactory
     public function createProducer(string $type): ProducerInterface
     {
         return match ($type) {
-            NotifyMessage::EMAIL_TYPE => $this->emailProducer,
-            NotifyMessage::TELEGRAM_TYPE => $this->telegramProducer,
-            NotifyMessage::VKONTAKTE_TYPE => $this->vkontakteProducer,
-            NotifyMessage::SLACK_TYPE => $this->slackProducer,
-            NotifyMessage::SMS_TYPE => $this->smsProducer,
-            NotifyMessage::DISCORD_TYPE => $this->discordProducer,
+            NotifyTypeEnum::EMAIL->value => $this->emailProducer,
+            NotifyTypeEnum::TELEGRAM->value => $this->telegramProducer,
+            NotifyTypeEnum::VKONTAKTE->value => $this->vkontakteProducer,
+            NotifyTypeEnum::SLACK->value => $this->slackProducer,
+            NotifyTypeEnum::SMS->value => $this->smsProducer,
+            NotifyTypeEnum::DISCORD->value => $this->discordProducer,
 
             default => throw new NotFoundEntityException('Can`t create notify send producer'),
         };

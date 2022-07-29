@@ -8,6 +8,8 @@ use App\Application\Http\Api\SingleNotify\Dto\MessageDto;
 use App\Application\Http\Api\SingleNotify\Input\MessageInput;
 use App\Application\Http\Api\SingleNotify\Service\SingleSendApiService;
 use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyStatusEnum;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyTypeEnum;
 use App\Tests\UnitTester;
 use Faker\Factory;
 use Faker\Generator;
@@ -30,7 +32,7 @@ class SingleSendApiServiceByDiscordCest
         $dto = $service->createInputDto($request);
 
         $I->assertInstanceOf(MessageInput::class, $dto);
-        $I->assertEquals(NotifyMessage::DISCORD_TYPE, $dto->type);
+        $I->assertEquals(NotifyTypeEnum::DISCORD->value, $dto->type);
         $I->assertEquals('test notification message', $dto->message);
     }
 
@@ -54,7 +56,7 @@ class SingleSendApiServiceByDiscordCest
         $message = $service->createMessageDto($dto);
 
         $I->assertInstanceOf(MessageDto::class, $message);
-        $I->assertEquals(NotifyMessage::DISCORD_TYPE, $message->getType());
+        $I->assertEquals(NotifyTypeEnum::DISCORD->value, $message->getType());
         $I->assertIsArray($message->getMessage());
     }
 
@@ -72,7 +74,7 @@ class SingleSendApiServiceByDiscordCest
 
     public function positiveGetPublishQueueMessage(UnitTester $I): void
     {
-        $notify = new NotifyMessage(NotifyMessage::DISCORD_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);
+        $notify = new NotifyMessage(NotifyTypeEnum::DISCORD->value, ['test' => 'execute'], NotifyStatusEnum::IN_QUEUE->value);
         $service = $this->getService($I);
         $publication = $service->getPublishQueueMessage($notify);
 
@@ -105,7 +107,7 @@ class SingleSendApiServiceByDiscordCest
     private function getMessageInputDto(): MessageInput
     {
         $dto = new MessageInput();
-        $dto->type = NotifyMessage::DISCORD_TYPE;
+        $dto->type = NotifyTypeEnum::DISCORD->value;
         $dto->message = $this->faker->text;
 
         return $dto;

@@ -5,56 +5,58 @@ namespace App\Tests\unit\Domain\Doctrine\NotifyMessage\Entity;
 
 
 use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyStatusEnum;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyTypeEnum;
 use App\Tests\UnitTester;
 
 class NotifyMessageCest
 {
     public function getEmailType(UnitTester $I): void
     {
-        $message = new NotifyMessage(NotifyMessage::EMAIL_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);
+        $message = new NotifyMessage(NotifyTypeEnum::EMAIL->value, ['test' => 'execute'], NotifyStatusEnum::IN_QUEUE->value);
 
-        $I->assertEquals(NotifyMessage::EMAIL_TYPE, $message->getType());
+        $I->assertEquals(NotifyTypeEnum::EMAIL->value, $message->getType());
     }
 
     public function getTelegramType(UnitTester $I): void
     {
-        $message = new NotifyMessage(NotifyMessage::TELEGRAM_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);
+        $message = new NotifyMessage(NotifyTypeEnum::TELEGRAM->value, ['test' => 'execute'], NotifyStatusEnum::IN_QUEUE->value);
 
-        $I->assertEquals(NotifyMessage::TELEGRAM_TYPE, $message->getType());
+        $I->assertEquals(NotifyTypeEnum::TELEGRAM->value, $message->getType());
     }
 
     public function getVkontakteType(UnitTester $I): void
     {
-        $message = new NotifyMessage(NotifyMessage::VKONTAKTE_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);
+        $message = new NotifyMessage(NotifyTypeEnum::VKONTAKTE->value, ['test' => 'execute'], NotifyStatusEnum::IN_QUEUE->value);
 
-        $I->assertEquals(NotifyMessage::VKONTAKTE_TYPE, $message->getType());
+        $I->assertEquals(NotifyTypeEnum::VKONTAKTE->value, $message->getType());
     }
 
     public function getSlackType(UnitTester $I): void
     {
-        $message = new NotifyMessage(NotifyMessage::SLACK_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);
+        $message = new NotifyMessage(NotifyTypeEnum::SLACK->value, ['test' => 'execute'], NotifyStatusEnum::IN_QUEUE->value);
 
-        $I->assertEquals(NotifyMessage::SLACK_TYPE, $message->getType());
+        $I->assertEquals(NotifyTypeEnum::SLACK->value, $message->getType());
     }
 
     public function getSmsType(UnitTester $I): void
     {
-        $message = new NotifyMessage(NotifyMessage::SMS_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);
+        $message = new NotifyMessage(NotifyTypeEnum::SMS->value, ['test' => 'execute'], NotifyStatusEnum::IN_QUEUE->value);
 
-        $I->assertEquals(NotifyMessage::SMS_TYPE, $message->getType());
+        $I->assertEquals(NotifyTypeEnum::SMS->value, $message->getType());
     }
 
     public function getStatus(UnitTester $I): void
     {
-        $message = new NotifyMessage(NotifyMessage::EMAIL_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);
+        $message = new NotifyMessage(NotifyTypeEnum::EMAIL->value, ['test' => 'execute'], NotifyStatusEnum::IN_QUEUE->value);
 
-        $I->assertEquals(NotifyMessage::STATUS_IN_QUEUE, $message->getStatus());
+        $I->assertEquals(NotifyStatusEnum::IN_QUEUE->value, $message->getStatus());
     }
 
     public function positiveSetStatus(UnitTester $I): void
     {
-        $newStatus = NotifyMessage::STATUS_ERROR;
-        $message = new NotifyMessage(NotifyMessage::EMAIL_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);
+        $newStatus = NotifyStatusEnum::ERROR->value;
+        $message = new NotifyMessage(NotifyTypeEnum::EMAIL->value, ['test' => 'execute'], NotifyStatusEnum::IN_QUEUE->value);
         $message->setStatus($newStatus);
 
         $I->assertEquals($newStatus, $message->getStatus());
@@ -63,7 +65,7 @@ class NotifyMessageCest
     public function negativeSetStatus(UnitTester $I): void
     {
         $newStatus = 'error status';
-        $message = new NotifyMessage(NotifyMessage::EMAIL_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);
+        $message = new NotifyMessage(NotifyTypeEnum::EMAIL->value, ['test' => 'execute'], NotifyStatusEnum::IN_QUEUE->value);
 
         try {
             $message->setStatus($newStatus);
@@ -78,7 +80,7 @@ class NotifyMessageCest
     public function notIsSetEmailChangeStatus(UnitTester $I): void
     {
         $newStatus = 9999;
-        $message = new NotifyMessage(NotifyMessage::EMAIL_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);
+        $message = new NotifyMessage(NotifyTypeEnum::EMAIL->value, ['test' => 'execute'], NotifyStatusEnum::IN_QUEUE->value);
 
         try {
             $message->setStatus($newStatus);
@@ -90,7 +92,7 @@ class NotifyMessageCest
     public function notIsSetTelegramChangeStatus(UnitTester $I): void
     {
         $newStatus = 9999;
-        $message = new NotifyMessage(NotifyMessage::TELEGRAM_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);
+        $message = new NotifyMessage(NotifyTypeEnum::TELEGRAM->value, ['test' => 'execute'], NotifyStatusEnum::IN_QUEUE->value);
 
         try {
             $message->setStatus($newStatus);
@@ -101,42 +103,42 @@ class NotifyMessageCest
 
     public function getTextStatusInQueues(UnitTester $I): void
     {
-        $message = new NotifyMessage(NotifyMessage::EMAIL_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);
+        $message = new NotifyMessage(NotifyTypeEnum::EMAIL->value, ['test' => 'execute'], NotifyStatusEnum::IN_QUEUE->value);
 
         $I->assertEquals('in queue', $message->getTextStatus());
     }
 
     public function getTextStatusActive(UnitTester $I): void
     {
-        $message = new NotifyMessage(NotifyMessage::EMAIL_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_ACTIVE);
+        $message = new NotifyMessage(NotifyTypeEnum::EMAIL->value, ['test' => 'execute'], NotifyStatusEnum::ACTIVE->value);
 
         $I->assertEquals('sending', $message->getTextStatus());
     }
 
     public function getTextStatusError(UnitTester $I): void
     {
-        $message = new NotifyMessage(NotifyMessage::EMAIL_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_ERROR);
+        $message = new NotifyMessage(NotifyTypeEnum::EMAIL->value, ['test' => 'execute'], NotifyStatusEnum::ERROR->value);
 
         $I->assertEquals('error', $message->getTextStatus());
     }
 
     public function getTextStatusDone(UnitTester $I): void
     {
-        $message = new NotifyMessage(NotifyMessage::EMAIL_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_DONE);
+        $message = new NotifyMessage(NotifyTypeEnum::EMAIL->value, ['test' => 'execute'], NotifyStatusEnum::DONE->value);
 
         $I->assertEquals('sent', $message->getTextStatus());
     }
 
     public function checkUpdatedAtEmpty(UnitTester $I): void
     {
-        $message = new NotifyMessage(NotifyMessage::EMAIL_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_DONE);
+        $message = new NotifyMessage(NotifyTypeEnum::EMAIL->value, ['test' => 'execute'], NotifyStatusEnum::DONE->value);
 
         $I->assertEquals(null, $message->getUpdatedAt());
     }
 
     public function checkUpdatedAtIsSet(UnitTester $I): void
     {
-        $message = new NotifyMessage(NotifyMessage::EMAIL_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_DONE);
+        $message = new NotifyMessage(NotifyTypeEnum::EMAIL->value, ['test' => 'execute'], NotifyStatusEnum::DONE->value);
         $message->setUpdatedAt();
 
         $I->assertNotNull($message->getUpdatedAt());
@@ -145,7 +147,7 @@ class NotifyMessageCest
     public function getBody(UnitTester $I): void
     {
         $body = ['test' => 'execute'];
-        $message = new NotifyMessage(NotifyMessage::EMAIL_TYPE, $body, NotifyMessage::STATUS_DONE);
+        $message = new NotifyMessage(NotifyTypeEnum::EMAIL->value, $body, NotifyStatusEnum::DONE->value);
 
         $I->assertEquals($body, $message->getBody());
     }
@@ -153,7 +155,7 @@ class NotifyMessageCest
     public function getEmptyBody(UnitTester $I): void
     {
         $body = [];
-        $message = new NotifyMessage(NotifyMessage::EMAIL_TYPE, $body, NotifyMessage::STATUS_DONE);
+        $message = new NotifyMessage(NotifyTypeEnum::EMAIL->value, $body, NotifyStatusEnum::DONE->value);
 
         $I->assertEquals($body, $message->getBody());
     }
@@ -163,7 +165,7 @@ class NotifyMessageCest
         $body = null;
 
         try {
-            new NotifyMessage(NotifyMessage::EMAIL_TYPE, $body, NotifyMessage::STATUS_DONE);
+            new NotifyMessage(NotifyTypeEnum::EMAIL->value, $body, NotifyStatusEnum::DONE->value);
         } catch (\Throwable $exception) {}
 
         $I->assertEquals(true, str_contains(

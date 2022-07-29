@@ -8,6 +8,8 @@ use App\Application\Http\Api\SingleNotify\Dto\MessageDto;
 use App\Application\Http\Api\SingleNotify\Input\MessageInput;
 use App\Application\Http\Api\SingleNotify\Service\SingleSendApiService;
 use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyStatusEnum;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyTypeEnum;
 use App\Tests\UnitTester;
 use Faker\Factory;
 use Faker\Generator;
@@ -30,7 +32,7 @@ class SingleSendApiServiceBySmsCest
         $dto = $service->createInputDto($request);
 
         $I->assertInstanceOf(MessageInput::class, $dto);
-        $I->assertEquals(NotifyMessage::SMS_TYPE, $dto->type);
+        $I->assertEquals(NotifyTypeEnum::SMS->value, $dto->type);
         $I->assertEquals('test notification message', $dto->message);
     }
 
@@ -54,7 +56,7 @@ class SingleSendApiServiceBySmsCest
         $message = $service->createMessageDto($dto);
 
         $I->assertInstanceOf(MessageDto::class, $message);
-        $I->assertEquals(NotifyMessage::SMS_TYPE, $message->getType());
+        $I->assertEquals(NotifyTypeEnum::SMS->value, $message->getType());
         $I->assertIsArray($message->getMessage());
     }
 
@@ -72,7 +74,7 @@ class SingleSendApiServiceBySmsCest
 
     public function positiveGetPublishQueueMessage(UnitTester $I): void
     {
-        $notify = new NotifyMessage(NotifyMessage::SMS_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);
+        $notify = new NotifyMessage(NotifyTypeEnum::SMS->value, ['test' => 'execute'], NotifyStatusEnum::IN_QUEUE->value);
         $service = $this->getService($I);
         $publication = $service->getPublishQueueMessage($notify);
 
@@ -105,7 +107,7 @@ class SingleSendApiServiceBySmsCest
     private function getMessageInputDto(): MessageInput
     {
         $dto = new MessageInput();
-        $dto->type = NotifyMessage::SMS_TYPE;
+        $dto->type = NotifyTypeEnum::SMS->value;
         $dto->message = $this->faker->text;
         $dto->phone = $this->faker->phoneNumber;
 

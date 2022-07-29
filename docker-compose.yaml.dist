@@ -44,7 +44,7 @@ services:
       - notify-microservice
 
   rabbitmq:
-    image: rabbitmq
+    image: bitnami/rabbitmq:latest
     container_name: notify-rabbitmq
     volumes:
       - ./docker/rabbitmq/enabled_plugins:/etc/rabbitmq/enabled_plugins
@@ -65,7 +65,7 @@ services:
 #      - /bin/sh
 #      - -c
 #      - |
-#        sleep 5
+#        sleep 10
 #        php bin/console rabbitmq:consumer email -vv
 #    environment:
 #      - "PSQL_PORT=5432"
@@ -89,12 +89,83 @@ services:
 #      - /bin/sh
 #      - -c
 #      - |
-#        sleep 5
+#        sleep 10
 #        php bin/console rabbitmq:consumer telegram -vv
 #    environment:
 #      - "PSQL_PORT=5432"
 #      - "PSQL_HOST=postgres"
 ##      - "TELEGRAM_BOT_TOKEN=..."
+#    volumes:
+#      - ./:/var/www
+#      - ./docker/php/php-fpm.ini:/usr/local/etc/php/php.ini
+#    depends_on:
+#      - postgres
+#      - rabbitmq
+#    networks:
+#      - notify-microservice
+#
+#  worker-vk-01:
+#    build: ./docker/php
+#    container_name: notify-worker-vk-01
+#    restart: always
+#    command:
+#      - /bin/sh
+#      - -c
+#      - |
+#        sleep 10
+#        php bin/console rabbitmq:consumer vkontakte -vv
+#    environment:
+#      - "PSQL_PORT=5432"
+#      - "PSQL_HOST=postgres"
+##      - "VK_ACCES_KEY=vk1.a.11111111111111111111111111111111111111111111111111111xB3"
+##      - "VK_GROUP_ID=212121211"
+##      - "VK_PEER_ID=2000000000"
+#    volumes:
+#      - ./:/var/www
+#      - ./docker/php/php-fpm.ini:/usr/local/etc/php/php.ini
+#    depends_on:
+#      - postgres
+#      - rabbitmq
+#    networks:
+#      - notify-microservice
+#
+#  worker-discord-01:
+#    build: ./docker/php
+#    container_name: notify-worker-discord-01
+#    restart: always
+#    command:
+#      - /bin/sh
+#      - -c
+#      - |
+#        sleep 10
+#        php bin/console rabbitmq:consumer discord -vv
+#    environment:
+#      - "PSQL_PORT=5432"
+#      - "PSQL_HOST=postgres"
+#    #      - "DISCORD_WEBHOOK=..."
+#    volumes:
+#      - ./:/var/www
+#      - ./docker/php/php-fpm.ini:/usr/local/etc/php/php.ini
+#    depends_on:
+#      - postgres
+#      - rabbitmq
+#    networks:
+#      - notify-microservice
+#
+#  worker-slack-01:
+#    build: ./docker/php
+#    container_name: notify-worker-slack-01
+#    restart: always
+#    command:
+#      - /bin/sh
+#      - -c
+#      - |
+#        sleep 10
+#        php bin/console rabbitmq:consumer slack -vv
+#    environment:
+#      - "PSQL_PORT=5432"
+#      - "PSQL_HOST=postgres"
+#    #      - "SLACK_WEB_HOOK=..."
 #    volumes:
 #      - ./:/var/www
 #      - ./docker/php/php-fpm.ini:/usr/local/etc/php/php.ini
@@ -111,7 +182,7 @@ services:
 #      - /bin/sh
 #      - -c
 #      - |
-#        sleep 5
+#        sleep 10
 #        php bin/console rabbitmq:consumer history -vv
 #    environment:
 #      - "PSQL_PORT=5432"

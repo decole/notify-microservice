@@ -1,12 +1,13 @@
 <?php
 
 
-namespace App\Application\Cli;
+namespace App\Infrastructure\Cli;
 
 
 use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyStatusEnum;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyTypeEnum;
 use App\Infrastructure\Sender\Email\EmailSender;
-use App\Infrastructure\Sender\Telegram\Service\TelegramSenderService;
 use ContainerAJZyK86\getEmailSenderService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -42,12 +43,12 @@ class EmailTestMessageCommand extends Command
     private function getMassage(string $email): NotifyMessage
     {
         return new NotifyMessage(
-            type: NotifyMessage::EMAIL_TYPE,
+            type: NotifyTypeEnum::EMAIL->value,
             message: [
                 'email' => $email,
                 'message' => 'test email message by notify microservice',
             ],
-            status: NotifyMessage::STATUS_IN_QUEUE
+            status: NotifyStatusEnum::IN_QUEUE->value
         );
     }
 }
