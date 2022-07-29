@@ -1,11 +1,15 @@
 <?php
 
+
 namespace App\Tests\unit\Application\Http\Api\SingleNotify\Service;
+
 
 use App\Application\Http\Api\SingleNotify\Dto\MessageDto;
 use App\Application\Http\Api\SingleNotify\Input\MessageInput;
 use App\Application\Http\Api\SingleNotify\Service\SingleSendApiService;
 use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyStatusEnum;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyTypeEnum;
 use App\Tests\UnitTester;
 use Faker\Factory;
 use Faker\Generator;
@@ -52,7 +56,7 @@ class SingleSendApiServiceBySlackCest
         $message = $service->createMessageDto($dto);
 
         $I->assertInstanceOf(MessageDto::class, $message);
-        $I->assertEquals(NotifyMessage::SLACK_TYPE, $message->getType());
+        $I->assertEquals(NotifyTypeEnum::SLACK->value, $message->getType());
         $I->assertIsArray($message->getMessage());
     }
 
@@ -70,7 +74,7 @@ class SingleSendApiServiceBySlackCest
 
     public function positiveGetPublishQueueMessage(UnitTester $I): void
     {
-        $notify = new NotifyMessage(NotifyMessage::SLACK_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);
+        $notify = new NotifyMessage(NotifyTypeEnum::SLACK->value, ['test' => 'execute'], NotifyStatusEnum::IN_QUEUE->value);
 
         $service = $this->getService($I);
         $publication = $service->getPublishQueueMessage($notify);
@@ -104,7 +108,7 @@ class SingleSendApiServiceBySlackCest
     private function getMessageInputDto(): MessageInput
     {
         $dto = new MessageInput();
-        $dto->type = NotifyMessage::SLACK_TYPE;
+        $dto->type = NotifyTypeEnum::SLACK->value;
         $dto->message = $this->faker->text;
 
         return $dto;

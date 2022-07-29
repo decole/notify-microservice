@@ -6,6 +6,8 @@ namespace App\Tests\functional\Infrastructure\Doctrine\Service;
 
 use App\Application\Http\Api\SingleNotify\Dto\MessageDto;
 use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyStatusEnum;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyTypeEnum;
 use App\Infrastructure\Doctrine\Service\NotifyMessageService;
 use App\Tests\FunctionalTester;
 use Ramsey\Uuid\Uuid;
@@ -23,65 +25,65 @@ class NotifyMessageServiceCest
     public function createEmail(FunctionalTester $I): void
     {
         $text = ['rom' => 'test text'];
-        $dto = new MessageDto(NotifyMessage::EMAIL_TYPE, $text);
+        $dto = new MessageDto(NotifyTypeEnum::EMAIL->value, $text);
         $savedEntity = $this->service->create($dto);
 
         $I->assertInstanceOf(NotifyMessage::class, $savedEntity);
         $I->assertEquals($text, $savedEntity->getBody());
-        $I->assertEquals(NotifyMessage::EMAIL_TYPE, $savedEntity->getType());
-        $I->assertEquals(NotifyMessage::STATUS_IN_QUEUE, $savedEntity->getStatus());
+        $I->assertEquals(NotifyTypeEnum::EMAIL->value, $savedEntity->getType());
+        $I->assertEquals(NotifyStatusEnum::IN_QUEUE->value, $savedEntity->getStatus());
         $I->assertEquals('in queue', $savedEntity->getTextStatus());
     }
 
     public function createTelegram(FunctionalTester $I): void
     {
         $text = ['rom' => 'test text'];
-        $dto = new MessageDto(NotifyMessage::TELEGRAM_TYPE, $text);
+        $dto = new MessageDto(NotifyTypeEnum::TELEGRAM->value, $text);
         $savedEntity = $this->service->create($dto);
 
         $I->assertInstanceOf(NotifyMessage::class, $savedEntity);
         $I->assertEquals($text, $savedEntity->getBody());
-        $I->assertEquals(NotifyMessage::TELEGRAM_TYPE, $savedEntity->getType());
-        $I->assertEquals(NotifyMessage::STATUS_IN_QUEUE, $savedEntity->getStatus());
+        $I->assertEquals(NotifyTypeEnum::TELEGRAM->value, $savedEntity->getType());
+        $I->assertEquals(NotifyStatusEnum::IN_QUEUE->value, $savedEntity->getStatus());
         $I->assertEquals('in queue', $savedEntity->getTextStatus());
     }
 
     public function createVkontakte(FunctionalTester $I): void
     {
         $text = ['rom' => 'test text'];
-        $dto = new MessageDto(NotifyMessage::VKONTAKTE_TYPE, $text);
+        $dto = new MessageDto(NotifyTypeEnum::VKONTAKTE->value, $text);
         $savedEntity = $this->service->create($dto);
 
         $I->assertInstanceOf(NotifyMessage::class, $savedEntity);
         $I->assertEquals($text, $savedEntity->getBody());
-        $I->assertEquals(NotifyMessage::VKONTAKTE_TYPE, $savedEntity->getType());
-        $I->assertEquals(NotifyMessage::STATUS_IN_QUEUE, $savedEntity->getStatus());
+        $I->assertEquals(NotifyTypeEnum::VKONTAKTE->value, $savedEntity->getType());
+        $I->assertEquals(NotifyStatusEnum::IN_QUEUE->value, $savedEntity->getStatus());
         $I->assertEquals('in queue', $savedEntity->getTextStatus());
     }
 
     public function createSlack(FunctionalTester $I): void
     {
         $text = ['rom' => 'test text'];
-        $dto = new MessageDto(NotifyMessage::SLACK_TYPE, $text);
+        $dto = new MessageDto(NotifyTypeEnum::SLACK->value, $text);
         $savedEntity = $this->service->create($dto);
 
         $I->assertInstanceOf(NotifyMessage::class, $savedEntity);
         $I->assertEquals($text, $savedEntity->getBody());
-        $I->assertEquals(NotifyMessage::SLACK_TYPE, $savedEntity->getType());
-        $I->assertEquals(NotifyMessage::STATUS_IN_QUEUE, $savedEntity->getStatus());
+        $I->assertEquals(NotifyTypeEnum::SLACK->value, $savedEntity->getType());
+        $I->assertEquals(NotifyStatusEnum::IN_QUEUE->value, $savedEntity->getStatus());
         $I->assertEquals('in queue', $savedEntity->getTextStatus());
     }
 
     public function createSms(FunctionalTester $I): void
     {
         $text = ['rom' => 'test text'];
-        $dto = new MessageDto(NotifyMessage::SMS_TYPE, $text);
+        $dto = new MessageDto(NotifyTypeEnum::SMS->value, $text);
         $savedEntity = $this->service->create($dto);
 
         $I->assertInstanceOf(NotifyMessage::class, $savedEntity);
         $I->assertEquals($text, $savedEntity->getBody());
-        $I->assertEquals(NotifyMessage::SMS_TYPE, $savedEntity->getType());
-        $I->assertEquals(NotifyMessage::STATUS_IN_QUEUE, $savedEntity->getStatus());
+        $I->assertEquals(NotifyTypeEnum::SMS->value, $savedEntity->getType());
+        $I->assertEquals(NotifyStatusEnum::IN_QUEUE->value, $savedEntity->getStatus());
         $I->assertEquals('in queue', $savedEntity->getTextStatus());
     }
 
@@ -100,14 +102,14 @@ class NotifyMessageServiceCest
     public function find(FunctionalTester $I): void
     {
         $text = ['lol' => 'kek'];
-        $dto = new MessageDto(NotifyMessage::EMAIL_TYPE, $text);
+        $dto = new MessageDto(NotifyTypeEnum::EMAIL->value, $text);
         $savedEntity = $this->service->create($dto);
         $foundEntity = $this->service->find($savedEntity->getId()->toString());
 
         $I->assertInstanceOf(NotifyMessage::class, $foundEntity);
         $I->assertEquals($text, $foundEntity->getBody());
-        $I->assertEquals(NotifyMessage::EMAIL_TYPE, $foundEntity->getType());
-        $I->assertEquals(NotifyMessage::STATUS_IN_QUEUE, $foundEntity->getStatus());
+        $I->assertEquals(NotifyTypeEnum::EMAIL->value, $foundEntity->getType());
+        $I->assertEquals(NotifyStatusEnum::IN_QUEUE->value, $foundEntity->getStatus());
     }
 
     public function negativeFind(FunctionalTester $I): void
@@ -121,17 +123,17 @@ class NotifyMessageServiceCest
     public function update(FunctionalTester $I): void
     {
         $text = ['one' => 'two'];
-        $dto = new MessageDto(NotifyMessage::EMAIL_TYPE, $text);
+        $dto = new MessageDto(NotifyTypeEnum::EMAIL->value, $text);
         $savedEntity = $this->service->create($dto);
 
         $I->assertInstanceOf(NotifyMessage::class, $savedEntity);
         $I->assertEquals($text, $savedEntity->getBody());
-        $I->assertEquals(NotifyMessage::EMAIL_TYPE, $savedEntity->getType());
-        $I->assertEquals(NotifyMessage::STATUS_IN_QUEUE, $savedEntity->getStatus());
+        $I->assertEquals(NotifyTypeEnum::EMAIL->value, $savedEntity->getType());
+        $I->assertEquals(NotifyStatusEnum::IN_QUEUE->value, $savedEntity->getStatus());
         $I->assertEquals(null, $savedEntity->getUpdatedAt());
         $I->assertNotNull($savedEntity->getCreatedAt());
 
-        $savedEntity->setStatus(NotifyMessage::STATUS_DONE);
+        $savedEntity->setStatus(NotifyStatusEnum::DONE->value);
         $savedEntity->setUpdatedAt();
 
         $this->service->update($savedEntity);
@@ -139,8 +141,8 @@ class NotifyMessageServiceCest
         $foundEntity = $this->service->find($savedEntity->getId()->toString());
 
         $I->assertInstanceOf(NotifyMessage::class, $foundEntity);
-        $I->assertEquals(NotifyMessage::EMAIL_TYPE, $foundEntity->getType());
-        $I->assertEquals(NotifyMessage::STATUS_DONE, $foundEntity->getStatus());
+        $I->assertEquals(NotifyTypeEnum::EMAIL->value, $foundEntity->getType());
+        $I->assertEquals(NotifyStatusEnum::DONE->value, $foundEntity->getStatus());
         $I->assertNotNull($savedEntity->getCreatedAt());
         $I->assertNotNull($savedEntity->getUpdatedAt());
     }
@@ -160,26 +162,26 @@ class NotifyMessageServiceCest
     public function updateStatus(FunctionalTester $I): void
     {
         $text = ['one' => 'two'];
-        $dto = new MessageDto(NotifyMessage::EMAIL_TYPE, $text);
+        $dto = new MessageDto(NotifyTypeEnum::EMAIL->value, $text);
         $savedEntity = $this->service->create($dto);
 
         $I->assertInstanceOf(NotifyMessage::class, $savedEntity);
         $I->assertEquals($text, $savedEntity->getBody());
-        $I->assertEquals(NotifyMessage::EMAIL_TYPE, $savedEntity->getType());
-        $I->assertEquals(NotifyMessage::STATUS_IN_QUEUE, $savedEntity->getStatus());
+        $I->assertEquals(NotifyTypeEnum::EMAIL->value, $savedEntity->getType());
+        $I->assertEquals(NotifyStatusEnum::IN_QUEUE->value, $savedEntity->getStatus());
         $I->assertEquals(null, $savedEntity->getUpdatedAt());
         $I->assertNotNull($savedEntity->getCreatedAt());
 
-        $savedEntity->setStatus(NotifyMessage::STATUS_DONE);
+        $savedEntity->setStatus(NotifyStatusEnum::DONE->value);
         $savedEntity->setUpdatedAt();
 
-        $this->service->updateStatus($savedEntity, NotifyMessage::STATUS_ERROR);
+        $this->service->updateStatus($savedEntity, NotifyStatusEnum::ERROR->value);
 
         $foundEntity = $this->service->find($savedEntity->getId()->toString());
 
         $I->assertInstanceOf(NotifyMessage::class, $foundEntity);
-        $I->assertEquals(NotifyMessage::EMAIL_TYPE, $foundEntity->getType());
-        $I->assertEquals(NotifyMessage::STATUS_ERROR, $foundEntity->getStatus());
+        $I->assertEquals(NotifyTypeEnum::EMAIL->value, $foundEntity->getType());
+        $I->assertEquals(NotifyStatusEnum::ERROR->value, $foundEntity->getStatus());
         $I->assertNotNull($savedEntity->getCreatedAt());
         $I->assertNotNull($savedEntity->getUpdatedAt());
     }
@@ -187,7 +189,7 @@ class NotifyMessageServiceCest
     public function negativeUpdateStatusEmptyEntity(FunctionalTester $I): void
     {
         try {
-            $this->service->updateStatus(null, NotifyMessage::STATUS_ERROR);
+            $this->service->updateStatus(null, NotifyStatusEnum::ERROR->value);
         } catch (Throwable $exception) {}
 
         $I->assertEquals(true, str_contains(
@@ -200,7 +202,7 @@ class NotifyMessageServiceCest
     {
         try {
             $text = ['one' => 'two'];
-            $dto = new MessageDto(NotifyMessage::EMAIL_TYPE, $text);
+            $dto = new MessageDto(NotifyTypeEnum::EMAIL->value, $text);
             $savedEntity = $this->service->create($dto);
 
             $this->service->updateStatus($savedEntity, 99999);

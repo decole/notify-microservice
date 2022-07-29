@@ -5,6 +5,8 @@ namespace App\Tests\unit\Infrastructure\Sender\Sms;
 
 
 use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyStatusEnum;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyTypeEnum;
 use App\Infrastructure\Sender\Sms\Service\SmsProviderResolver;
 use App\Infrastructure\Sender\Sms\SmsSender;
 use App\Tests\UnitTester;
@@ -66,24 +68,24 @@ class SmsSenderCest
     private function getNotify(): NotifyMessage
     {
         return new NotifyMessage(
-            NotifyMessage::SMS_TYPE,
+            NotifyTypeEnum::SMS->value,
             [
                 'message' => $this->faker->text,
                 'phone' => $this->faker->phoneNumber,
                 'test' => 'execute',
             ],
-            NotifyMessage::STATUS_IN_QUEUE
+            NotifyStatusEnum::IN_QUEUE->value
         );
     }
 
     private function getWrongNotify(): NotifyMessage
     {
         return new NotifyMessage(
-            NotifyMessage::SMS_TYPE,
+            NotifyTypeEnum::SMS->value,
             [
                 'test' => 'execute',
             ],
-            NotifyMessage::STATUS_IN_QUEUE
+            NotifyStatusEnum::IN_QUEUE->value
         );
     }
 }

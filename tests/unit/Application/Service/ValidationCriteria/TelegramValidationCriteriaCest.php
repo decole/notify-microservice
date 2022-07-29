@@ -6,7 +6,7 @@ namespace App\Tests\unit\Application\Service\ValidationCriteria;
 
 use App\Application\Http\Api\SingleNotify\Input\MessageInput;
 use App\Application\Service\ValidationCriteria\TelegramValidationCriteria;
-use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyTypeEnum;
 use App\Tests\UnitTester;
 use Faker\Factory;
 use Faker\Generator;
@@ -42,7 +42,7 @@ class TelegramValidationCriteriaCest
     private function getDto(): MessageInput
     {
         $dto = new MessageInput();
-        $dto->type = NotifyMessage::TELEGRAM_TYPE;
+        $dto->type = NotifyTypeEnum::TELEGRAM->value;
         $dto->userId = $this->faker->biasedNumberBetween(10000000, 99999999999);
         $dto->message = 'test';
 

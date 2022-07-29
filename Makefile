@@ -39,6 +39,9 @@ test-clean-output:
 rm-cache:
 	docker-compose exec -T php-fpm rm -r var/log var/cache vendor/
 
+rabbitMq-setup:
+	docker-compose exec -T php-fpm php bin/console rabbitmq:setup-fabric
+
 perm:
 	sudo chown -R ${USER}:${USER} var
 	sudo chown -R ${USER}:${USER} vendor

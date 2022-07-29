@@ -5,6 +5,8 @@ namespace App\Tests\unit\Infrastructure\Sender\Vkontakte;
 
 
 use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyStatusEnum;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyTypeEnum;
 use App\Infrastructure\Sender\Vkontakte\Service\VkontakteSenderService;
 use App\Infrastructure\Sender\Vkontakte\VkontakteSender;
 use App\Tests\UnitTester;
@@ -57,23 +59,23 @@ class VkontakteSenderCest
     private function getNotify(): NotifyMessage
     {
         return new NotifyMessage(
-            NotifyMessage::VKONTAKTE_TYPE,
+            NotifyTypeEnum::VKONTAKTE->value,
             [
                 'message' => $this->faker->text,
                 'test' => 'execute',
             ],
-            NotifyMessage::STATUS_IN_QUEUE
+            NotifyStatusEnum::IN_QUEUE->value
         );
     }
 
     private function getWrongNotify(): NotifyMessage
     {
         return new NotifyMessage(
-            NotifyMessage::VKONTAKTE_TYPE,
+            NotifyTypeEnum::VKONTAKTE->value,
             [
                 'test' => 'execute',
             ],
-            NotifyMessage::STATUS_IN_QUEUE
+            NotifyStatusEnum::IN_QUEUE->value
         );
     }
 }

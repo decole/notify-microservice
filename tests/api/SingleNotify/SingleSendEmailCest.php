@@ -5,6 +5,8 @@ namespace App\Tests\api\SingleNotify;
 
 
 use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyStatusEnum;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyTypeEnum;
 use App\Tests\ApiTester;
 
 class SingleSendEmailCest
@@ -13,7 +15,7 @@ class SingleSendEmailCest
     {
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPost('/v1/send', [
-            'type' => NotifyMessage::EMAIL_TYPE,
+            'type' => NotifyTypeEnum::EMAIL->value,
             'email' => 'test@test.ru',
             'message' => 'tester',
         ]);
@@ -23,8 +25,8 @@ class SingleSendEmailCest
             'status' => 'in queue',
         ]);
         $I->seeInRepository(NotifyMessage::class, [
-            'type' => NotifyMessage::EMAIL_TYPE,
-            'status' => NotifyMessage::STATUS_IN_QUEUE,
+            'type' => NotifyTypeEnum::EMAIL->value,
+            'status' => NotifyStatusEnum::IN_QUEUE->value,
         ]);
     }
 
@@ -32,7 +34,7 @@ class SingleSendEmailCest
     {
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPost('/v1/send', [
-            'type' => NotifyMessage::EMAIL_TYPE,
+            'type' => NotifyTypeEnum::EMAIL->value,
             'email' => 'decole@rambler.ru',
             'message' => '',
         ]);
@@ -49,7 +51,7 @@ class SingleSendEmailCest
     {
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPost('/v1/send', [
-            'type' => NotifyMessage::EMAIL_TYPE,
+            'type' => NotifyTypeEnum::EMAIL->value,
             'email' => 'decole@rambler.ru',
             'message' => null,
         ]);
@@ -66,7 +68,7 @@ class SingleSendEmailCest
     {
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPost('/v1/send', [
-            'type' => NotifyMessage::EMAIL_TYPE,
+            'type' => NotifyTypeEnum::EMAIL->value,
             'email' => null,
             'message' => 'test',
         ]);
@@ -83,7 +85,7 @@ class SingleSendEmailCest
     {
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPost('/v1/send', [
-            'type' => NotifyMessage::EMAIL_TYPE,
+            'type' => NotifyTypeEnum::EMAIL->value,
             'email' => '',
             'message' => 'test',
         ]);
@@ -100,7 +102,7 @@ class SingleSendEmailCest
     {
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPost('/v1/send', [
-            'type' => NotifyMessage::EMAIL_TYPE,
+            'type' => NotifyTypeEnum::EMAIL->value,
             'email' => 'test@mimimi',
             'message' => 'test',
         ]);

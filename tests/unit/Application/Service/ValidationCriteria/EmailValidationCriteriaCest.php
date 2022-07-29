@@ -6,7 +6,7 @@ namespace App\Tests\unit\Application\Service\ValidationCriteria;
 
 use App\Application\Http\Api\SingleNotify\Input\MessageInput;
 use App\Application\Service\ValidationCriteria\EmailValidationCriteria;
-use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyTypeEnum;
 use App\Tests\UnitTester;
 use Symfony\Component\Validator\ConstraintViolationList;
 
@@ -33,7 +33,7 @@ class EmailValidationCriteriaCest
     private function getDto(): MessageInput
     {
         $dto = new MessageInput();
-        $dto->type = NotifyMessage::EMAIL_TYPE;
+        $dto->type = NotifyTypeEnum::EMAIL->value;
         $dto->message = 'test';
         $dto->email = 'test@test.ru';
 

@@ -5,6 +5,8 @@ namespace App\Tests\unit\Infrastructure\RabbitMq\Consumer\History;
 
 
 use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyStatusEnum;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyTypeEnum;
 use App\Infrastructure\Doctrine\Repository\NotifyMessage\NotifyMessageRepository;
 use App\Infrastructure\Doctrine\Service\HistoryNotificationService;
 use App\Infrastructure\Doctrine\Service\NotifyMessageService;
@@ -37,7 +39,7 @@ class HistoryMessageConsumerCest
 
     public function positiveExecute(UnitTester $I): void
     {
-        $message = $this->getAmqpMessage(NotifyMessage::STATUS_DONE);
+        $message = $this->getAmqpMessage(NotifyStatusEnum::DONE->value);
 
         $answer = $this->consumer->execute($message);
 
@@ -53,7 +55,7 @@ class HistoryMessageConsumerCest
 
     public function negativeExecute(UnitTester $I): void
     {
-        $message = $this->getAmqpMessage(NotifyMessage::STATUS_DONE, false);
+        $message = $this->getAmqpMessage(NotifyStatusEnum::DONE->value, false);
 
         $answer = $this->consumer->execute($message);
 
@@ -67,7 +69,7 @@ class HistoryMessageConsumerCest
 
     private function getAmqpMessage(int $status, bool $save = true): AMQPMessage
     {
-        $notify = new NotifyMessage(NotifyMessage::EMAIL_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);
+        $notify = new NotifyMessage(NotifyTypeEnum::EMAIL->value, ['test' => 'execute'], NotifyStatusEnum::IN_QUEUE->value);
 
         if ($save) {
             $this->repository->save($notify);

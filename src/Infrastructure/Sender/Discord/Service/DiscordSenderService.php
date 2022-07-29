@@ -1,6 +1,8 @@
 <?php
 
+
 namespace App\Infrastructure\Sender\Discord\Service;
+
 
 use App\Infrastructure\Sender\Discord\Exception\DiscordServiceNullWebhookException;
 use \GuzzleHttp\Client;

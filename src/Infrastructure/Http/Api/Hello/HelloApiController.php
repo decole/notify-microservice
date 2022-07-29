@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Application\Http\Api\Hello;
+namespace App\Infrastructure\Http\Api\Hello;
 
 
 use App\Application\Presenter\Api\Hello\HelloApiPresenter;

@@ -5,6 +5,8 @@ namespace App\Tests\unit\Infrastructure\Sender\Discord;
 
 
 use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyStatusEnum;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyTypeEnum;
 use App\Infrastructure\Sender\Discord\DiscordSender;
 use App\Infrastructure\Sender\Discord\Service\DiscordSenderService;
 use App\Tests\UnitTester;
@@ -57,23 +59,23 @@ class DiscordSenderCest
     private function getNotify(): NotifyMessage
     {
         return new NotifyMessage(
-            NotifyMessage::DISCORD_TYPE,
+            NotifyTypeEnum::DISCORD->value,
             [
                 'message' => $this->faker->text,
                 'test' => 'execute',
             ],
-            NotifyMessage::STATUS_IN_QUEUE
+            NotifyStatusEnum::IN_QUEUE->value
         );
     }
 
     private function getWrongNotify(): NotifyMessage
     {
         return new NotifyMessage(
-            NotifyMessage::DISCORD_TYPE,
+            NotifyTypeEnum::DISCORD->value,
             [
                 'test' => 'execute',
             ],
-            NotifyMessage::STATUS_IN_QUEUE
+            NotifyStatusEnum::IN_QUEUE->value
         );
     }
 }

@@ -6,6 +6,8 @@ namespace App\Tests\functional\Infrastructure\Doctrine\Repository\HistoryNotific
 
 use App\Domain\Doctrine\HistoryNotification\Entity\HistoryNotification;
 use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyStatusEnum;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyTypeEnum;
 use App\Infrastructure\Doctrine\Repository\HistoryNotification\HistoryNotificationRepository;
 use App\Infrastructure\Doctrine\Repository\NotifyMessage\NotifyMessageRepository;
 use App\Tests\FunctionalTester;
@@ -42,7 +44,7 @@ class HistoryNotificationRepositoryCest
 
     public function findByNotifyMessage(FunctionalTester $I): void
     {
-        $notify = new NotifyMessage(NotifyMessage::EMAIL_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);
+        $notify = new NotifyMessage(NotifyTypeEnum::EMAIL->value, ['test' => 'execute'], NotifyStatusEnum::IN_QUEUE->value);
 
         $idOne = $this->createEntity($notify)->getId()->toString();
         $idTwo = $this->createEntity($notify)->getId()->toString();
@@ -76,12 +78,12 @@ class HistoryNotificationRepositoryCest
     private function createEntity(?NotifyMessage $notify = null): HistoryNotification
     {
         if ($notify === null) {
-            $notify = new NotifyMessage(NotifyMessage::EMAIL_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);
+            $notify = new NotifyMessage(NotifyTypeEnum::EMAIL->value, ['test' => 'execute'], NotifyStatusEnum::IN_QUEUE->value);
         }
 
         $this->notifyRepository->save($notify);
 
-        $entity = new HistoryNotification($notify, NotifyMessage::STATUS_ACTIVE, 'info message');
+        $entity = new HistoryNotification($notify, NotifyStatusEnum::ACTIVE->value, 'info message');
 
         $this->historyRepository->save($entity);
 

@@ -12,7 +12,7 @@ use App\Application\Service\ValidationCriteria\SlackValidationCriteria;
 use App\Application\Service\ValidationCriteria\SmsValidationCriteria;
 use App\Application\Service\ValidationCriteria\TelegramValidationCriteria;
 use App\Application\Service\ValidationCriteria\VkontakteValidationCriteria;
-use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyTypeEnum;
 use App\Tests\UnitTester;
 
 class ValidationFactoryCest
@@ -26,7 +26,7 @@ class ValidationFactoryCest
 
     public function positiveEmail(UnitTester $I): void
     {
-        $dto = $this->getDto(NotifyMessage::EMAIL_TYPE);
+        $dto = $this->getDto(NotifyTypeEnum::EMAIL->value);
         $criteria = $this->factory->getCriteria($dto);
 
         $I->assertInstanceOf(EmailValidationCriteria::class, $criteria);
@@ -34,7 +34,7 @@ class ValidationFactoryCest
 
     public function positiveTelegram(UnitTester $I): void
     {
-        $dto = $this->getDto(NotifyMessage::TELEGRAM_TYPE);
+        $dto = $this->getDto(NotifyTypeEnum::TELEGRAM->value);
         $criteria = $this->factory->getCriteria($dto);
 
         $I->assertInstanceOf(TelegramValidationCriteria::class, $criteria);
@@ -42,7 +42,7 @@ class ValidationFactoryCest
 
     public function positiveVkontakte(UnitTester $I): void
     {
-        $dto = $this->getDto(NotifyMessage::VKONTAKTE_TYPE);
+        $dto = $this->getDto(NotifyTypeEnum::VKONTAKTE->value);
         $criteria = $this->factory->getCriteria($dto);
 
         $I->assertInstanceOf(VkontakteValidationCriteria::class, $criteria);
@@ -50,7 +50,7 @@ class ValidationFactoryCest
 
     public function positiveSlack(UnitTester $I): void
     {
-        $dto = $this->getDto(NotifyMessage::SLACK_TYPE);
+        $dto = $this->getDto(NotifyTypeEnum::SLACK->value);
         $criteria = $this->factory->getCriteria($dto);
 
         $I->assertInstanceOf(SlackValidationCriteria::class, $criteria);
@@ -58,7 +58,7 @@ class ValidationFactoryCest
 
     public function positiveSms(UnitTester $I): void
     {
-        $dto = $this->getDto(NotifyMessage::SMS_TYPE);
+        $dto = $this->getDto(NotifyTypeEnum::SMS->value);
         $criteria = $this->factory->getCriteria($dto);
 
         $I->assertInstanceOf(SmsValidationCriteria::class, $criteria);
@@ -76,26 +76,26 @@ class ValidationFactoryCest
     {
         $dto = new MessageInput();
 
-        if ($type === NotifyMessage::EMAIL_TYPE) {
-            $dto->type = NotifyMessage::EMAIL_TYPE;
+        if ($type === NotifyTypeEnum::EMAIL->value) {
+            $dto->type = NotifyTypeEnum::EMAIL->value;
             $dto->email = 'test@test.ru';
         }
 
-        if ($type === NotifyMessage::TELEGRAM_TYPE) {
-            $dto->type = NotifyMessage::TELEGRAM_TYPE;
+        if ($type === NotifyTypeEnum::TELEGRAM->value) {
+            $dto->type = NotifyTypeEnum::TELEGRAM->value;
             $dto->userId = 1234567890;
         }
 
-        if ($type === NotifyMessage::VKONTAKTE_TYPE) {
-            $dto->type = NotifyMessage::VKONTAKTE_TYPE;
+        if ($type === NotifyTypeEnum::VKONTAKTE->value) {
+            $dto->type = NotifyTypeEnum::VKONTAKTE->value;
         }
 
-        if ($type === NotifyMessage::SLACK_TYPE) {
-            $dto->type = NotifyMessage::SLACK_TYPE;
+        if ($type === NotifyTypeEnum::SLACK->value) {
+            $dto->type = NotifyTypeEnum::SLACK->value;
         }
 
-        if ($type === NotifyMessage::SMS_TYPE) {
-            $dto->type = NotifyMessage::SMS_TYPE;
+        if ($type === NotifyTypeEnum::SMS->value) {
+            $dto->type = NotifyTypeEnum::SMS->value;
             $dto->phone = 799988877766;
         }
 

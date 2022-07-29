@@ -5,6 +5,8 @@ namespace App\Tests\api\SingleNotify;
 
 
 use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyStatusEnum;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyTypeEnum;
 use App\Tests\ApiTester;
 use Faker\Factory;
 use Faker\Generator;
@@ -22,7 +24,7 @@ class SingleSendSmsCest
     {
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPost('/v1/send', [
-            'type' => NotifyMessage::SMS_TYPE,
+            'type' => NotifyTypeEnum::SMS->value,
             'phone' => $this->faker->phoneNumber,
             'message' => $this->faker->text,
         ]);
@@ -32,8 +34,8 @@ class SingleSendSmsCest
             'status' => 'in queue',
         ]);
         $I->seeInRepository(NotifyMessage::class, [
-            'type' => NotifyMessage::SMS_TYPE,
-            'status' => NotifyMessage::STATUS_IN_QUEUE,
+            'type' => NotifyTypeEnum::SMS->value,
+            'status' => NotifyStatusEnum::IN_QUEUE->value,
         ]);
     }
 
@@ -58,7 +60,7 @@ class SingleSendSmsCest
     {
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPost('/v1/send', [
-            'type' => NotifyMessage::SMS_TYPE,
+            'type' => NotifyTypeEnum::SMS->value,
             'message' => '',
         ]);
         $I->seeResponseIsJson();
@@ -74,7 +76,7 @@ class SingleSendSmsCest
     {
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPost('/v1/send', [
-            'type' => NotifyMessage::SMS_TYPE,
+            'type' => NotifyTypeEnum::SMS->value,
             'message' => null,
         ]);
         $I->seeResponseIsJson();
@@ -90,7 +92,7 @@ class SingleSendSmsCest
     {
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPost('/v1/send', [
-            'type' => NotifyMessage::SMS_TYPE,
+            'type' => NotifyTypeEnum::SMS->value,
             'message' => $this->faker->text,
             'phone' => null,
         ]);

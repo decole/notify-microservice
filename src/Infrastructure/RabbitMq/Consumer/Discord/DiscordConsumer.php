@@ -1,6 +1,8 @@
 <?php
 
+
 namespace App\Infrastructure\RabbitMq\Consumer\Discord;
+
 
 use App\Infrastructure\Doctrine\Service\NotifyMessageService;
 use App\Infrastructure\RabbitMq\Consumer\AbstractNotifyConsumer;
@@ -29,5 +31,4 @@ class DiscordConsumer extends AbstractNotifyConsumer implements ConsumerInterfac
     {
         return $this->sender;
     }
-
 }

@@ -5,6 +5,8 @@ namespace App\Tests\api\SingleNotify;
 
 
 use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyStatusEnum;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyTypeEnum;
 use App\Tests\ApiTester;
 use Faker\Factory;
 use Faker\Generator;
@@ -22,7 +24,7 @@ class SingleSendTelegramCest
     {
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPost('/v1/send', [
-            'type' => NotifyMessage::TELEGRAM_TYPE,
+            'type' => NotifyTypeEnum::TELEGRAM->value,
             'userId' => $this->faker->numberBetween(100000000, 99999999999),
             'message' => 'tester',
         ]);
@@ -32,8 +34,8 @@ class SingleSendTelegramCest
             'status' => 'in queue',
         ]);
         $I->seeInRepository(NotifyMessage::class, [
-            'type' => NotifyMessage::TELEGRAM_TYPE,
-            'status' => NotifyMessage::STATUS_IN_QUEUE,
+            'type' => NotifyTypeEnum::TELEGRAM->value,
+            'status' => NotifyStatusEnum::IN_QUEUE->value,
         ]);
     }
 
@@ -41,7 +43,7 @@ class SingleSendTelegramCest
     {
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPost('/v1/send', [
-            'type' => NotifyMessage::TELEGRAM_TYPE,
+            'type' => NotifyTypeEnum::TELEGRAM->value,
             'userId' => $this->faker->numberBetween(100000000, 99999999999),
             'message' => '',
         ]);
@@ -58,7 +60,7 @@ class SingleSendTelegramCest
     {
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPost('/v1/send', [
-            'type' => NotifyMessage::TELEGRAM_TYPE,
+            'type' => NotifyTypeEnum::TELEGRAM->value,
             'userId' => $this->faker->numberBetween(100000000, 99999999999),
             'message' => null,
         ]);
@@ -75,7 +77,7 @@ class SingleSendTelegramCest
     {
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPost('/v1/send', [
-            'type' => NotifyMessage::TELEGRAM_TYPE,
+            'type' => NotifyTypeEnum::TELEGRAM->value,
             'userId' => null,
             'message' => 'test',
         ]);
@@ -92,7 +94,7 @@ class SingleSendTelegramCest
     {
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPost('/v1/send', [
-            'type' => NotifyMessage::TELEGRAM_TYPE,
+            'type' => NotifyTypeEnum::TELEGRAM->value,
             'userId' => '',
             'message' => 'test',
         ]);
@@ -109,7 +111,7 @@ class SingleSendTelegramCest
     {
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPost('/v1/send', [
-            'type' => NotifyMessage::TELEGRAM_TYPE,
+            'type' => NotifyTypeEnum::TELEGRAM->value,
             'userId' => $this->faker->word,
             'message' => 'test',
         ]);

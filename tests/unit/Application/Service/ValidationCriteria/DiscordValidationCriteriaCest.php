@@ -6,8 +6,7 @@ namespace App\Tests\unit\Application\Service\ValidationCriteria;
 
 use App\Application\Http\Api\SingleNotify\Input\MessageInput;
 use App\Application\Service\ValidationCriteria\DiscordValidationCriteria;
-use App\Application\Service\ValidationCriteria\VkontakteValidationCriteria;
-use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyTypeEnum;
 use App\Tests\UnitTester;
 use Symfony\Component\Validator\ConstraintViolationList;
 
@@ -34,7 +33,7 @@ class DiscordValidationCriteriaCest
     private function getDto(): MessageInput
     {
         $dto = new MessageInput();
-        $dto->type = NotifyMessage::DISCORD_TYPE;
+        $dto->type = NotifyTypeEnum::DISCORD->value;
         $dto->message = 'test';
 
         return $dto;

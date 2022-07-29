@@ -8,6 +8,8 @@ use App\Application\Http\Api\SingleNotify\Dto\MessageDto;
 use App\Application\Http\Api\SingleNotify\Input\MessageInput;
 use App\Application\Http\Api\SingleNotify\Service\SingleSendApiService;
 use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyStatusEnum;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyTypeEnum;
 use App\Tests\UnitTester;
 use Faker\Factory;
 use Faker\Generator;
@@ -55,7 +57,7 @@ class SingleSendApiServiceByTelegramCest
         $message = $service->createMessageDto($dto);
 
         $I->assertInstanceOf(MessageDto::class, $message);
-        $I->assertEquals(NotifyMessage::TELEGRAM_TYPE, $message->getType());
+        $I->assertEquals(NotifyTypeEnum::TELEGRAM->value, $message->getType());
         $I->assertIsArray($message->getMessage());
     }
 
@@ -73,7 +75,7 @@ class SingleSendApiServiceByTelegramCest
 
     public function positiveGetPublishQueueMessage(UnitTester $I): void
     {
-        $notify = new NotifyMessage(NotifyMessage::TELEGRAM_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);
+        $notify = new NotifyMessage(NotifyTypeEnum::TELEGRAM->value, ['test' => 'execute'], NotifyStatusEnum::IN_QUEUE->value);
 
         $service = $this->getService($I);
         $publication = $service->getPublishQueueMessage($notify);
@@ -107,7 +109,7 @@ class SingleSendApiServiceByTelegramCest
     private function getMessageInputDto(): MessageInput
     {
         $dto = new MessageInput();
-        $dto->type = NotifyMessage::TELEGRAM_TYPE;
+        $dto->type = NotifyTypeEnum::TELEGRAM->value;
         $dto->message = $this->faker->text;
         $dto->userId = $this->faker->numberBetween(100000000, 99999999999);
 

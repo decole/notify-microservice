@@ -3,6 +3,8 @@
 namespace App\Tests\api\SingleNotify;
 
 use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyStatusEnum;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyTypeEnum;
 use App\Tests\ApiTester;
 
 class SingleSendSlackCest
@@ -11,7 +13,7 @@ class SingleSendSlackCest
     {
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPost('/v1/send', [
-            'type' => NotifyMessage::SLACK_TYPE,
+            'type' => NotifyTypeEnum::SLACK->value,
             'message' => 'tester',
         ]);
         $I->seeResponseCodeIsSuccessful();
@@ -20,8 +22,8 @@ class SingleSendSlackCest
             'status' => 'in queue',
         ]);
         $I->seeInRepository(NotifyMessage::class, [
-            'type' => NotifyMessage::SLACK_TYPE,
-            'status' => NotifyMessage::STATUS_IN_QUEUE,
+            'type' => NotifyTypeEnum::SLACK->value,
+            'status' => NotifyStatusEnum::IN_QUEUE->value,
         ]);
     }
 
@@ -45,7 +47,7 @@ class SingleSendSlackCest
     {
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPost('/v1/send', [
-            'type' => NotifyMessage::SLACK_TYPE,
+            'type' => NotifyTypeEnum::SLACK->value,
             'message' => '',
         ]);
         $I->seeResponseIsJson();
@@ -61,7 +63,7 @@ class SingleSendSlackCest
     {
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPost('/v1/send', [
-            'type' => NotifyMessage::SLACK_TYPE,
+            'type' => NotifyTypeEnum::SLACK->value,
             'message' => null,
         ]);
         $I->seeResponseIsJson();

@@ -1,6 +1,8 @@
 <?php
 
+
 namespace App\Tests\unit\Infrastructure\Sender\Slack\Service;
+
 
 use App\Infrastructure\Sender\Slack\Service\SlackSenderService;
 use App\Tests\UnitTester;

@@ -5,6 +5,8 @@ namespace App\Tests\api\SingleNotify;
 
 
 use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyStatusEnum;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyTypeEnum;
 use App\Tests\ApiTester;
 use Faker\Factory;
 use Faker\Generator;
@@ -22,7 +24,7 @@ class SingleSendVkontakteCest
     {
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPost('/v1/send', [
-            'type' => NotifyMessage::VKONTAKTE_TYPE,
+            'type' => NotifyTypeEnum::VKONTAKTE->value,
             'message' => $this->faker->text,
         ]);
         $I->seeResponseCodeIsSuccessful();
@@ -31,8 +33,8 @@ class SingleSendVkontakteCest
             'status' => 'in queue',
         ]);
         $I->seeInRepository(NotifyMessage::class, [
-            'type' => NotifyMessage::VKONTAKTE_TYPE,
-            'status' => NotifyMessage::STATUS_IN_QUEUE,
+            'type' => NotifyTypeEnum::VKONTAKTE->value,
+            'status' => NotifyStatusEnum::IN_QUEUE->value,
         ]);
     }
 
@@ -40,7 +42,7 @@ class SingleSendVkontakteCest
     {
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPost('/v1/send', [
-            'type' => NotifyMessage::VKONTAKTE_TYPE,
+            'type' => NotifyTypeEnum::VKONTAKTE->value,
             'message' => '',
         ]);
         $I->seeResponseIsJson();
@@ -56,7 +58,7 @@ class SingleSendVkontakteCest
     {
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPost('/v1/send', [
-            'type' => NotifyMessage::VKONTAKTE_TYPE,
+            'type' => NotifyTypeEnum::VKONTAKTE->value,
             'message' => null,
         ]);
         $I->seeResponseIsJson();

@@ -5,6 +5,8 @@ namespace App\Tests\functional\Infrastructure\Doctrine\Repository\NotifyMessage;
 
 
 use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyStatusEnum;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyTypeEnum;
 use App\Infrastructure\Doctrine\Repository\NotifyMessage\NotifyMessageRepository;
 use App\Tests\FunctionalTester;
 use Ramsey\Uuid\Uuid;
@@ -26,8 +28,8 @@ class NotifyMessageRepositoryCest
 
         $I->assertInstanceOf(NotifyMessage::class, $entity);
         $I->assertEquals($id, $entity->getId()->toString());
-        $I->assertEquals(NotifyMessage::STATUS_IN_QUEUE, $entity->getStatus());
-        $I->assertEquals(NotifyMessage::EMAIL_TYPE, $entity->getType());
+        $I->assertEquals(NotifyStatusEnum::IN_QUEUE->value, $entity->getStatus());
+        $I->assertEquals(NotifyTypeEnum::EMAIL->value, $entity->getType());
         $I->assertEquals('in queue', $entity->getTextStatus());
         $I->assertEquals(['test' => 'execute'], $entity->getBody());
     }
@@ -42,7 +44,7 @@ class NotifyMessageRepositoryCest
 
     private function createEntity(): NotifyMessage
     {
-        $notify = new NotifyMessage(NotifyMessage::EMAIL_TYPE, ['test' => 'execute'], NotifyMessage::STATUS_IN_QUEUE);
+        $notify = new NotifyMessage(NotifyTypeEnum::EMAIL->value, ['test' => 'execute'], NotifyStatusEnum::IN_QUEUE->value);
 
         $this->repository->save($notify);
 

@@ -7,6 +7,7 @@ namespace App\Domain\Doctrine\HistoryNotification\Entity;
 use App\Domain\Doctrine\Common\Traits\CreatedAt;
 use App\Domain\Doctrine\Common\Traits\Entity;
 use App\Domain\Doctrine\NotifyMessage\Entity\NotifyMessage;
+use App\Domain\Doctrine\NotifyMessage\Enum\NotifyStatusEnum;
 use App\Infrastructure\Doctrine\Interfaces\EntityInterface;
 use Webmozart\Assert\Assert;
 
@@ -26,7 +27,7 @@ final class HistoryNotification implements EntityInterface
 
     private function checkStatusType(int $status): void
     {
-        Assert::inArray($status, NotifyMessage::STATUS_MAP);
+        Assert::inArray($status, NotifyStatusEnum::getStatusMap());
     }
 
     public function getStatus(): int

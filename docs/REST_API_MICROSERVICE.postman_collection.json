@@ -188,6 +188,48 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Check status sended notify",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:85/api/v1/check-status/fbba4b3e-d2d8-4326-b68f-7403b4c0098e",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "85",
+							"path": [
+								"api",
+								"v1",
+								"check-status",
+								"fbba4b3e-d2d8-4326-b68f-7403b4c0098e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Hello",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:85/api/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "85",
+							"path": [
+								"api",
+								""
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -385,52 +427,54 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Check status sended notify",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://microservice.otus.uberserver.ru/api/v1/check-status/0832c984-ffb8-4db0-99d5-a547c2db472b",
+							"protocol": "https",
+							"host": [
+								"microservice",
+								"otus",
+								"uberserver",
+								"ru"
+							],
+							"path": [
+								"api",
+								"v1",
+								"check-status",
+								"0832c984-ffb8-4db0-99d5-a547c2db472b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Hello",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://microservice.otus.uberserver.ru/api/",
+							"protocol": "https",
+							"host": [
+								"microservice",
+								"otus",
+								"uberserver",
+								"ru"
+							],
+							"path": [
+								"api",
+								""
+							]
+						}
+					},
+					"response": []
 				}
 			]
-		},
-		{
-			"name": "Check status sended notify",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://microservice.otus.uberserver.ru/api/v1/check-status/0832c984-ffb8-4db0-99d5-a547c2db472b",
-					"protocol": "https",
-					"host": [
-						"microservice",
-						"otus",
-						"uberserver",
-						"ru"
-					],
-					"path": [
-						"api",
-						"v1",
-						"check-status",
-						"0832c984-ffb8-4db0-99d5-a547c2db472b"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Hello",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:85/api/",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "85",
-					"path": [
-						"api",
-						""
-					]
-				}
-			},
-			"response": []
 		}
 	]
 }
